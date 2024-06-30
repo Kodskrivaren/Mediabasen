@@ -1,6 +1,6 @@
 ﻿using Mediabasen.DataAccess.Data;
 using Mediabasen.DataAccess.Repository.IRepository;
-using Mediabasen.Models;
+using Mediabasen.Models.Product;
 
 namespace Mediabasen.DataAccess.Repository
 {

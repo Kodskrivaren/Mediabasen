@@ -1,4 +1,4 @@
-﻿using Mediabasen.Models;
+﻿using Mediabasen.Models.Product;
 
 namespace Mediabasen.DataAccess.Repository.IRepository
 {
