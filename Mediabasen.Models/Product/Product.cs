@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Mediabasen.Models
+namespace Mediabasen.Models.Product
 {
     public class Product
     {
@@ -12,5 +12,6 @@ namespace Mediabasen.Models
         public string Description { get; set; }
         [Required]
         public decimal Price { get; set; }
+        public decimal Discount { get; set; }
     }
 }
