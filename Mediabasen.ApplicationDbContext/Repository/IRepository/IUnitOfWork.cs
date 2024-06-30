@@ -4,6 +4,8 @@
     {
         public IProductRepository Product { get; }
         public IProductMovieRepository ProductMovie { get; }
+        public IProductImageRepository ProductImage { get; }
+        public IMovieActorRepository MovieActor { get; }
         public INameRepository Name { get; }
         void Save();
     }
