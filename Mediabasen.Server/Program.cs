@@ -16,7 +16,7 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkSto
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+builder.Services.AddDistributedMemoryCache();
 var app = builder.Build();
 
 app.UseDefaultFiles();
@@ -30,9 +30,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseStaticFiles();
 app.UseAuthorization();
-
+app.UseAuthentication();
 app.MapControllers();
 
 app.MapFallbackToFile("/index.html");
