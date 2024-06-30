@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Mediabasen.Models.Product.Movie
 {
-    public class MovieActors
+    public class MovieActor
     {
         [Key]
         public int Id { get; set; }
