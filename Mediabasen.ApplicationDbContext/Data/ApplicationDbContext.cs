@@ -16,6 +16,9 @@ namespace Mediabasen.DataAccess.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<Name> Names { get; set; }
         public DbSet<ProductMovie> ProductMovies { get; set; }
+        public DbSet<MovieActor> MoviesActors { get; set; }
+        public DbSet<ProductImage> ProductImages { get; set; }
+        public DbSet<Genre> Genres { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
