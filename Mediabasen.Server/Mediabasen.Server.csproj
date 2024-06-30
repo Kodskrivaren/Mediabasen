@@ -37,4 +37,8 @@
     <ProjectReference Include="..\Mediabasen.Models\Mediabasen.Models.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwRoot\images\movie\" />
+  </ItemGroup>
+
 </Project>
