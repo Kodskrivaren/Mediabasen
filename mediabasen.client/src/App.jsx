@@ -7,7 +7,7 @@ function App() {
   return (
     <BrowserRouter>
       <Header />
-      <main>
+      <main className="flex-grow">
         <Routes>
           <Route index element={<LandingPage />} />
         </Routes>
