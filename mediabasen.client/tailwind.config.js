@@ -5,6 +5,9 @@ export default {
     "node_modules/flowbite-react/lib/esm/**/*.js",
   ],
   theme: {
+    fontFamily: {
+      sans: ["Alice"],
+    },
     extend: {
       colors: {
         primary: "#000000",
