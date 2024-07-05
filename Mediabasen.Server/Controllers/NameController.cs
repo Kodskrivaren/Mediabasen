@@ -14,6 +14,14 @@ namespace Mediabasen.Server.Controllers
             _unitOfWork = unitOfWork;
         }
 
+        [HttpGet]
+        public IActionResult FindName(string query)
+        {
+            var foundNames = _unitOfWork.Name.GetAll(u => u.Fullname.ToLower().StartsWith(query.ToLower())).ToList();
+
+            return new JsonResult(foundNames);
+        }
+
         [HttpPost]
         public IActionResult AddName(Name name)
         {
@@ -22,7 +30,7 @@ namespace Mediabasen.Server.Controllers
             _unitOfWork.Name.Add(name);
             _unitOfWork.Save();
 
-            return new JsonResult(new { message = "Name added!" });
+            return new JsonResult(new { message = "Name added!", name });
         }
     }
 }
