@@ -17,6 +17,12 @@ export default {
         light: "#4A525A",
         middle: "#404040",
       },
+      width: {
+        card: "48%",
+      },
+      gap: {
+        card: "4%",
+      },
       screens: {},
     },
   },
