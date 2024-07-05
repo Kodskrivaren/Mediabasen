@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Mediabasen.Models.Product
 {
@@ -13,5 +14,7 @@ namespace Mediabasen.Models.Product
         [Required]
         public decimal Price { get; set; }
         public decimal Discount { get; set; }
+        [NotMapped]
+        public List<ProductImage> Images { get; set; }
     }
 }
