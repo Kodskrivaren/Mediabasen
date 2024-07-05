@@ -23,6 +23,14 @@ namespace Mediabasen.Server.Controllers
         public IActionResult GetProducts()
         {
             List<Product> products = _unitOfWork.Product.GetAll().ToList();
+            foreach (var product in products)
+            {
+                product.Images = _unitOfWork.ProductImage.GetAll(u => u.ProductId == product.Id).ToList();
+                foreach (var image in product.Images)
+                {
+                    image.Product = null;
+                }
+            }
             JsonResult res = new JsonResult(new { products });
             return res;
         }
