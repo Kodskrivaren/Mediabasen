@@ -1,9 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [
-    "./src/**/*.{html,js,jsx,ts,tsx}",
-    "node_modules/flowbite-react/lib/esm/**/*.js",
-  ],
+  content: ["./index.html", "./src/**/*.{html,jsx}"],
   theme: {
     fontFamily: {
       sans: ["Alice"],
@@ -17,6 +14,9 @@ export default {
         light: "#4A525A",
         middle: "#404040",
       },
+      boxShadow: {
+        modal: "0 0 125px 50px",
+      },
       width: {
         card: "48%",
       },
@@ -26,5 +26,4 @@ export default {
       screens: {},
     },
   },
-  plugins: [import("flowbite/plugin")],
 };
