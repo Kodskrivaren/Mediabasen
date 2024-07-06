@@ -2,6 +2,8 @@
 using Mediabasen.Models.ControllerModels;
 using Mediabasen.Models.Product;
 using Mediabasen.Models.Product.Movie;
+using Mediabasen.Utility.SD;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Mediabasen.Server.Controllers
@@ -37,6 +39,7 @@ namespace Mediabasen.Server.Controllers
 
         [HttpPost]
         [ActionName("AddMovie")]
+        [Authorize(Roles = SD.Role_Admin)]
         public IActionResult AddMovie(MoviePost movie)
         {
             if (!ModelState.IsValid) return new JsonResult(new { Message = "Invalid data!" });
