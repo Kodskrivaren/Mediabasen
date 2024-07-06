@@ -96,7 +96,7 @@ namespace Mediabasen.Server.Controllers
                 _unitOfWork.Save();
             }
 
-            return new JsonResult(new { message = "Movie added!" });
+            return new JsonResult(new { message = "Filmen har lagts till!" });
         }
     }
 }
