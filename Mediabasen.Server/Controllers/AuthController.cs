@@ -37,8 +37,6 @@ namespace Mediabasen.Server.Controllers
 
             IdentityResult result = _userManager.CreateAsync(newUser, newAccount.Password).GetAwaiter().GetResult();
 
-            Console.WriteLine(result.Succeeded);
-
             return Ok();
         }
 
