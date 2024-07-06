@@ -58,6 +58,10 @@ export default defineConfig({
         target,
         secure: false,
       },
+      "/images": {
+        target,
+        secure: false,
+      },
     },
     port: 5173,
     https: {
