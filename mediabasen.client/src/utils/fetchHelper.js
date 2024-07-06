@@ -10,6 +10,6 @@ export default function fetchHelper(url, method, body, noContentType) {
       ? undefined
       : "application/json";
   }
-  console.log(fetchOptions);
+
   return fetch("/api" + url, fetchOptions);
 }
