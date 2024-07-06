@@ -1,4 +1,5 @@
-﻿using Mediabasen.Models.Product;
+﻿using Mediabasen.Models;
+using Mediabasen.Models.Product;
 using Mediabasen.Models.Product.Movie;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -19,6 +20,7 @@ namespace Mediabasen.DataAccess.Data
         public DbSet<MovieActor> MoviesActors { get; set; }
         public DbSet<ProductImage> ProductImages { get; set; }
         public DbSet<Genre> Genres { get; set; }
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
