@@ -1,5 +1,4 @@
-﻿using Mediabasen.DataAccess.Repository.IRepository;
-using Mediabasen.Models;
+﻿using Mediabasen.Models;
 using Mediabasen.Models.ControllerModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -10,34 +9,13 @@ namespace Mediabasen.Server.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly IUnitOfWork _unitOfWork;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public AuthController(IUnitOfWork unitOfWork, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public AuthController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
-            _unitOfWork = unitOfWork;
             _userManager = userManager;
             _signInManager = signInManager;
-        }
-
-        [HttpPost]
-        [ActionName("CreateAccount")]
-        public IActionResult CreateAccount(NewAccount newAccount)
-        {
-            ApplicationUser newUser = new ApplicationUser()
-            {
-                Name = newAccount.Name,
-                Email = newAccount.Email,
-                Adress = newAccount.Adress,
-                PostalCode = newAccount.PostalCode,
-                City = newAccount.City,
-                UserName = newAccount.Email
-            };
-
-            IdentityResult result = _userManager.CreateAsync(newUser, newAccount.Password).GetAwaiter().GetResult();
-
-            return Ok();
         }
 
         [HttpPost]
