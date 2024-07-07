@@ -52,8 +52,10 @@ namespace Mediabasen.Server.Controllers
         {
             if (!ModelState.IsValid)
             {
+                HttpContext.Response.StatusCode = 400;
                 return new JsonResult(new { ModelState.ValidationState });
             }
+
             ApplicationUser newUser = new ApplicationUser()
             {
                 Name = newAccount.Name,
@@ -61,14 +63,15 @@ namespace Mediabasen.Server.Controllers
                 Adress = newAccount.Adress,
                 PostalCode = newAccount.PostalCode,
                 City = newAccount.City,
-                UserName = newAccount.Email
+                UserName = newAccount.Email,
+                PhoneNumber = newAccount.PhoneNumber,
             };
 
             IdentityResult result = _userManager.CreateAsync(newUser, newAccount.Password).GetAwaiter().GetResult();
 
-            Console.WriteLine(result.Succeeded);
             if (!result.Succeeded)
             {
+                HttpContext.Response.StatusCode = 400;
                 return new JsonResult(new { result.Errors });
             }
 
