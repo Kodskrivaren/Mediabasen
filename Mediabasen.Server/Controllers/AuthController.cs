@@ -1,5 +1,6 @@
 ﻿using Mediabasen.Models;
 using Mediabasen.Models.ControllerModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -52,6 +53,16 @@ namespace Mediabasen.Server.Controllers
 
             HttpContext.Response.StatusCode = 400;
             return new JsonResult(new { message = "Fel användarnamn eller lösenord!" });
+        }
+
+        [HttpPost]
+        [ActionName("Logout")]
+        [Authorize]
+        public IActionResult Logout()
+        {
+            _signInManager.SignOutAsync().GetAwaiter().GetResult();
+
+            return Ok();
         }
     }
 }
