@@ -4,7 +4,7 @@ export default function fetchHelper(url, method, body, noContentType) {
     method,
   };
 
-  if (method !== "GET") {
+  if (method !== "GET" && body !== undefined) {
     fetchOptions.body = noContentType ? body : JSON.stringify(body);
     fetchOptions.headers["Content-Type"] = noContentType
       ? undefined
