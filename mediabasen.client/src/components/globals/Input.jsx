@@ -6,6 +6,7 @@ export default function Input({
   placeholder,
   state,
   setState,
+  type,
 }) {
   return (
     <input
@@ -15,6 +16,7 @@ export default function Input({
       name={name}
       placeholder={placeholder}
       value={state}
+      type={type ? type : "text"}
       onChange={(e) => {
         if (setState) {
           setState(e.target.value);
