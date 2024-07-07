@@ -1,5 +1,6 @@
 ﻿using Mediabasen.Models;
 using Mediabasen.Models.ControllerModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,6 +15,35 @@ namespace Mediabasen.Server.Controllers
         public UserController(UserManager<ApplicationUser> userManager)
         {
             _userManager = userManager;
+        }
+
+        [HttpGet]
+        [ActionName("UserDetails")]
+        [Authorize]
+        public IActionResult UserDetails()
+        {
+            var idClaim = HttpContext.User.Claims.FirstOrDefault(u => u.ToString().Contains("nameidentifier"));
+
+            if (idClaim == null) { return BadRequest(); }
+
+            string id = idClaim.ToString().Split(" ")[1];
+
+            var user = _userManager.Users.FirstOrDefault(u => u.Id == id);
+
+            if (user == null) { return BadRequest(); }
+
+            var roles = _userManager.GetRolesAsync(user).GetAwaiter().GetResult();
+
+            return new JsonResult(new
+            {
+                name = user.Name,
+                adress = user.Adress,
+                email = user.Email,
+                city = user.City,
+                phoneNumber = user.PhoneNumber,
+                postalCode = user.PostalCode,
+                roles
+            });
         }
 
         [HttpPost]
