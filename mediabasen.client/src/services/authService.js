@@ -10,4 +10,12 @@ async function login(credentials) {
   return { success: false, data: await response.json() };
 }
 
-export default { login };
+async function logout() {
+  const response = await fetchHelper("/Auth/Logout", "POST");
+
+  if (response.status < 400) {
+    return true;
+  }
+}
+
+export default { login, logout };
