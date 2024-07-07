@@ -25,6 +25,11 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.ConfigureApplicationCookie(options =>
 {
+    options.Events.OnRedirectToLogin = context =>
+    {
+        context.Response.StatusCode = 401;
+        return Task.CompletedTask;
+    };
     options.Events.OnRedirectToAccessDenied = context =>
     {
         context.Response.StatusCode = 401;
