@@ -11,11 +11,13 @@ namespace Mediabasen.Server.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public AuthController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public AuthController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _roleManager = roleManager;
         }
 
         [HttpPost]
@@ -24,16 +26,32 @@ namespace Mediabasen.Server.Controllers
         {
             var user = _userManager.Users.FirstOrDefault(x => x.Email == credentials.Email);
 
-            if (user == null) { return NotFound(); }
+            if (user == null)
+            {
+                HttpContext.Response.StatusCode = 400;
+                return new JsonResult(new { message = "Fel användarnamn eller lösenord!" });
+            }
 
             var result = _signInManager.PasswordSignInAsync(user, credentials.Password, true, false).GetAwaiter().GetResult();
 
             if (result.Succeeded)
             {
-                return Ok();
+                var roles = _userManager.GetRolesAsync(user).GetAwaiter().GetResult();
+
+                return new JsonResult(new
+                {
+                    name = user.Name,
+                    adress = user.Adress,
+                    email = user.Email,
+                    city = user.City,
+                    phoneNumber = user.PhoneNumber,
+                    postalCode = user.PostalCode,
+                    roles
+                });
             }
 
-            return BadRequest();
+            HttpContext.Response.StatusCode = 400;
+            return new JsonResult(new { message = "Fel användarnamn eller lösenord!" });
         }
     }
 }
