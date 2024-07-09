@@ -16,5 +16,7 @@ namespace Mediabasen.Models.Product
         public decimal Discount { get; set; }
         [NotMapped]
         public List<ProductImage> Images { get; set; }
+        [NotMapped]
+        List<Genre> Genres { get; set; } = new List<Genre>();
     }
 }
