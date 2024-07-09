@@ -18,6 +18,7 @@ namespace Mediabasen.DataAccess.Data
         public DbSet<Name> Names { get; set; }
         public DbSet<ProductMovie> ProductMovies { get; set; }
         public DbSet<MovieActor> MoviesActors { get; set; }
+        public DbSet<ProductGenre> ProductGenres { get; set; }
         public DbSet<ProductImage> ProductImages { get; set; }
         public DbSet<Genre> Genres { get; set; }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
