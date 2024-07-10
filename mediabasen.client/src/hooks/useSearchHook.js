@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
-import nameService from "../services/nameService";
 
-export default function useNameSearchHook({ setNotFound }) {
+export default function useSearchHook({ setNotFound, searchFunction }) {
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const [preventSearch, setPreventSearch] = useState(false);
@@ -15,7 +14,7 @@ export default function useNameSearchHook({ setNotFound }) {
     }
 
     const timeoutId = setTimeout(async () => {
-      const result = await nameService.findNames(search);
+      const result = await searchFunction(search);
 
       setSearchResult(result);
 
