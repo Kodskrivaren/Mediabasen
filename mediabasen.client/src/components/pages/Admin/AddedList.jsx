@@ -7,6 +7,7 @@ export default function AddedList({
   entityDisplayProperty,
   list,
   setList,
+  keyPrefix,
 }) {
   return (
     <>
@@ -17,8 +18,10 @@ export default function AddedList({
             <p className="text-white">{nothingAddedText}</p>
           </li>
         )}
-        {list.map((listItem) => (
-          <li className="text-white flex flex-row justify-between">
+        {list.map((listItem, index) => (
+          <li
+            key={`${keyPrefix}-${index}`}
+            className="text-white flex flex-row justify-between">
             <p>{listItem[entityDisplayProperty]}</p>
             <Button
               classNameColor="bg-red-500"
