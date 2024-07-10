@@ -9,12 +9,10 @@ namespace Mediabasen.Server.Controllers
     public class ProductController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public ProductController(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment)
+        public ProductController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _webHostEnvironment = webHostEnvironment;
         }
 
         [HttpGet]
