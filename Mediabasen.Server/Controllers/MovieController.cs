@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Mediabasen.Server.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class MovieController : ControllerBase
     {
@@ -48,6 +48,20 @@ namespace Mediabasen.Server.Controllers
                         {
                             ProductMovieId = newMovie.Id,
                             NameId = actorId
+                        });
+                }
+                _unitOfWork.Save();
+            }
+
+            if (movie.GenreIds != null && movie.GenreIds.Count() > 0)
+            {
+                foreach (int genreId in movie.GenreIds)
+                {
+                    _unitOfWork.ProductGenre.Add(
+                        new ProductGenre()
+                        {
+                            ProductId = newMovie.Id,
+                            GenreId = genreId
                         });
                 }
                 _unitOfWork.Save();
