@@ -11,6 +11,7 @@ namespace Mediabasen.Models.ControllerModels
         public decimal Discount { get; set; }
         public int DirectorId { get; set; }
         public List<int>? ActorIds { get; set; }
-        public List<IFormFile>? Images { get; set; }
+        public List<int>? GenreIds { get; set; }
+        public IEnumerable<IFormFile>? Images { get; set; }
     }
 }
