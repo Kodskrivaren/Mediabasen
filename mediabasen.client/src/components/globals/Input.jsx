@@ -7,9 +7,11 @@ export default function Input({
   state,
   setState,
   type,
+  id,
 }) {
   return (
     <input
+      id={id}
       className={`p-3 outline-none rounded${
         classNames ? ` ${classNames}` : ""
       }`}
