@@ -1,4 +1,5 @@
 import fetchHelper from "../utils/fetchHelper";
+import axios from "axios";
 
 async function fetchNewMovies() {
   const response = await fetchHelper("/product/getproducts", "GET");
@@ -12,29 +13,27 @@ async function addMovie(movie) {
   const queries = encodeURI(
     `Name=${movie.Name}&Description=${movie.Description}&Discount=${
       movie.Discount
-    }&DirectorId=${movie.DirectorId}&${formatActorIds(movie.ActorIds)}`
+    }&DirectorId=${movie.DirectorId}&${formatIds(
+      movie.ActorIds,
+      "ActorIds"
+    )}&${formatIds(movie.GenreIds, "GenreIds")}`
   );
 
   const formData = new FormData();
 
   movie.Images.forEach((image) => {
-    formData.append("Images", image, image.name);
+    formData.append(`Images`, image);
   });
 
-  const response = await fetchHelper(
-    `/Product/AddMovie?${queries}`,
-    "POST",
-    formData,
-    true
-  );
+  const response = await axios.post(`/api/Movie/AddMovie?${queries}`, formData);
 
   if (response.status < 400) {
-    return await response.json();
+    return await response.data;
   }
 }
 
-function formatActorIds(actorIds) {
-  return actorIds.map((name) => `ActorIds=${name.id}`).join("&");
+function formatIds(Ids, prefix) {
+  return Ids.map((name) => `${prefix}=${name.id}`).join("&");
 }
 
 export default { fetchNewMovies, addMovie };
