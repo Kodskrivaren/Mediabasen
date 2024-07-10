@@ -23,9 +23,26 @@ export default function UserPage() {
     }
   }
 
+  function onAdminClick() {
+    navigate("/admin");
+  }
+
+  function isAdmin() {
+    if (!userContext.user) return false;
+
+    if (!userContext.user.roles.includes("Admin")) return false;
+
+    return true;
+  }
+
   return (
     <section className="text-white p-3">
       <h2 className="">Din profil</h2>
+      {isAdmin() && (
+        <Button className="w-fit" onClick={onAdminClick}>
+          Admin-vyn
+        </Button>
+      )}
       <Button onClick={onLogoutClick}>Logga ut</Button>
     </section>
   );
