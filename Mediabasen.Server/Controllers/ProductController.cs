@@ -1,5 +1,7 @@
 ﻿using Mediabasen.DataAccess.Repository.IRepository;
 using Mediabasen.Models.Product;
+using Mediabasen.Utility.SD;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Mediabasen.Server.Controllers
@@ -9,10 +11,13 @@ namespace Mediabasen.Server.Controllers
     public class ProductController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public ProductController(IUnitOfWork unitOfWork)
+        [ActivatorUtilitiesConstructor]
+        public ProductController(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment)
         {
             _unitOfWork = unitOfWork;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         [HttpGet]
@@ -29,6 +34,43 @@ namespace Mediabasen.Server.Controllers
             }
             JsonResult res = new JsonResult(new { products });
             return res;
+        }
+
+        [HttpDelete]
+        [Authorize(Roles = SD.Role_Admin)]
+        [ActionName("DeleteAll")]
+        public IActionResult DeleteAll()
+        {
+            var products = _unitOfWork.Product.GetAll().ToList();
+
+            foreach (var product in products)
+            {
+                var images = _unitOfWork.ProductImage.GetAll(u => u.ProductId == product.Id);
+
+                if (images != null && images.Count() > 0)
+                {
+                    var rootPath = _webHostEnvironment.WebRootPath;
+                    Console.WriteLine(rootPath);
+                    foreach (var image in images)
+                    {
+                        Console.WriteLine(image.ImageUrl);
+                        var path = Path.Join(rootPath, image.ImageUrl);
+                        Console.WriteLine(path);
+                        if (System.IO.File.Exists(path))
+                        {
+                            System.IO.File.Delete(path);
+                        }
+
+                        _unitOfWork.ProductImage.Remove(image);
+                    }
+                }
+
+                _unitOfWork.Product.Remove(product);
+            }
+
+            _unitOfWork.Save();
+
+            return Ok();
         }
     }
 }
