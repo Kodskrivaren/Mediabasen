@@ -1,7 +1,7 @@
 import fetchHelper from "../utils/fetchHelper";
 
 async function findNames(query) {
-  const response = await fetchHelper(`/Name?query=${query}`, "GET");
+  const response = await fetchHelper(`/Name/FindName?query=${query}`, "GET");
 
   const json = await response.json();
 
@@ -9,7 +9,7 @@ async function findNames(query) {
 }
 
 async function addName(nameToAdd) {
-  const response = await fetchHelper(`/Name`, "POST", {
+  const response = await fetchHelper(`/Name/AddName`, "POST", {
     id: 0,
     fullname: nameToAdd,
   });
