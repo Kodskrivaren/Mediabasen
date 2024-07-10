@@ -8,6 +8,7 @@
         public IMovieActorRepository MovieActor { get; }
         public INameRepository Name { get; }
         public IGenreRepository Genre { get; }
+        public IProductGenreRepository ProductGenre { get; }
         void Save();
     }
 }
