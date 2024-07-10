@@ -32,7 +32,14 @@ function App() {
         <main className="flex-grow">
           <Routes>
             <Route index element={<LandingPage />} />
-            <Route path="/admin/*" element={<AdminPage />} />
+            <Route
+              path="/admin/*"
+              element={
+                <Suspense>
+                  <AdminPage />
+                </Suspense>
+              }
+            />
             <Route
               path="/login"
               element={
