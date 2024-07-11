@@ -13,6 +13,7 @@ namespace Mediabasen.DataAccess.Repository
         public INameRepository Name { get; private set; }
         public IGenreRepository Genre { get; private set; }
         public IProductGenreRepository ProductGenre { get; private set; }
+        public IFormatRepository Format { get; private set; }
 
         public UnitOfWork(ApplicationDbContext db)
         {
@@ -24,6 +25,7 @@ namespace Mediabasen.DataAccess.Repository
             ProductImage = new ProductImageRepository(_db);
             Genre = new GenreRepository(_db);
             ProductGenre = new ProductGenreRepository(_db);
+            Format = new FormatRepository(_db);
         }
 
         public void Save()

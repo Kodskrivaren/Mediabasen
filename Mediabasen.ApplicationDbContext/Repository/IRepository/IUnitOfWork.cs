@@ -9,6 +9,7 @@
         public INameRepository Name { get; }
         public IGenreRepository Genre { get; }
         public IProductGenreRepository ProductGenre { get; }
+        public IFormatRepository Format { get; }
         void Save();
     }
 }
