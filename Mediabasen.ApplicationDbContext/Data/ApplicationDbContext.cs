@@ -22,6 +22,7 @@ namespace Mediabasen.DataAccess.Data
         public DbSet<ProductImage> ProductImages { get; set; }
         public DbSet<Genre> Genres { get; set; }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        public DbSet<Format> Formats { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
