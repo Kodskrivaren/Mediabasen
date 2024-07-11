@@ -11,10 +11,12 @@ namespace Mediabasen.Server.Controllers
     public class UserController : ControllerBase
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public UserController(UserManager<ApplicationUser> userManager)
+        public UserController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
             _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         [HttpGet]
@@ -61,7 +63,7 @@ namespace Mediabasen.Server.Controllers
                 Name = newAccount.Name,
                 Email = newAccount.Email,
                 Adress = newAccount.Adress,
-                PostalCode = newAccount.PostalCode,
+                PostalCode = newAccount.PostalCode.ToString(),
                 City = newAccount.City,
                 UserName = newAccount.Email,
                 PhoneNumber = newAccount.PhoneNumber,
@@ -75,7 +77,18 @@ namespace Mediabasen.Server.Controllers
                 return new JsonResult(new { result.Errors });
             }
 
-            return Ok();
+            _signInManager.SignInAsync(newUser, true).GetAwaiter().GetResult();
+
+            return new JsonResult(new
+            {
+                name = newAccount.Name,
+                adress = newAccount.Adress,
+                email = newAccount.Email,
+                city = newAccount.City,
+                phoneNumber = newAccount.PhoneNumber,
+                postalCode = newAccount.PostalCode,
+                roles = new string[] { }
+            });
         }
     }
 }
