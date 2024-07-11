@@ -50,12 +50,11 @@ namespace Mediabasen.Server.Controllers
                 if (images != null && images.Count() > 0)
                 {
                     var rootPath = _webHostEnvironment.WebRootPath;
-                    Console.WriteLine(rootPath);
+
                     foreach (var image in images)
                     {
-                        Console.WriteLine(image.ImageUrl);
                         var path = Path.Join(rootPath, image.ImageUrl);
-                        Console.WriteLine(path);
+
                         if (System.IO.File.Exists(path))
                         {
                             System.IO.File.Delete(path);
