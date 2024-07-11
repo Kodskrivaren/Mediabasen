@@ -11,11 +11,15 @@ import Modal from "../../globals/Modal";
 import nameService from "../../../services/nameService";
 import genreService from "../../../services/genreService";
 import AddGenreModal from "./AddGenreModal";
+import AddFormatModal from "./AddFormatModal";
+import formatService from "../../../services/formatService";
 
 export default function AddMovie() {
   const [nameNotFound, setNameNotFound] = useState(undefined);
   const [genreNotFound, setGenreNotFound] = useState(undefined);
+  const [formatNotFound, setFormatNotFound] = useState(undefined);
   const [directorId, setDirectorId] = useState(undefined);
+  const [selectedFormat, setSelectedFormat] = useState(undefined);
   const [discount, setDiscount] = useState(0);
   const [selectedActors, setSelectedActors] = useState([]);
   const [selectedGenres, setSelectedGenres] = useState([]);
@@ -55,6 +59,17 @@ export default function AddMovie() {
     searchFunction: genreService.findGenres,
   });
 
+  const {
+    search: formatSearch,
+    setSearch: setFormatSearch,
+    setPreventSearch: preventFormatSearch,
+    searchResult: formatSearchResult,
+    setSearchResult: setFormatSearchResult,
+  } = useSearchHook({
+    setNotFound: setFormatNotFound,
+    searchFunction: formatService.findFormats,
+  });
+
   async function postMovie(e) {
     e.preventDefault();
 
@@ -66,6 +81,7 @@ export default function AddMovie() {
     objectValues.ActorIds = selectedActors;
     objectValues.Images = imageFiles;
     objectValues.GenreIds = selectedGenres;
+    objectValues.FormatId = selectedFormat.id;
 
     const result = await movieService.addMovie(objectValues);
 
@@ -95,6 +111,12 @@ export default function AddMovie() {
     setGenreSearch("");
     setGenreSearchResult([]);
     setSelectedGenres([...selectedGenres, clickedName]);
+  }
+
+  function onFormatClick(clickedName) {
+    setFormatSearch("");
+    setFormatSearchResult([]);
+    setSelectedFormat(clickedName);
   }
 
   function onFileChange(e) {
@@ -181,6 +203,22 @@ export default function AddMovie() {
           setList={setSelectedGenres}
           keyPrefix="genres"
         />
+        <label className="text-white">
+          Format: {selectedFormat ? selectedFormat.name : "Inget format valt!"}
+        </label>
+        <Input
+          placeholder={"Sök på format..."}
+          state={formatSearch}
+          setState={setFormatSearch}
+        />
+        {formatSearchResult.length !== 0 && (
+          <NameList
+            nameSearchResult={formatSearchResult}
+            onNameClick={onFormatClick}
+            listKeyPrefix="format"
+            nameProp="name"
+          />
+        )}
         <label className="text-white">Bilder</label>
         <input className="text-white" type="file" onChange={onFileChange} />
         <AddedList
@@ -212,6 +250,18 @@ export default function AddMovie() {
             preventNameSearch: preventGenreSearch,
             nameNotFound: genreNotFound,
             setNameNotFound: setGenreNotFound,
+            setSelectedGenres: setSelectedGenres,
+          }}
+        />
+      )}
+      {formatSearchResult.length === 0 && formatNotFound && (
+        <AddFormatModal
+          {...{
+            setNameSearch: setFormatSearch,
+            preventNameSearch: preventFormatSearch,
+            nameNotFound: formatNotFound,
+            setNameNotFound: setFormatNotFound,
+            setSelectedFormat: setSelectedFormat,
           }}
         />
       )}
