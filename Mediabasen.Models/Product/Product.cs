@@ -18,5 +18,9 @@ namespace Mediabasen.Models.Product
         public List<ProductImage> Images { get; set; }
         [NotMapped]
         List<Genre> Genres { get; set; } = new List<Genre>();
+        public int FormatId { get; set; }
+        [ForeignKey("FormatId")]
+        [NotMapped]
+        public Format Format { get; set; }
     }
 }
