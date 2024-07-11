@@ -10,6 +10,7 @@ namespace Mediabasen.Models.ControllerModels
         public decimal Price { get; set; }
         public decimal Discount { get; set; }
         public int DirectorId { get; set; }
+        public int FormatId { get; set; }
         public List<int>? ActorIds { get; set; }
         public List<int>? GenreIds { get; set; }
         public IEnumerable<IFormFile>? Images { get; set; }
