@@ -35,6 +35,7 @@ namespace Mediabasen.Server.Controllers
                 Price = movie.Price,
                 Discount = movie.Discount,
                 DirectorNameId = movie.DirectorId,
+                FormatId = movie.FormatId,
             };
 
             _unitOfWork.ProductMovie.Add(newMovie);
