@@ -13,7 +13,7 @@ export default function ProductCard({ product }) {
       ) : (
         <Image className="h-52 w-full" />
       )}
-      <span className="text-gray-300">Blu-Ray</span>
+      <span className="text-gray-300">{product.format.name}</span>
       <h3 className="font-bold">{product.name}</h3>
       <p className="pr-2">{product.price} kr</p>
       <Button classNameColor="bg-accent" className="font-bold flex-grow w-full">
