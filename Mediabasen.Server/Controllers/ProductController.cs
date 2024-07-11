@@ -31,6 +31,7 @@ namespace Mediabasen.Server.Controllers
                 {
                     image.Product = null;
                 }
+                product.Format = _unitOfWork.Format.GetFirstOrDefault(u => u.Id == product.FormatId);
             }
             JsonResult res = new JsonResult(new { products });
             return res;
