@@ -11,12 +11,14 @@ async function fetchNewMovies() {
 
 async function addMovie(movie) {
   const queries = encodeURI(
-    `Name=${movie.Name}&Description=${movie.Description}&Discount=${
-      movie.Discount
-    }&DirectorId=${movie.DirectorId}&${formatIds(
-      movie.ActorIds,
-      "ActorIds"
-    )}&${formatIds(movie.GenreIds, "GenreIds")}`
+    `Name=${movie.Name}&Description=${movie.Description}&Price=${
+      movie.Price
+    }&Discount=${movie.Discount}&DirectorId=${movie.DirectorId}&FormatId=${
+      movie.FormatId
+    }&${formatIds(movie.ActorIds, "ActorIds")}&${formatIds(
+      movie.GenreIds,
+      "GenreIds"
+    )}`
   );
 
   const formData = new FormData();
