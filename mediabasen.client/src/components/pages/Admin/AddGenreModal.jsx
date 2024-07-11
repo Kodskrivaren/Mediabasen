@@ -1,38 +1,27 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Modal from "../../globals/Modal";
 import Input from "../../globals/Input";
 import Button from "../../globals/Button";
 import genreService from "../../../services/genreService";
+import useCapitalizeFirstCharHook from "../../../hooks/capitalizeFirstCharHook";
 
 export default function AddGenreModal({
   setNameSearch,
   preventNameSearch,
   nameNotFound,
   setNameNotFound,
+  setSelectedGenres,
 }) {
   async function addGenre(setSearchState, preventSearch) {
     const result = await genreService.addGenre(nameNotFound);
 
-    setSearchState(result.name.name);
+    setSearchState(result.name);
+    setSelectedGenres((oldValues) => [...oldValues, result.data]);
     setNameNotFound(undefined);
     preventSearch(true);
   }
 
-  useEffect(() => {
-    const nameSplit = nameNotFound.split(" ");
-
-    const newName = nameSplit
-      .map((part) => {
-        const firstChar = part[0].toUpperCase();
-
-        const rest = part.substring(1, part.length).toLowerCase();
-
-        return firstChar + rest;
-      })
-      .join(" ");
-
-    setNameNotFound(newName);
-  }, []);
+  useCapitalizeFirstCharHook({ name: nameNotFound, setName: setNameNotFound });
 
   return (
     <Modal setClose={setNameNotFound} closeValue={undefined}>
