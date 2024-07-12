@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "../../assets/icons/no-image-outline.svg?react";
 import Button from "./Button";
+import { Link } from "react-router-dom";
 
 export default function ProductCard({ product }) {
   const imageUrl =
@@ -8,11 +9,13 @@ export default function ProductCard({ product }) {
 
   return (
     <article className="bg-light text-white p-2 w-full rounded flex flex-col gap-1">
-      {imageUrl ? (
-        <img src={imageUrl} className="w-full object-contain h-52" />
-      ) : (
-        <Image className="h-52 w-full" />
-      )}
+      <Link to={`/detail/${product ? product.id : ""}`}>
+        {imageUrl ? (
+          <img src={imageUrl} className="w-full object-contain h-52" />
+        ) : (
+          <Image className="h-52 w-full" />
+        )}
+      </Link>
       <span className="text-gray-300">{product.format.name}</span>
       <h3 className="font-bold">{product.name}</h3>
       <p className="pr-2">{product.price} kr</p>
