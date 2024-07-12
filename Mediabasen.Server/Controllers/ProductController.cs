@@ -1,5 +1,6 @@
 ﻿using Mediabasen.DataAccess.Repository.IRepository;
 using Mediabasen.Models.Product;
+using Mediabasen.Models.Product.Movie;
 using Mediabasen.Utility.SD;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -26,15 +27,55 @@ namespace Mediabasen.Server.Controllers
             List<Product> products = _unitOfWork.Product.GetAll().ToList();
             foreach (var product in products)
             {
-                product.Images = _unitOfWork.ProductImage.GetAll(u => u.ProductId == product.Id).ToList();
-                foreach (var image in product.Images)
-                {
-                    image.Product = null;
-                }
+                product.Images = GetProductImages(product);
+
                 product.Format = _unitOfWork.Format.GetFirstOrDefault(u => u.Id == product.FormatId);
             }
             JsonResult res = new JsonResult(new { products });
             return res;
+        }
+
+        private List<ProductImage> GetProductImages(Product product)
+        {
+            List<ProductImage> Images = _unitOfWork.ProductImage.GetAll(u => u.ProductId == product.Id).ToList();
+            foreach (var image in Images)
+            {
+                image.Product = null;
+            }
+
+            return Images;
+        }
+
+        private ProductMovie GetProductMovie(Product product)
+        {
+            var movie = _unitOfWork.ProductMovie.GetFirstOrDefault(u => u.Id == product.Id);
+
+            movie.Images = GetProductImages(movie);
+
+            movie.Format = _unitOfWork.Format.GetFirstOrDefault(u => u.Id == movie.FormatId);
+
+            movie.ProductType = product.ProductType;
+
+            return movie;
+        }
+
+        [HttpGet]
+        public IActionResult GetProductById(int productId)
+        {
+            var product = _unitOfWork.Product.GetFirstOrDefault(u => u.Id == productId);
+
+            if (product == null) return NotFound();
+
+            product.ProductType = _unitOfWork.ProductType.GetFirstOrDefault(u => u.Id == product.ProductTypeId);
+
+            switch (product.ProductType.Name)
+            {
+                case SD.Type_Movie:
+                    return new JsonResult(GetProductMovie(product));
+
+                default:
+                    return new JsonResult(product);
+            }
         }
 
         [HttpDelete]
