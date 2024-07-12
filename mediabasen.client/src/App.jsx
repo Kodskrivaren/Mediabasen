@@ -7,6 +7,7 @@ const AdminPage = lazy(() => import("./components/pages/Admin/AdminPage"));
 const LoginPage = lazy(() => import("./components/pages/Auth/LoginPage"));
 const RegisterPage = lazy(() => import("./components/pages/Auth/RegisterPage"));
 const UserPage = lazy(() => import("./components/pages/User/UserPage"));
+const DetailPage = lazy(() => import("./components/pages/Detail/DetailPage"));
 import UserContext from "./contexts/UserContext";
 import userService from "./services/userService";
 
@@ -31,7 +32,14 @@ function App() {
         <Header />
         <main className="flex-grow">
           <Routes>
-            <Route index element={<LandingPage />} />
+            <Route
+              index
+              element={
+                <Suspense>
+                  <LandingPage />
+                </Suspense>
+              }
+            />
             <Route
               path="/admin/*"
               element={
@@ -45,6 +53,14 @@ function App() {
               element={
                 <Suspense>
                   <LoginPage />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/detail/*"
+              element={
+                <Suspense>
+                  <DetailPage />
                 </Suspense>
               }
             />
