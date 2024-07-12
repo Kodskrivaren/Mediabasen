@@ -10,6 +10,7 @@
         public IGenreRepository Genre { get; }
         public IProductGenreRepository ProductGenre { get; }
         public IFormatRepository Format { get; }
+        public IProductTypeRepository ProductType { get; }
         void Save();
     }
 }
