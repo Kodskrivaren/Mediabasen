@@ -1,5 +1,4 @@
 import fetchHelper from "../utils/fetchHelper";
-import axios from "axios";
 
 async function fetchNewMovies() {
   const response = await fetchHelper("/product/getproducts", "GET");
@@ -27,10 +26,13 @@ async function addMovie(movie) {
     formData.append(`Images`, image);
   });
 
-  const response = await axios.post(`/api/Movie/AddMovie?${queries}`, formData);
+  const response = await fetch(`/api/Movie/AddMovie?${queries}`, {
+    method: "POST",
+    body: formData,
+  });
 
   if (response.status < 400) {
-    return await response.data;
+    return await response.json();
   }
 }
 
