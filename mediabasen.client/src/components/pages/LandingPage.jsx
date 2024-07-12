@@ -1,5 +1,5 @@
 import CategoryPicker from "../globals/CategoryPicker";
-import NewProducts from "./LandingPage/NewProducts";
+import NewProducts from "./Landing/NewProducts";
 
 export default function LandingPage() {
   return (
