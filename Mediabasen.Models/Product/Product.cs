@@ -22,5 +22,9 @@ namespace Mediabasen.Models.Product
         [ForeignKey("FormatId")]
         [NotMapped]
         public Format Format { get; set; }
+        public int ProductTypeId { get; set; }
+        [ForeignKey("ProductTypeId")]
+        [NotMapped]
+        public ProductType ProductType { get; set; }
     }
 }
