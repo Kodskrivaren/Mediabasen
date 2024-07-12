@@ -28,6 +28,8 @@ namespace Mediabasen.Server.Controllers
         {
             if (!ModelState.IsValid) return new JsonResult(new { Message = "Invalid data!" });
 
+            var productType = _unitOfWork.ProductType.GetFirstOrDefault(u => u.Name == SD.Type_Movie);
+
             var newMovie = new ProductMovie()
             {
                 Name = movie.Name,
@@ -36,6 +38,7 @@ namespace Mediabasen.Server.Controllers
                 Discount = movie.Discount,
                 DirectorNameId = movie.DirectorId,
                 FormatId = movie.FormatId,
+                ProductTypeId = productType.Id
             };
 
             _unitOfWork.ProductMovie.Add(newMovie);
