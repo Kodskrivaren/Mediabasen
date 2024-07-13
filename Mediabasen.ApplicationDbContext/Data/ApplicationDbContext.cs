@@ -24,6 +24,7 @@ namespace Mediabasen.DataAccess.Data
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<Format> Formats { get; set; }
         public DbSet<ProductType> ProductTypes { get; set; }
+        public DbSet<Cart> Carts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
