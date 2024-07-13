@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Mediabasen.Models
+namespace Mediabasen.Models.Cart
 {
     public class Cart
     {
