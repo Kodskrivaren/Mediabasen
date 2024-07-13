@@ -15,6 +15,7 @@ namespace Mediabasen.DataAccess.Repository
         public IProductGenreRepository ProductGenre { get; private set; }
         public IFormatRepository Format { get; private set; }
         public IProductTypeRepository ProductType { get; private set; }
+        public ICartRepository Cart { get; private set; }
 
         public UnitOfWork(ApplicationDbContext db)
         {
@@ -28,6 +29,7 @@ namespace Mediabasen.DataAccess.Repository
             ProductGenre = new ProductGenreRepository(_db);
             Format = new FormatRepository(_db);
             ProductType = new ProductTypeRepository(_db);
+            Cart = new CartRepository(_db);
         }
 
         public void Save()

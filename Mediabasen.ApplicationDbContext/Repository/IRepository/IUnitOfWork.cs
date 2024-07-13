@@ -11,6 +11,7 @@
         public IProductGenreRepository ProductGenre { get; }
         public IFormatRepository Format { get; }
         public IProductTypeRepository ProductType { get; }
+        public ICartRepository Cart { get; }
         void Save();
     }
 }
