@@ -20,15 +20,52 @@ namespace Mediabasen.Server.Controllers
         [HttpGet]
         public IActionResult GetCartForUser()
         {
-            var idClaim = HttpContext.User.Claims.FirstOrDefault(u => u.ToString().Contains("nameidentifier"));
-
-            if (idClaim == null) { return BadRequest(); }
-
-            string id = idClaim.ToString().Split(" ")[1];
-
-            var cart = _unitOfWork.Cart.GetFirstOrDefault(u => u.UserId == id, includeProperties: "CartProducts");
+            var cart = GetUserCart();
 
             if (cart == null) { return NotFound(); }
+
+            return new JsonResult(cart);
+        }
+
+        [HttpGet]
+        public IActionResult GetCartProductsForUser()
+        {
+            var cart = GetUserCart();
+
+            if (cart == null) { return NotFound(); }
+
+            foreach (var cartProduct in cart.CartProducts)
+            {
+                cartProduct.Product = _unitOfWork.Product.GetFirstOrDefault(u => u.Id == cartProduct.ProductId);
+
+                cartProduct.Product.Images = _unitOfWork.ProductImage.GetAll(u => u.ProductId == cartProduct.ProductId).ToList();
+
+                cartProduct.Product.Format = _unitOfWork.Format.GetFirstOrDefault(u => u.Id == cartProduct.Product.FormatId);
+            }
+
+            return new JsonResult(cart.CartProducts);
+        }
+
+        [HttpDelete]
+        public IActionResult RemoveProductFromCart(int cartProductId)
+        {
+            var cart = GetUserCart(true);
+
+            if (cart == null) { return NotFound(); }
+
+            var foundCartProduct = cart.CartProducts.Where(u => u.Id == cartProductId).ToList().First();
+
+            cart.CartProducts.Remove(foundCartProduct);
+
+            _unitOfWork.Cart.Update(cart);
+            _unitOfWork.Save();
+
+            if (cart.CartProducts.Count() == 0)
+            {
+                _unitOfWork.Cart.Remove(cart);
+                _unitOfWork.Save();
+                return Ok();
+            }
 
             return new JsonResult(cart);
         }
@@ -40,7 +77,7 @@ namespace Mediabasen.Server.Controllers
 
             if (userId == "") return NotFound();
 
-            var cart = _unitOfWork.Cart.GetFirstOrDefault(u => u.UserId == userId, includeProperties: "CartProducts");
+            var cart = GetUserCart();
 
             if (cart == null)
             {
@@ -64,6 +101,8 @@ namespace Mediabasen.Server.Controllers
             {
                 cart.CartProducts.Add(new CartProduct()
                 {
+                    Id = 0,
+                    CartId = cart.Id,
                     ProductId = productId,
                     Count = count
                 });
@@ -73,6 +112,7 @@ namespace Mediabasen.Server.Controllers
                 currentProduct.Count = count;
             }
 
+            _unitOfWork.Cart.Update(cart);
 
             _unitOfWork.Save();
 
@@ -86,6 +126,13 @@ namespace Mediabasen.Server.Controllers
             if (idClaim == null) { return ""; }
 
             return idClaim.ToString().Split(" ")[1];
+        }
+
+        private Cart GetUserCart(bool tracked = false)
+        {
+            var userId = GetUserId();
+
+            return _unitOfWork.Cart.GetFirstOrDefault(u => u.UserId == userId, includeProperties: "CartProducts", tracked: tracked);
         }
     }
 }
