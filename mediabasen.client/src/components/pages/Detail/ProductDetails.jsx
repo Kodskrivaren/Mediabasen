@@ -7,7 +7,7 @@ export default function ProductDetails({ product }) {
   function hasImages() {
     return product.images !== null && product.images.length > 0;
   }
-  console.log(product);
+
   return (
     <section className="p-3 text-white flex gap-3 flex-col">
       <div>
