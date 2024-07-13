@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="33.65715mm"
+   height="32.395756mm"
+   viewBox="0 0 33.65715 32.395756"
+   version="1.1"
+   id="svg1"
+   inkscape:export-filename="load-arrow.svg"
+   inkscape:export-xdpi="1.71"
+   inkscape:export-ydpi="1.71"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Lager 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-86.222498,-119.2095)">
+    <circle
+       style="opacity:1;fill:none;stroke:#ffffff;stroke-width:3.657;stroke-linecap:round;stroke-dasharray:0, 29.256, 3.657, 7.314, 7.314, 7.314, 10.971, 7.314, 29.256;stroke-dashoffset:0;stroke-opacity:0.997854"
+       id="path1"
+       cx="103.05115"
+       cy="135.84015"
+       r="15" />
+  </g>
+</svg>
