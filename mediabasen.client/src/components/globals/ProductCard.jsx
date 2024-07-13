@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "../../assets/icons/no-image-outline.svg?react";
-import Button from "./Button";
 import { Link } from "react-router-dom";
+import AddToCartBtn from "./AddToCartBtn";
 
 export default function ProductCard({ product }) {
   const imageUrl =
@@ -19,9 +19,7 @@ export default function ProductCard({ product }) {
       <span className="text-gray-300">{product.format.name}</span>
       <h3 className="font-bold">{product.name}</h3>
       <p className="pr-2">{product.price} kr</p>
-      <Button classNameColor="bg-accent" className="font-bold flex-grow w-full">
-        Lägg i Varukorg
-      </Button>
+      <AddToCartBtn {...{ product }} />
     </article>
   );
 }
