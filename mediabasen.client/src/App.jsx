@@ -8,6 +8,7 @@ const LoginPage = lazy(() => import("./components/pages/Auth/LoginPage"));
 const RegisterPage = lazy(() => import("./components/pages/Auth/RegisterPage"));
 const UserPage = lazy(() => import("./components/pages/User/UserPage"));
 const DetailPage = lazy(() => import("./components/pages/Detail/DetailPage"));
+const CartPage = lazy(() => import("./components/pages/CartPage"));
 import UserContext from "./contexts/UserContext";
 import userService from "./services/userService";
 import CartContext from "./contexts/CartContext";
@@ -61,6 +62,14 @@ function App() {
                   element={
                     <Suspense>
                       <LoginPage />
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path="/cart"
+                  element={
+                    <Suspense>
+                      <CartPage />
                     </Suspense>
                   }
                 />
