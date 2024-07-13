@@ -8,6 +8,27 @@ async function getCart() {
   }
 }
 
+async function getCartProducts() {
+  const response = await fetchHelper("/Cart/GetCartProductsForUser", "GET");
+
+  if (response.status < 400) {
+    return await response.json();
+  }
+}
+
+async function removeProduct(cartProductId) {
+  const response = await fetchHelper(
+    `/Cart/RemoveProductFromCart?cartProductId=${cartProductId}`,
+    "DELETE"
+  );
+
+  if (response.status < 400) {
+    try {
+      return await response.json();
+    } catch {}
+  }
+}
+
 async function addProductToCart(productId, count) {
   const response = await fetchHelper(
     `/Cart/AddProductToCart?productId=${productId}&count=${count}`,
@@ -19,4 +40,4 @@ async function addProductToCart(productId, count) {
   }
 }
 
-export default { getCart, addProductToCart };
+export default { getCart, getCartProducts, removeProduct, addProductToCart };
