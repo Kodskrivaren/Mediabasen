@@ -9,6 +9,6 @@ namespace Mediabasen.Models.Product.Movie
         [NotMapped]
         public Name Director { get; set; }
         [NotMapped]
-        List<Name> Actors { get; set; } = new List<Name>();
+        public List<Name> Actors { get; set; } = new List<Name>();
     }
 }
