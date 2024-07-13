@@ -1,5 +1,5 @@
 ﻿using Mediabasen.DataAccess.Repository.IRepository;
-using Mediabasen.Models;
+using Mediabasen.Models.Cart;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

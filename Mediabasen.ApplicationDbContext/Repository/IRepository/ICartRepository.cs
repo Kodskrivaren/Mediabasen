@@ -1,4 +1,4 @@
-﻿using Mediabasen.Models;
+﻿using Mediabasen.Models.Cart;
 
 namespace Mediabasen.DataAccess.Repository.IRepository
 {

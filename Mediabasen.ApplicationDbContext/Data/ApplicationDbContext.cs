@@ -1,4 +1,5 @@
 ﻿using Mediabasen.Models;
+using Mediabasen.Models.Cart;
 using Mediabasen.Models.Product;
 using Mediabasen.Models.Product.Movie;
 using Microsoft.AspNetCore.Identity;
