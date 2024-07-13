@@ -56,6 +56,16 @@ namespace Mediabasen.Server.Controllers
 
             movie.ProductType = product.ProductType;
 
+            movie.Director = _unitOfWork.Name.GetFirstOrDefault(u => u.Id == movie.DirectorNameId);
+
+            var movieActorIds = _unitOfWork.MovieActor.GetAll(u => u.ProductMovieId == movie.Id).ToList();
+
+            movie.Actors = _unitOfWork.Name.GetAll().Where(name => movieActorIds.Find(movieActor => name.Id == movieActor.NameId) != null).ToList();
+
+            var productGenres = _unitOfWork.ProductGenre.GetAll(u => u.ProductId == movie.Id).ToList();
+
+            movie.Genres = _unitOfWork.Genre.GetAll().Where(genre => productGenres.Find(productGenre => productGenre.GenreId == genre.Id) != null).ToList();
+
             return movie;
         }
 
