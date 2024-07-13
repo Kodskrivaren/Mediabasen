@@ -26,5 +26,7 @@ namespace Mediabasen.Models.Product
         [ForeignKey("ProductTypeId")]
         [NotMapped]
         public ProductType ProductType { get; set; }
+        public DateTime ReleaseDate { get; set; }
+        public DateTime AddedToStoreDate { get; set; }
     }
 }
