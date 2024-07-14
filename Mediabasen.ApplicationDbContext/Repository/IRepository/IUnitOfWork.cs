@@ -12,6 +12,7 @@
         public IFormatRepository Format { get; }
         public IProductTypeRepository ProductType { get; }
         public ICartRepository Cart { get; }
+        public IOrderRepository Order { get; }
         void Save();
     }
 }
