@@ -2,8 +2,8 @@ function getProductTypeName(product) {
   switch (product.productType.name) {
     case "Movie":
       return "Film";
-    case "CD":
-      return "CD";
+    case "Music":
+      return "Musik";
     case "Book":
       return "Bok";
     case "Game":
@@ -11,4 +11,11 @@ function getProductTypeName(product) {
   }
 }
 
-export default { getProductTypeName };
+const productTypes = {
+  Movie: "Movie",
+  Music: "Music",
+  Book: "Book",
+  Game: "Game",
+};
+
+export default { getProductTypeName, productTypes };
