@@ -6,6 +6,10 @@ export default {
       sans: ["Alice"],
     },
     extend: {
+      gridTemplateRows: {
+        closed: "0fr",
+        open: "1fr",
+      },
       colors: {
         primary: "#000000",
         bright: "#ffffff",
@@ -16,6 +20,7 @@ export default {
       },
       boxShadow: {
         modal: "0 0 125px 50px",
+        note: "0 0 15px 5px",
       },
       width: {
         card: "48%",
