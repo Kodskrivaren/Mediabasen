@@ -40,6 +40,7 @@ namespace Mediabasen.Server.Controllers
                 DirectorNameId = movie.DirectorId,
                 FormatId = movie.FormatId,
                 ProductTypeId = productType.Id,
+                ReleaseDate = movie.ReleaseDate,
                 AddedToStoreDate = DateTime.Now,
             };
 
