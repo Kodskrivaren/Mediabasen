@@ -2,6 +2,7 @@
 using Mediabasen.Models.ControllerModels;
 using Mediabasen.Models.Product;
 using Mediabasen.Models.Product.Movie;
+using Mediabasen.Server.Services;
 using Mediabasen.Utility.SD;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -38,7 +39,8 @@ namespace Mediabasen.Server.Controllers
                 Discount = movie.Discount,
                 DirectorNameId = movie.DirectorId,
                 FormatId = movie.FormatId,
-                ProductTypeId = productType.Id
+                ProductTypeId = productType.Id,
+                AddedToStoreDate = DateTime.Now,
             };
 
             _unitOfWork.ProductMovie.Add(newMovie);
@@ -73,32 +75,9 @@ namespace Mediabasen.Server.Controllers
 
             if (movie.Images != null && movie.Images.Count() > 0)
             {
-                var wwwRoot = _webHostEnvironment.WebRootPath;
-                foreach (var image in movie.Images)
-                {
-                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(image.FileName);
-                    string productPath = @"images\movie\movie-" + newMovie.Id;
-                    string finalPath = Path.Combine(wwwRoot, productPath);
+                var imageService = new ImageService(_webHostEnvironment, _unitOfWork);
 
-                    if (!Directory.Exists(finalPath))
-                    {
-                        Directory.CreateDirectory(finalPath);
-                    }
-
-                    using (var fileStream = new FileStream(Path.Combine(finalPath, fileName), FileMode.Create))
-                    {
-                        image.CopyTo(fileStream);
-                    }
-
-                    ProductImage productImage = new ProductImage()
-                    {
-                        ImageUrl = @"\" + productPath + @"\" + fileName,
-                        ProductId = newMovie.Id,
-                    };
-
-                    _unitOfWork.ProductImage.Add(productImage);
-                }
-                _unitOfWork.Save();
+                imageService.SaveImages(movie.Images, newMovie, "movie");
             }
 
             return new JsonResult(new { message = "Filmen har lagts till!" });
