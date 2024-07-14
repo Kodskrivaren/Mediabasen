@@ -28,5 +28,7 @@ namespace Mediabasen.Models.Product
         public ProductType ProductType { get; set; }
         public DateTime ReleaseDate { get; set; }
         public DateTime AddedToStoreDate { get; set; }
+        [NotMapped]
+        public decimal? DiscountedPrice { get; set; }
     }
 }
