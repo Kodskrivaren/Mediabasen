@@ -6,7 +6,7 @@
         public const string Role_Employee = "Employee";
 
         public const string Type_Movie = "Movie";
-        public const string Type_CD = "CD";
+        public const string Type_Music = "Music";
         public const string Type_Book = "Book";
         public const string Type_Game = "Game";
     }
