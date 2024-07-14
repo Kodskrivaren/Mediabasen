@@ -1,4 +1,5 @@
 import fetchHelper from "../utils/fetchHelper";
+import formatIds from "../utils/formatHelper";
 
 async function fetchNewMovies() {
   const response = await fetchHelper("/product/getproducts", "GET");
@@ -12,12 +13,12 @@ async function addMovie(movie) {
   const queries = encodeURI(
     `Name=${movie.Name}&Description=${movie.Description}&Price=${
       movie.Price
-    }&Discount=${movie.Discount}&DirectorId=${movie.DirectorId}&FormatId=${
-      movie.FormatId
-    }&${formatIds(movie.ActorIds, "ActorIds")}&${formatIds(
-      movie.GenreIds,
-      "GenreIds"
-    )}`
+    }&ReleaseDate=${movie.ReleaseDate}&Discount=${movie.Discount}&DirectorId=${
+      movie.DirectorId
+    }&FormatId=${movie.FormatId}&${formatIds(
+      movie.ActorIds,
+      "ActorIds"
+    )}&${formatIds(movie.GenreIds, "GenreIds")}`
   );
 
   const formData = new FormData();
@@ -34,10 +35,6 @@ async function addMovie(movie) {
   if (response.status < 400) {
     return await response.json();
   }
-}
-
-function formatIds(Ids, prefix) {
-  return Ids.map((name) => `${prefix}=${name.id}`).join("&");
 }
 
 export default { fetchNewMovies, addMovie };
