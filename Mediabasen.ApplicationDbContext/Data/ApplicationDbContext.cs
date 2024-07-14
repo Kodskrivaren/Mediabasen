@@ -1,5 +1,6 @@
 ﻿using Mediabasen.Models;
 using Mediabasen.Models.Cart;
+using Mediabasen.Models.Order;
 using Mediabasen.Models.Product;
 using Mediabasen.Models.Product.Movie;
 using Microsoft.AspNetCore.Identity;
@@ -26,6 +27,7 @@ namespace Mediabasen.DataAccess.Data
         public DbSet<Format> Formats { get; set; }
         public DbSet<ProductType> ProductTypes { get; set; }
         public DbSet<Cart> Carts { get; set; }
+        public DbSet<Order> Orders { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
