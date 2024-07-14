@@ -22,7 +22,9 @@ export default function Header() {
 
   return (
     <header className="flex justify-between p-3 bg-dark text-bright">
-      <h1 className="text-2xl font-bold">Mediabasen</h1>
+      <Link to={"/"}>
+        <h1 className="text-2xl font-bold">Mediabasen</h1>
+      </Link>
       <ul className="flex gap-5">
         <li className="relative">
           <Link to={"/cart"}>
