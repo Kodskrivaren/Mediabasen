@@ -17,6 +17,7 @@ namespace Mediabasen.DataAccess.Repository
         public IProductTypeRepository ProductType { get; private set; }
         public ICartRepository Cart { get; private set; }
         public IOrderRepository Order { get; private set; }
+        public IProductMusicRepository ProductMusic { get; private set; }
 
         public UnitOfWork(ApplicationDbContext db)
         {
@@ -32,6 +33,7 @@ namespace Mediabasen.DataAccess.Repository
             ProductType = new ProductTypeRepository(_db);
             Cart = new CartRepository(_db);
             Order = new OrderRepository(_db);
+            ProductMusic = new ProductMusicRepository(_db);
         }
 
         public void Save()

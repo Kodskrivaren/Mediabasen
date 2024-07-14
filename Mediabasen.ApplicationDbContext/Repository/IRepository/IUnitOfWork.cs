@@ -13,6 +13,7 @@
         public IProductTypeRepository ProductType { get; }
         public ICartRepository Cart { get; }
         public IOrderRepository Order { get; }
+        public IProductMusicRepository ProductMusic { get; }
         void Save();
     }
 }
