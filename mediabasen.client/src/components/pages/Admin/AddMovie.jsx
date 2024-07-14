@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Input from "../../globals/Input";
-import Textarea from "../../globals/Textarea";
 import useSearchHook from "../../../hooks/useSearchHook";
 import AddNameModal from "./AddNameModal";
 import NameList from "./NameList";
@@ -9,18 +8,13 @@ import Button from "../../globals/Button";
 import movieService from "../../../services/movieService";
 import Modal from "../../globals/Modal";
 import nameService from "../../../services/nameService";
-import genreService from "../../../services/genreService";
-import AddGenreModal from "./AddGenreModal";
-import AddFormatModal from "./AddFormatModal";
-import formatService from "../../../services/formatService";
+import AddBaseForm from "./AddBaseForm";
 
 export default function AddMovie() {
-  const [nameNotFound, setNameNotFound] = useState(undefined);
-  const [genreNotFound, setGenreNotFound] = useState(undefined);
-  const [formatNotFound, setFormatNotFound] = useState(undefined);
+  const [directorNotFound, setDirectorNotFound] = useState(undefined);
+  const [actorNotFound, setActorNotFound] = useState(undefined);
   const [directorId, setDirectorId] = useState(undefined);
   const [selectedFormat, setSelectedFormat] = useState(undefined);
-  const [discount, setDiscount] = useState(0);
   const [selectedActors, setSelectedActors] = useState([]);
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [imageFiles, setImageFiles] = useState([]);
@@ -33,7 +27,7 @@ export default function AddMovie() {
     searchResult: directorNameSearchResult,
     setSearchResult: setDirectorNameSearchResult,
   } = useSearchHook({
-    setNotFound: setNameNotFound,
+    setNotFound: setDirectorNotFound,
     searchFunction: nameService.findNames,
   });
 
@@ -44,30 +38,8 @@ export default function AddMovie() {
     searchResult: actorNameSearchResult,
     setSearchResult: setActorNameSearchResult,
   } = useSearchHook({
-    setNotFound: setNameNotFound,
+    setNotFound: setActorNotFound,
     searchFunction: nameService.findNames,
-  });
-
-  const {
-    search: genreSearch,
-    setSearch: setGenreSearch,
-    setPreventSearch: preventGenreSearch,
-    searchResult: genreSearchResult,
-    setSearchResult: setGenreSearchResult,
-  } = useSearchHook({
-    setNotFound: setGenreNotFound,
-    searchFunction: genreService.findGenres,
-  });
-
-  const {
-    search: formatSearch,
-    setSearch: setFormatSearch,
-    setPreventSearch: preventFormatSearch,
-    searchResult: formatSearchResult,
-    setSearchResult: setFormatSearchResult,
-  } = useSearchHook({
-    setNotFound: setFormatNotFound,
-    searchFunction: formatService.findFormats,
   });
 
   async function postMovie(e) {
@@ -105,41 +77,19 @@ export default function AddMovie() {
     setSelectedActors([...selectedActors, clickedName]);
   }
 
-  function onGenreClick(clickedName) {
-    const foundName = selectedActors.find((name) => name.id === clickedName.id);
-    if (foundName !== undefined) return;
-    setGenreSearch("");
-    setGenreSearchResult([]);
-    setSelectedGenres([...selectedGenres, clickedName]);
-  }
-
-  function onFormatClick(clickedName) {
-    setFormatSearch("");
-    setFormatSearchResult([]);
-    setSelectedFormat(clickedName);
-  }
-
-  function onFileChange(e) {
-    const file = e.target.files[0];
-    if (!file) return;
-    setImageFiles([...imageFiles, file]);
-  }
-
   return (
     <>
       <h2 className="text-white">Lägg till film</h2>
       <form className="flex flex-col gap-3 max-w-96" onSubmit={postMovie}>
-        <Input name="Name" placeholder="Namn..." />
-        <Textarea name="Description" placeholder="Beskrivning..." />
-        <Input name="Price" placeholder="Pris..." />
-        <label className="text-white">Rea {discount}%</label>
-        <input
-          name="Discount"
-          type="range"
-          min={0}
-          max={100}
-          value={discount}
-          onChange={(e) => setDiscount(e.target.value)}
+        <AddBaseForm
+          {...{
+            selectedGenres,
+            setSelectedGenres,
+            imageFiles,
+            setImageFiles,
+            selectedFormat,
+            setSelectedFormat,
+          }}
         />
         <label className="text-white">Regissör</label>
         <Input
@@ -181,87 +131,27 @@ export default function AddMovie() {
           setList={setSelectedActors}
           keyPrefix="actors"
         />
-        <label className="text-white">Genrer:</label>
-        <Input
-          placeholder={"Sök på genrer..."}
-          state={genreSearch}
-          setState={setGenreSearch}
-        />
-        {genreSearchResult.length !== 0 && (
-          <NameList
-            nameSearchResult={genreSearchResult}
-            onNameClick={onGenreClick}
-            listKeyPrefix="genre"
-            nameProp="name"
-          />
-        )}
-        <AddedList
-          title="Tillagda genrer"
-          nothingAddedText="Inga genrer är tillagda!"
-          entityDisplayProperty="name"
-          list={selectedGenres}
-          setList={setSelectedGenres}
-          keyPrefix="genres"
-        />
-        <label className="text-white">
-          Format: {selectedFormat ? selectedFormat.name : "Inget format valt!"}
-        </label>
-        <Input
-          placeholder={"Sök på format..."}
-          state={formatSearch}
-          setState={setFormatSearch}
-        />
-        {formatSearchResult.length !== 0 && (
-          <NameList
-            nameSearchResult={formatSearchResult}
-            onNameClick={onFormatClick}
-            listKeyPrefix="format"
-            nameProp="name"
-          />
-        )}
-        <label className="text-white">Bilder</label>
-        <input className="text-white" type="file" onChange={onFileChange} />
-        <AddedList
-          title={"Tillagda bilder"}
-          nothingAddedText="Inga bilder är tillagda!"
-          entityDisplayProperty="name"
-          list={imageFiles}
-          setList={setImageFiles}
-          keyPrefix="images"
-        />
         <Button classNameColor="bg-accent" className="w-fit" type="submit">
           Lägg till film
         </Button>
       </form>
-      {actorNameSearchResult.length === 0 && nameNotFound && (
+      {actorNameSearchResult.length === 0 && actorNotFound && (
         <AddNameModal
           {...{
             setNameSearch: setActorNameSearch,
             preventNameSearch: preventActorSearch,
-            nameNotFound,
-            setNameNotFound,
+            nameNotFound: actorNotFound,
+            setNameNotFound: setActorNotFound,
           }}
         />
       )}
-      {genreSearchResult.length === 0 && genreNotFound && (
-        <AddGenreModal
+      {directorNameSearchResult.length === 0 && directorNotFound && (
+        <AddNameModal
           {...{
-            setNameSearch: setGenreSearch,
-            preventNameSearch: preventGenreSearch,
-            nameNotFound: genreNotFound,
-            setNameNotFound: setGenreNotFound,
-            setSelectedGenres: setSelectedGenres,
-          }}
-        />
-      )}
-      {formatSearchResult.length === 0 && formatNotFound && (
-        <AddFormatModal
-          {...{
-            setNameSearch: setFormatSearch,
-            preventNameSearch: preventFormatSearch,
-            nameNotFound: formatNotFound,
-            setNameNotFound: setFormatNotFound,
-            setSelectedFormat: setSelectedFormat,
+            setNameSearch: setDirectorNameSearch,
+            preventNameSearch: preventDirectorSearch,
+            nameNotFound: directorNotFound,
+            setNameNotFound: setDirectorNotFound,
           }}
         />
       )}
