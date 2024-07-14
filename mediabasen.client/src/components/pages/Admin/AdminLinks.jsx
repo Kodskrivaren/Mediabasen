@@ -9,6 +9,11 @@ export default function AdminLinks() {
           Lägg till film
         </Link>
       </li>
+      <li>
+        <Link className="text-accent" to={"/admin/addmusic"}>
+          Lägg till musik
+        </Link>
+      </li>
     </ul>
   );
 }
