@@ -77,6 +77,8 @@ export default function AddBaseForm({
         value={discount}
         onChange={(e) => setDiscount(e.target.value)}
       />
+      <label className="text-white">Utgivet:</label>
+      <Input name="ReleaseDate" type="date" />
       <label className="text-white">
         Format: {selectedFormat ? selectedFormat.name : "Inget format valt!"}
       </label>
