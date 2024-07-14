@@ -14,5 +14,6 @@ namespace Mediabasen.Models.ControllerModels
         public List<int>? ActorIds { get; set; }
         public List<int>? GenreIds { get; set; }
         public IEnumerable<IFormFile>? Images { get; set; }
+        public DateTime ReleaseDate { get; set; }
     }
 }
