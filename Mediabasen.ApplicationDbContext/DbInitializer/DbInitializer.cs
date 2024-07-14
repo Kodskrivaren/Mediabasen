@@ -42,7 +42,7 @@ namespace Mediabasen.DataAccess.DbInitializer
             if (test == null)
             {
                 _db.ProductTypes.Add(new ProductType() { Name = SD.Type_Movie });
-                _db.ProductTypes.Add(new ProductType() { Name = SD.Type_CD });
+                _db.ProductTypes.Add(new ProductType() { Name = SD.Type_Music });
                 _db.ProductTypes.Add(new ProductType() { Name = SD.Type_Game });
                 _db.ProductTypes.Add(new ProductType() { Name = SD.Type_Book });
                 _db.SaveChanges();
