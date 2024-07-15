@@ -21,7 +21,7 @@ export default function Notification() {
   }, [note]);
 
   return (
-    <div className="fixed text-white max-w-60 shadow-black shadow-note right-3 translate-x-full top-5 bg-middle p-3 rounded animate-note">
+    <div className="fixed z-50 text-white max-w-60 shadow-black shadow-note right-3 translate-x-full top-5 bg-middle p-3 rounded animate-note">
       {note}
     </div>
   );
