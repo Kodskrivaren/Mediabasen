@@ -1,6 +1,7 @@
 ﻿using Mediabasen.DataAccess.Repository.IRepository;
 using Mediabasen.Models.Cart;
 using Mediabasen.Models.Order;
+using Mediabasen.Server.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,12 +12,14 @@ namespace Mediabasen.Server.Controllers
     [Authorize]
     public class OrderController : ControllerBase
     {
-        private IUnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly ProductService _productService;
 
         [ActivatorUtilitiesConstructor]
-        public OrderController(IUnitOfWork unitOfWork)
+        public OrderController(IUnitOfWork unitOfWork, ProductService productService)
         {
             _unitOfWork = unitOfWork;
+            _productService = productService;
         }
 
         [HttpGet]
@@ -52,20 +55,24 @@ namespace Mediabasen.Server.Controllers
             {
                 UserId = userId,
                 OrderPlaced = DateTime.Now,
-                OrderItems = new List<OrderItem>() { }
+                OrderItems = new List<OrderItem>() { },
+                TotalPrice = 0
             };
 
             foreach (var item in cart.CartProducts)
             {
                 var product = _unitOfWork.Product.GetFirstOrDefault(u => u.Id == item.ProductId);
 
-                newOrder.OrderItems.Add(new OrderItem()
+                var orderItem = new OrderItem()
                 {
                     ProductId = product.Id,
                     Amount = item.Count,
-                    Price = product.Price,
-                    Discount = product.Discount,
-                });
+                    Price = product.Discount != 0 ? _productService.GetCalculatedDiscountedPrice(product) : product.Price,
+                };
+
+                newOrder.OrderItems.Add(orderItem);
+
+                newOrder.TotalPrice += orderItem.Price * orderItem.Amount;
             }
 
             _unitOfWork.Order.Add(newOrder);
@@ -74,7 +81,7 @@ namespace Mediabasen.Server.Controllers
             _unitOfWork.Cart.Remove(cart);
             _unitOfWork.Save();
 
-            return Ok();
+            return new JsonResult(newOrder);
         }
 
         private string GetUserId()
