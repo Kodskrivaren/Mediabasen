@@ -1,5 +1,6 @@
 ﻿using Mediabasen.DataAccess.Repository.IRepository;
 using Mediabasen.Models.Cart;
+using Mediabasen.Server.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,10 +12,12 @@ namespace Mediabasen.Server.Controllers
     public class CartController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ProductService _productService;
 
-        public CartController(IUnitOfWork unitOfWork)
+        public CartController(IUnitOfWork unitOfWork, ProductService productService)
         {
             _unitOfWork = unitOfWork;
+            _productService = productService;
         }
 
         [HttpGet]
@@ -38,12 +41,62 @@ namespace Mediabasen.Server.Controllers
             {
                 cartProduct.Product = _unitOfWork.Product.GetFirstOrDefault(u => u.Id == cartProduct.ProductId);
 
-                cartProduct.Product.Images = _unitOfWork.ProductImage.GetAll(u => u.ProductId == cartProduct.ProductId).ToList();
-
-                cartProduct.Product.Format = _unitOfWork.Format.GetFirstOrDefault(u => u.Id == cartProduct.Product.FormatId);
+                _productService.SetBasicProperties(cartProduct.Product, _unitOfWork.ProductType.GetFirstOrDefault(u => u.Id == cartProduct.Product.ProductTypeId));
             }
 
             return new JsonResult(cart.CartProducts);
+        }
+
+        [HttpPost]
+        public IActionResult IncreaseProductCount(int productId)
+        {
+            var cart = GetUserCart();
+
+            if (cart == null) { return NotFound(); }
+
+            var cartProduct = cart.CartProducts.FirstOrDefault(u => u.ProductId == productId);
+
+            if (cartProduct == null) { return NotFound(); }
+
+            cartProduct.Count++;
+            _unitOfWork.Cart.Update(cart);
+            _unitOfWork.Save();
+
+            return new JsonResult(cart);
+        }
+
+        [HttpPost]
+        public IActionResult DecreaseProductCount(int productId)
+        {
+            var cart = GetUserCart(true);
+
+            if (cart == null) { return NotFound(); }
+
+            var cartProduct = cart.CartProducts.Where(u => u.ProductId == productId).ToList().First();
+
+            if (cartProduct == null) { return NotFound(); }
+
+            cartProduct.Count--;
+
+            if (cartProduct.Count == 0)
+            {
+                cart.CartProducts.Remove(cartProduct);
+                _unitOfWork.Cart.Update(cart);
+                _unitOfWork.Save();
+                if (cart.CartProducts.Count == 0)
+                {
+                    _unitOfWork.Cart.Remove(cart);
+                    _unitOfWork.Save();
+                    return new JsonResult(new { message = "Kundvagnen har tömts!" });
+                }
+            }
+            else
+            {
+                _unitOfWork.Cart.Update(cart);
+                _unitOfWork.Save();
+            }
+
+            return new JsonResult(cart);
         }
 
         [HttpDelete]
@@ -54,6 +107,8 @@ namespace Mediabasen.Server.Controllers
             if (cart == null) { return NotFound(); }
 
             var foundCartProduct = cart.CartProducts.Where(u => u.Id == cartProductId).ToList().First();
+
+            if (foundCartProduct == null) { return NotFound(); }
 
             cart.CartProducts.Remove(foundCartProduct);
 
