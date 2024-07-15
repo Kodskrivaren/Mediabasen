@@ -15,11 +15,13 @@ namespace Mediabasen.Server.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly ImageService _imageService;
 
-        public MovieController(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment)
+        public MovieController(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment, ImageService imageService)
         {
             _unitOfWork = unitOfWork;
             _webHostEnvironment = webHostEnvironment;
+            _imageService = imageService;
         }
 
         [HttpPost]
@@ -76,9 +78,7 @@ namespace Mediabasen.Server.Controllers
 
             if (movie.Images != null && movie.Images.Count() > 0)
             {
-                var imageService = new ImageService(_webHostEnvironment, _unitOfWork);
-
-                imageService.SaveImages(movie.Images, newMovie, "movie");
+                _imageService.SaveImages(movie.Images, newMovie, "movie");
             }
 
             return new JsonResult(new { message = "Filmen har lagts till!" });

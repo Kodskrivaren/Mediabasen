@@ -15,11 +15,13 @@ namespace Mediabasen.Server.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly ImageService _imageService;
 
-        public MusicController(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment)
+        public MusicController(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment, ImageService imageService)
         {
             _unitOfWork = unitOfWork;
             _webHostEnvironment = webHostEnvironment;
+            _imageService = imageService;
         }
 
         [HttpPost]
@@ -65,9 +67,7 @@ namespace Mediabasen.Server.Controllers
 
             if (music.Images != null && music.Images.Count() > 0)
             {
-                var imageService = new ImageService(_webHostEnvironment, _unitOfWork);
-
-                imageService.SaveImages(music.Images, newMusic, "music");
+                _imageService.SaveImages(music.Images, newMusic, "music");
             }
 
             return new JsonResult(new { message = "Skivan har lagts till!" });
