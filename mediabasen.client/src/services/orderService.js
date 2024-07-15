@@ -9,7 +9,7 @@ async function getOrders() {
 }
 
 async function placeOrder() {
-  const response = await fetchHelper("/Order/PlaceOrder");
+  const response = await fetchHelper("/Order/PlaceOrder", "POST");
 
   if (response.status < 400) {
     return await response.json();
