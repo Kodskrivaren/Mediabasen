@@ -9,7 +9,6 @@ namespace Mediabasen.Models.Order
         public int Id { get; set; }
         public int Amount { get; set; }
         public decimal Price { get; set; }
-        public decimal Discount { get; set; }
         public int ProductId { get; set; }
         [ForeignKey("ProductId")]
         [NotMapped]

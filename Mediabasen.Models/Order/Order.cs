@@ -12,6 +12,7 @@ namespace Mediabasen.Models.Order
         [ForeignKey("UserId")]
         [NotMapped]
         public ApplicationUser User { get; set; }
+        public decimal TotalPrice { get; set; }
         public DateTime OrderPlaced { get; set; }
         public DateTime? OrderShipped { get; set; }
         public List<OrderItem> OrderItems { get; set; }
