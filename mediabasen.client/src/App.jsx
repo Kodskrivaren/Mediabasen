@@ -39,7 +39,7 @@ function App() {
           <BrowserRouter>
             <Header />
             {note && <Notification />}
-            <main className="flex-grow">
+            <main className="flex-grow w-full mx-auto max-w-7xl">
               <Routes>
                 <Route
                   index
