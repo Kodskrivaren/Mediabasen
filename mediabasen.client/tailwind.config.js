@@ -23,10 +23,14 @@ export default {
         note: "0 0 15px 5px",
       },
       width: {
-        card: "48%",
+        "card-mobile": "48%",
+        "card-tablet": "31%",
+        "card-desktop": "23%",
       },
       gap: {
-        card: "4%",
+        "card-mobile": "4%",
+        "card-tablet": "3.5%",
+        "card-desktop": "2.75%",
       },
       screens: {},
       animation: {
