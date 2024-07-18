@@ -57,7 +57,7 @@ export default function AddMusic() {
     searchFunction: nameService.findNames,
   });
 
-  async function postMovie(e) {
+  async function postMusic(e) {
     e.preventDefault();
 
     const formData = new FormData(e.target);
@@ -94,7 +94,7 @@ export default function AddMusic() {
   return (
     <>
       <h2 className="text-white">Lägg till musik</h2>
-      <form className="flex flex-col gap-3 max-w-96" onSubmit={postMovie}>
+      <form className="flex flex-col gap-3 max-w-96" onSubmit={postMusic}>
         <AddBaseForm
           {...{
             selectedGenres,
