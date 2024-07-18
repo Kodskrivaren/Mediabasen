@@ -3,6 +3,8 @@ import { Routes, Route } from "react-router-dom";
 import AddMovie from "./AddMovie";
 import AdminLinks from "./AdminLinks";
 import AddMusic from "./AddMusic";
+import AddGame from "./AddGame";
+import AddBook from "./AddBook";
 
 export default function AdminPage() {
   return (
@@ -12,6 +14,8 @@ export default function AdminPage() {
         <Route path="/" element={<AdminLinks />} />
         <Route path="/addmovie" element={<AddMovie />} />
         <Route path="/addmusic" element={<AddMusic />} />
+        <Route path="/addgame" element={<AddGame />} />
+        <Route path="/addbook" element={<AddBook />} />
       </Routes>
     </section>
   );
