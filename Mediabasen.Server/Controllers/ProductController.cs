@@ -50,6 +50,10 @@ namespace Mediabasen.Server.Controllers
                     return new JsonResult(_productService.GetProductMovie(product));
                 case SD.Type_Music:
                     return new JsonResult(_productService.GetProductMusic(product));
+                case SD.Type_Book:
+                    return new JsonResult(_productService.GetProductBook(product));
+                case SD.Type_Game:
+                    return new JsonResult(_productService.GetProductGame(product));
                 default:
                     return new JsonResult(product);
             }
