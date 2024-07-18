@@ -14,6 +14,8 @@
         public ICartRepository Cart { get; }
         public IOrderRepository Order { get; }
         public IProductMusicRepository ProductMusic { get; }
+        public IProductBookRepository ProductBook { get; }
+        public IProductGameRepository ProductGame { get; }
         void Save();
     }
 }
