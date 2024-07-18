@@ -50,19 +50,23 @@ export default function CartPage() {
   return (
     <section className="p-3 text-white flex flex-col gap-y-3">
       <h2 className="text-3xl font-bold">Kundvagn</h2>
-      {cart === undefined && <p>Din kundvagn är tom!</p>}
-      {cart && products && (
-        <>
-          <ProductList {...{ products }} />
-          <h2 className="text-xl">Totalt: {calculateTotalPrice()} kr</h2>
-          <Button
-            classNameColor="bg-accent"
-            className="w-fit"
-            onClick={placeOrderClick}>
-            Lägg Beställning
-          </Button>
-        </>
-      )}
+      <div className="flex flex-col gap-y-3 md:flex-row">
+        {cart === undefined && <p>Din kundvagn är tom!</p>}
+        {cart && products && (
+          <>
+            <ProductList {...{ products }} />
+            <section className="flex flex-col gap-y-3">
+              <h2 className="text-xl">Totalt: {calculateTotalPrice()} kr</h2>
+              <Button
+                classNameColor="bg-accent"
+                className="w-fit"
+                onClick={placeOrderClick}>
+                Lägg Beställning
+              </Button>
+            </section>
+          </>
+        )}
+      </div>
     </section>
   );
 }

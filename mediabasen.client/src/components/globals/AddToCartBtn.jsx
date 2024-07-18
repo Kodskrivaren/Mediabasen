@@ -43,7 +43,7 @@ export default function AddToCartBtn({ product }) {
     <Button
       classNameColor="bg-accent"
       onClick={onAddClick}
-      className="font-bold flex-grow w-full">
+      className="font-bold flex-grow w-full max-w-48">
       Lägg i Varukorg
     </Button>
   );

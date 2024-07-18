@@ -41,7 +41,7 @@ export default function ProductList({ products }) {
       {products.map(({ id, product, count }) => (
         <li key={`item-${product.id}`} className="flex gap-x-3">
           <Link
-            className="block relative w-1/3 flex-shrink-0"
+            className="block relative w-1/3 max-w-52 flex-shrink-0"
             to={`/detail/${product.id}`}>
             {product.images && product.images.length > 0 ? (
               <img

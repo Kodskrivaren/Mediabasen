@@ -7,7 +7,7 @@ export default function Button(props) {
     <button
       className={`${
         classNameColor ? classNameColor : "bg-dark"
-      } w-20 text-bright p-2 rounded-lg hover:bg-middle transition-colors duration-200${
+      } w-20 text-bright p-2 rounded-lg hover:bg-dark transition-colors duration-200${
         className ? ` ${className}` : ""
       }`}
       type={props.type ? props.type : "button"}
