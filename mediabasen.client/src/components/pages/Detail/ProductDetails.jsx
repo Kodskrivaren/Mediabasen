@@ -13,51 +13,55 @@ export default function ProductDetails({ product }) {
   }
 
   return (
-    <section className="p-3 text-white flex gap-3 flex-col">
-      <div>
-        <h2 className="text-3xl inline font-bold">{product.name} </h2>
-        <span className="inline text-gray-300">
-          - {typeHelper.getProductTypeName(product)} -{" "}
-        </span>
-        <span className="inline text-gray-300">{product.format.name}</span>
+    <section className="p-3 text-white flex gap-3 flex-col md:flex-row md:justify-between">
+      <div className="flex gap-3 flex-col">
+        <div>
+          <h2 className="text-3xl inline font-bold">{product.name} </h2>
+          <span className="inline text-gray-300">
+            - {typeHelper.getProductTypeName(product)} -{" "}
+          </span>
+          <span className="inline text-gray-300">{product.format.name}</span>
+        </div>
+        <div className="relative w-full max-w-xs">
+          {hasImages() ? (
+            <img className="w-full" src={`${product.images[0].imageUrl}`} />
+          ) : (
+            <NoImageIcon />
+          )}
+          {product.discountedPrice && <DiscountSticker {...{ product }} />}
+        </div>
+        <ProductPrice {...{ product }} />
+        <AddToCartBtn {...{ product }} />
       </div>
-      <div className="relative w-full">
-        {hasImages() ? (
-          <img className="w-full" src={`${product.images[0].imageUrl}`} />
-        ) : (
-          <NoImageIcon />
-        )}
-        {product.discountedPrice && <DiscountSticker {...{ product }} />}
+      <div className="flex gap-3 flex-col">
+        <h3 className="text-2xl font-bold">Beskrivning</h3>
+        <p className="text-xl">{product.description}</p>
+        <h3 className="text-2xl font-bold">Specifikationer</h3>
+        <div className="flex flex-wrap gap-y-2 max-w-xl">
+          <span className="w-1/2 text-gray-300">Format</span>
+          <span className="w-1/2">{product.format.name}</span>
+          <span className="w-1/2 text-gray-300">Genre</span>
+          <ul className="w-1/2">
+            {product.genres.map((genre) => (
+              <li key={`genre-${genre.id}`}>
+                <span>{genre.name}</span>
+              </li>
+            ))}
+          </ul>
+          {product.productType.name === typeHelper.productTypes.Movie && (
+            <MovieDetails {...{ product }} />
+          )}
+          {product.productType.name === typeHelper.productTypes.Music && (
+            <MusicDetails {...{ product }} />
+          )}
+          <span className="w-1/2 text-gray-300">Utgivet</span>
+          <span className="w-1/2">
+            {product.releaseDate
+              ? new Date(product.releaseDate).toLocaleDateString()
+              : "Okänt"}
+          </span>
+        </div>
       </div>
-      <ProductPrice {...{ product }} />
-      <h3 className="text-2xl font-bold">Beskrivning</h3>
-      <p className="text-xl">{product.description}</p>
-      <h3 className="text-2xl font-bold">Specifikationer</h3>
-      <div className="flex flex-wrap gap-y-2">
-        <span className="w-1/2 text-gray-300">Format</span>
-        <span className="w-1/2">{product.format.name}</span>
-        <span className="w-1/2 text-gray-300">Genre</span>
-        <ul className="w-1/2">
-          {product.genres.map((genre) => (
-            <li key={`genre-${genre.id}`}>
-              <span>{genre.name}</span>
-            </li>
-          ))}
-        </ul>
-        {product.productType.name === typeHelper.productTypes.Movie && (
-          <MovieDetails {...{ product }} />
-        )}
-        {product.productType.name === typeHelper.productTypes.Music && (
-          <MusicDetails {...{ product }} />
-        )}
-        <span className="w-1/2 text-gray-300">Utgivet</span>
-        <span className="w-1/2">
-          {product.releaseDate
-            ? new Date(product.releaseDate).toLocaleDateString()
-            : "Okänt"}
-        </span>
-      </div>
-      <AddToCartBtn {...{ product }} />
     </section>
   );
 }
