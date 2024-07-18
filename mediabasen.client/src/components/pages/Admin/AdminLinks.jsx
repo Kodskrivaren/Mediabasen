@@ -14,6 +14,16 @@ export default function AdminLinks() {
           Lägg till musik
         </Link>
       </li>
+      <li>
+        <Link className="text-accent" to={"/admin/addgame"}>
+          Lägg till spel
+        </Link>
+      </li>
+      <li>
+        <Link className="text-accent" to={"/admin/addbook"}>
+          Lägg till bok
+        </Link>
+      </li>
     </ul>
   );
 }
