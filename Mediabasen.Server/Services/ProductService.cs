@@ -1,5 +1,7 @@
 ﻿using Mediabasen.DataAccess.Repository.IRepository;
 using Mediabasen.Models.Product;
+using Mediabasen.Models.Product.Book;
+using Mediabasen.Models.Product.Game;
 using Mediabasen.Models.Product.Movie;
 using Mediabasen.Models.Product.Music;
 
@@ -76,6 +78,32 @@ namespace Mediabasen.Server.Services
             music.Publisher = _unitOfWork.Name.GetFirstOrDefault(u => u.Id == music.PublisherId);
 
             return music;
+        }
+
+        public ProductGame GetProductGame(Product product)
+        {
+            var game = _unitOfWork.ProductGame.GetFirstOrDefault(u => u.Id == product.Id);
+
+            SetBasicProperties(game, product.ProductType);
+
+            game.Publisher = _unitOfWork.Name.GetFirstOrDefault(u => u.Id == game.PublisherId);
+
+            game.Developer = _unitOfWork.Name.GetFirstOrDefault(u => u.Id == game.DeveloperId);
+
+            return game;
+        }
+
+        public ProductBook GetProductBook(Product product)
+        {
+            var book = _unitOfWork.ProductBook.GetFirstOrDefault(u => u.Id == product.Id);
+
+            SetBasicProperties(book, product.ProductType);
+
+            book.Publisher = _unitOfWork.Name.GetFirstOrDefault(u => u.Id == book.PublisherId);
+
+            book.Author = _unitOfWork.Name.GetFirstOrDefault(u => u.Id == book.AuthorId);
+
+            return book;
         }
     }
 }
