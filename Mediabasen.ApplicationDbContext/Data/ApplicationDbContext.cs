@@ -2,6 +2,8 @@
 using Mediabasen.Models.Cart;
 using Mediabasen.Models.Order;
 using Mediabasen.Models.Product;
+using Mediabasen.Models.Product.Book;
+using Mediabasen.Models.Product.Game;
 using Mediabasen.Models.Product.Movie;
 using Mediabasen.Models.Product.Music;
 using Microsoft.AspNetCore.Identity;
@@ -30,6 +32,8 @@ namespace Mediabasen.DataAccess.Data
         public DbSet<Cart> Carts { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<ProductMusic> ProductMusic { get; set; }
+        public DbSet<ProductBook> ProductBooks { get; set; }
+        public DbSet<ProductGame> ProductGames { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
