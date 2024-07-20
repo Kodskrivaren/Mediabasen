@@ -16,5 +16,15 @@ namespace Mediabasen.DataAccess.Repository
         {
             _db.Products.Update(product);
         }
+
+        public IEnumerable<Product> GetNewestProducts()
+        {
+            return _db.Products.AsEnumerable().OrderByDescending(u => u.AddedToStoreDate).Where((u, index) => index < 10);
+        }
+
+        public IEnumerable<Product> SearchProducts(string query)
+        {
+            return _db.Products.AsEnumerable().Where((u, index) => index < 10 && u.Name.ToLower().StartsWith(query.ToLower()));
+        }
     }
 }
