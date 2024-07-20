@@ -15,10 +15,12 @@ namespace Mediabasen.Server.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly ImageService _imageService;
-        public GameController(IUnitOfWork unitOfWork, ImageService imageService)
+        private readonly ProductService _productService;
+        public GameController(IUnitOfWork unitOfWork, ImageService imageService, ProductService productService)
         {
             _unitOfWork = unitOfWork;
             _imageService = imageService;
+            _productService = productService;
         }
 
         [HttpPost]
@@ -67,6 +69,52 @@ namespace Mediabasen.Server.Controllers
             }
 
             return new JsonResult(new { message = "Spelet har lagts till!" });
+        }
+
+        [HttpPatch]
+        [Authorize(Roles = SD.Role_Admin)]
+        public IActionResult UpdateGame(GamePost product)
+        {
+            var game = _unitOfWork.ProductGame.GetFirstOrDefault(u => u.Id == product.Id);
+
+            if (game == null) return NotFound();
+
+            game.Name = product.Name;
+            game.Description = product.Description;
+            game.Price = product.Price;
+            game.Discount = product.Discount;
+            game.ReleaseDate = product.ReleaseDate;
+            game.FormatId = product.FormatId;
+
+            game.DeveloperId = product.DeveloperId;
+            game.PublisherId = product.PublisherId;
+
+            if (product.GenreIds != null && product.GenreIds.Count > 0)
+            {
+                _productService.UpdateProductGenres(game, product.GenreIds);
+            }
+
+            if (product.Images != null && product.Images.Count() > 0)
+            {
+                _imageService.UpdateImages(product.Images, game, "game");
+            }
+            else
+            {
+                var images = _unitOfWork.ProductImage.GetAll(u => u.ProductId == game.Id).ToList();
+
+                foreach (var image in images)
+                {
+                    _imageService.RemoveImage(image);
+                }
+
+                _unitOfWork.ProductImage.RemoveRange(images);
+                _unitOfWork.Save();
+            }
+
+            _unitOfWork.ProductGame.Update(game);
+            _unitOfWork.Save();
+
+            return new JsonResult(new { message = "Ändringarna har sparats!" });
         }
     }
 }
