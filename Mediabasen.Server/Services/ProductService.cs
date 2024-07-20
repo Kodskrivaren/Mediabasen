@@ -27,6 +27,48 @@ namespace Mediabasen.Server.Services
             return Images;
         }
 
+        public void UpdateProductGenres(Product product, List<int> newGenreIds)
+        {
+            var productGenres = _unitOfWork.ProductGenre.GetAll(u => u.ProductId == product.Id).ToList();
+
+            List<ProductGenre> productGenresToAdd = new List<ProductGenre>();
+            List<ProductGenre> searchedGenres = new List<ProductGenre>();
+
+            foreach (var genreId in newGenreIds)
+            {
+                var foundGenre = productGenres.Find(u => u.GenreId == genreId);
+
+                if (foundGenre == null)
+                {
+                    productGenresToAdd.Add(new ProductGenre() { ProductId = product.Id, GenreId = genreId });
+                }
+                else
+                {
+                    searchedGenres.Add(foundGenre);
+                }
+            }
+
+            foreach (var productGenre in productGenres)
+            {
+                var foundGenre = searchedGenres.Find(u => u.Id == productGenre.Id);
+
+                if (foundGenre == null)
+                {
+                    _unitOfWork.ProductGenre.Remove(productGenre);
+                    _unitOfWork.Save();
+                }
+            }
+
+            if (productGenresToAdd.Count > 0)
+            {
+                foreach (var productGenre in productGenresToAdd)
+                {
+                    _unitOfWork.ProductGenre.Add(productGenre);
+                    _unitOfWork.Save();
+                }
+            }
+        }
+
         public void SetBasicProperties(Product product, ProductType productType)
         {
             product.Images = GetProductImages(product);
