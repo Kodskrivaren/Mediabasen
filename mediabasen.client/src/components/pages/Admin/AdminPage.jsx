@@ -5,6 +5,8 @@ import AdminLinks from "./AdminLinks";
 import AddMusic from "./AddMusic";
 import AddGame from "./AddGame";
 import AddBook from "./AddBook";
+import SearchEdit from "./Edit/SearchEdit";
+import EditPage from "./Edit/EditPage";
 
 export default function AdminPage() {
   return (
@@ -16,6 +18,8 @@ export default function AdminPage() {
         <Route path="/addmusic" element={<AddMusic />} />
         <Route path="/addgame" element={<AddGame />} />
         <Route path="/addbook" element={<AddBook />} />
+        <Route path="/searchedit" element={<SearchEdit />} />
+        <Route path="/edit/*" element={<EditPage />} />
       </Routes>
     </section>
   );
