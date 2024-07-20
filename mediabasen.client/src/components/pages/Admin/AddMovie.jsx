@@ -142,6 +142,7 @@ export default function AddMovie() {
             preventNameSearch: preventActorSearch,
             nameNotFound: actorNotFound,
             setNameNotFound: setActorNotFound,
+            setName: (name) => setSelectedActors((old) => [...old, name]),
           }}
         />
       )}
@@ -152,6 +153,7 @@ export default function AddMovie() {
             preventNameSearch: preventDirectorSearch,
             nameNotFound: directorNotFound,
             setNameNotFound: setDirectorNotFound,
+            setNameId: setActorId,
           }}
         />
       )}

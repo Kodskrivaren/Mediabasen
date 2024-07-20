@@ -143,6 +143,7 @@ export default function AddGame() {
             preventNameSearch: preventPublisherSearch,
             nameNotFound: publisherNotFound,
             setNameNotFound: setPublisherNotFound,
+            setNameId: setPublisherId,
           }}
         />
       )}
@@ -153,6 +154,7 @@ export default function AddGame() {
             preventNameSearch: preventDeveloperSearch,
             nameNotFound: developerNotFound,
             setNameNotFound: setDeveloperNotFound,
+            setNameId: setDeveloperId,
           }}
         />
       )}

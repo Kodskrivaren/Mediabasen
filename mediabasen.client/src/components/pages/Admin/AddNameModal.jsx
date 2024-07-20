@@ -9,6 +9,8 @@ export default function AddNameModal({
   preventNameSearch,
   nameNotFound,
   setNameNotFound,
+  setNameId,
+  setName,
 }) {
   async function addName(setSearchState, preventSearch) {
     const result = await nameService.addName(nameNotFound);
@@ -16,6 +18,12 @@ export default function AddNameModal({
     setSearchState(result.name.fullname);
     setNameNotFound(undefined);
     preventSearch(true);
+    if (setNameId) {
+      setNameId(result.name.id);
+    }
+    if (setName) {
+      setName(result.name);
+    }
   }
 
   useEffect(() => {

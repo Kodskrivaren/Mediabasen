@@ -143,6 +143,7 @@ export default function AddBook() {
             preventNameSearch: preventPublisherSearch,
             nameNotFound: publisherNotFound,
             setNameNotFound: setPublisherNotFound,
+            setNameId: setPublisherId,
           }}
         />
       )}
@@ -153,6 +154,7 @@ export default function AddBook() {
             preventNameSearch: preventAuthorSearch,
             nameNotFound: authorNotFound,
             setNameNotFound: setAuthorNotFound,
+            setNameId: setAuthorId,
           }}
         />
       )}

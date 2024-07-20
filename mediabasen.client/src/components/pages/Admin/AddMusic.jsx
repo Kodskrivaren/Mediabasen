@@ -179,6 +179,7 @@ export default function AddMusic() {
             preventNameSearch: preventPublisherSearch,
             nameNotFound: publisherNotFound,
             setNameNotFound: setPublisherNotFound,
+            setNameId: setPublisherId,
           }}
         />
       )}
@@ -189,6 +190,7 @@ export default function AddMusic() {
             preventNameSearch: preventArtistSearch,
             nameNotFound: artistNotFound,
             setNameNotFound: setArtistNotFound,
+            setNameId: setArtistId,
           }}
         />
       )}
@@ -199,6 +201,7 @@ export default function AddMusic() {
             preventNameSearch: preventLabelSearch,
             nameNotFound: labelNotFound,
             setNameNotFound: setLabelNotFound,
+            setNameId: setLabelId,
           }}
         />
       )}
