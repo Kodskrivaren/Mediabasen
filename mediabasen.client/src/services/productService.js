@@ -11,4 +11,23 @@ async function getProductById(id) {
   }
 }
 
-export default { getProductById };
+async function searchProducts(query) {
+  const response = await fetchHelper(
+    `/Product/SearchProducts?query=${query}`,
+    "GET"
+  );
+
+  if (response.status < 400) {
+    return await response.json();
+  }
+}
+
+async function getNewestProducts() {
+  const response = await fetchHelper("/Product/GetNewestProducts", "GET");
+
+  const json = await response.json();
+
+  return json;
+}
+
+export default { getProductById, getNewestProducts, searchProducts };
