@@ -6,6 +6,8 @@ import MovieDetails from "./MovieDetails";
 import MusicDetails from "./MusicDetails";
 import ProductPrice from "./ProductPrice";
 import DiscountSticker from "./DiscountSticker";
+import BookDetails from "./BookDetails";
+import GameDetails from "./GameDetails";
 
 export default function ProductDetails({ product }) {
   function hasImages() {
@@ -53,6 +55,12 @@ export default function ProductDetails({ product }) {
           )}
           {product.productType.name === typeHelper.productTypes.Music && (
             <MusicDetails {...{ product }} />
+          )}
+          {product.productType.name === typeHelper.productTypes.Book && (
+            <BookDetails {...{ product }} />
+          )}
+          {product.productType.name === typeHelper.productTypes.Game && (
+            <GameDetails {...{ product }} />
           )}
           <span className="w-1/2 text-gray-300">Utgivet</span>
           <span className="w-1/2">
