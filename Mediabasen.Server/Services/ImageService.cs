@@ -14,6 +14,56 @@ namespace Mediabasen.Server.Services
             _unitOfWork = unitOfWork;
         }
 
+        public void UpdateImages(IEnumerable<IFormFile> formImages, Product product, string productTypePath)
+        {
+            var imagesFromDb = _unitOfWork.ProductImage.GetAll(u => u.ProductId == product.Id).ToList();
+            List<IFormFile> imagesToAdd = new List<IFormFile>();
+            List<ProductImage> searchedImages = new List<ProductImage>();
+
+            foreach (var image in formImages)
+            {
+                var foundImage = imagesFromDb.Find(u => u.ImageUrl.Contains(image.FileName));
+
+                if (foundImage == null)
+                {
+                    imagesToAdd.Add(image);
+                }
+                else
+                {
+                    searchedImages.Add(foundImage);
+                }
+            }
+
+            foreach (var image in imagesFromDb)
+            {
+                var foundImage = searchedImages.Find(u => u.Id == image.Id);
+
+                if (foundImage == null)
+                {
+                    RemoveImage(image);
+                    _unitOfWork.ProductImage.Remove(image);
+                    _unitOfWork.Save();
+                }
+            }
+
+            if (imagesToAdd.Count() > 0)
+            {
+                SaveImages(imagesToAdd, product, productTypePath);
+            }
+        }
+
+        public void RemoveImage(ProductImage image)
+        {
+            string rootPath = _webHostEnvironment.WebRootPath;
+
+            var path = Path.Join(rootPath, image.ImageUrl);
+
+            if (System.IO.File.Exists(path))
+            {
+                System.IO.File.Delete(path);
+            }
+        }
+
         public void SaveImages(IEnumerable<IFormFile> Images, Product newProduct, string productTypePath)
         {
             var wwwRoot = _webHostEnvironment.WebRootPath;
