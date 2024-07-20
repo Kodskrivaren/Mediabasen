@@ -24,7 +24,7 @@ export default function ProductDetails({ product }) {
           </span>
           <span className="inline text-gray-300">{product.format.name}</span>
         </div>
-        <div className="relative w-full max-w-xs">
+        <div className="relative w-full md:max-w-xs">
           {hasImages() ? (
             <img className="w-full" src={`${product.images[0].imageUrl}`} />
           ) : (
@@ -37,7 +37,7 @@ export default function ProductDetails({ product }) {
       </div>
       <div className="flex gap-3 flex-col">
         <h3 className="text-2xl font-bold">Beskrivning</h3>
-        <p className="text-xl">{product.description}</p>
+        <p className="text-xl max-w-xl">{product.description}</p>
         <h3 className="text-2xl font-bold">Specifikationer</h3>
         <div className="flex flex-wrap gap-y-2 max-w-xl">
           <span className="w-1/2 text-gray-300">Format</span>
