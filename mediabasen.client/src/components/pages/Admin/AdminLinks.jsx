@@ -24,6 +24,11 @@ export default function AdminLinks() {
           Lägg till bok
         </Link>
       </li>
+      <li>
+        <Link className="text-accent" to={"/admin/searchedit"}>
+          Redigera produkter
+        </Link>
+      </li>
     </ul>
   );
 }
