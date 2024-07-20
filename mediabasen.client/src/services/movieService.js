@@ -1,13 +1,4 @@
-import fetchHelper from "../utils/fetchHelper";
 import formatIds from "../utils/formatHelper";
-
-async function fetchNewMovies() {
-  const response = await fetchHelper("/product/getproducts", "GET");
-
-  const json = await response.json();
-
-  return json;
-}
 
 async function addMovie(movie) {
   const queries = encodeURI(
@@ -37,4 +28,4 @@ async function addMovie(movie) {
   }
 }
 
-export default { fetchNewMovies, addMovie };
+export default { addMovie };
