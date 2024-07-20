@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import ProductCard from "../../globals/ProductCard";
-import movieService from "../../../services/movieService";
+import productService from "../../../services/productService";
 import ArrowBtn from "../../globals/ArrowBtn";
 
 export default function NewProducts() {
@@ -11,7 +11,7 @@ export default function NewProducts() {
 
   useEffect(() => {
     async function fetchMovies() {
-      const result = await movieService.fetchNewMovies();
+      const result = await productService.getNewestProducts();
 
       setMovies(result.products);
     }
