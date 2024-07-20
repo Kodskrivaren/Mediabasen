@@ -24,9 +24,21 @@ namespace Mediabasen.Server.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetProducts()
+        public IActionResult GetNewestProducts()
         {
-            List<Product> products = _unitOfWork.Product.GetAll().ToList();
+            List<Product> products = _unitOfWork.Product.GetNewestProducts().ToList();
+            foreach (var product in products)
+            {
+                _productService.SetBasicProperties(product, _unitOfWork.ProductType.GetFirstOrDefault(u => u.Id == product.ProductTypeId));
+            }
+            JsonResult res = new JsonResult(new { products });
+            return res;
+        }
+
+        [HttpGet]
+        public IActionResult SearchProducts(string query)
+        {
+            List<Product> products = _unitOfWork.Product.SearchProducts(query).ToList();
             foreach (var product in products)
             {
                 _productService.SetBasicProperties(product, _unitOfWork.ProductType.GetFirstOrDefault(u => u.Id == product.ProductTypeId));
