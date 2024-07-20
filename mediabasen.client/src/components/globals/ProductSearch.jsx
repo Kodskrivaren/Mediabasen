@@ -4,7 +4,7 @@ import SearchIcon from "../../assets/icons/search-outline.svg?react";
 import productService from "../../services/productService";
 import SearchResult from "./SearchResult";
 
-export default function ProductSearch() {
+export default function ProductSearch({ preIdLink }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [result, setResult] = useState(undefined);
 
@@ -39,7 +39,7 @@ export default function ProductSearch() {
         }}
       />
       <SearchIcon className="absolute top-1/2 mt-2 -translate-y-1/2 left-2 w-10 h-10" />
-      {result && <SearchResult {...{ result }} />}
+      {result && <SearchResult {...{ result, preIdLink }} />}
     </div>
   );
 }
