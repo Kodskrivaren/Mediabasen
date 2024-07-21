@@ -41,10 +41,14 @@ export default function AddToCartBtn({ product }) {
 
   return (
     <Button
-      classNameColor="bg-accent"
+      classNameColor={"bg-accent"}
       onClick={onAddClick}
       className="font-bold flex-grow w-full max-w-48 max-h-12">
-      Lägg i Varukorg
+      {cart &&
+      cart.cartProducts &&
+      cart.cartProducts.find((u) => u.productId === product.id)
+        ? "Redan i varukorgen"
+        : "Lägg i Varukorg"}
     </Button>
   );
 }
