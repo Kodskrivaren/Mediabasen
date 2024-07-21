@@ -1,19 +1,23 @@
 ﻿using Mediabasen.DataAccess.Repository.IRepository;
+using Mediabasen.Models;
 using Mediabasen.Models.Product;
 using Mediabasen.Models.Product.Book;
 using Mediabasen.Models.Product.Game;
 using Mediabasen.Models.Product.Movie;
 using Mediabasen.Models.Product.Music;
+using Microsoft.AspNetCore.Identity;
 
 namespace Mediabasen.Server.Services
 {
     public class ProductService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public ProductService(IUnitOfWork unitOfWork)
+        public ProductService(IUnitOfWork unitOfWork, UserManager<ApplicationUser> userManager)
         {
             _unitOfWork = unitOfWork;
+            _userManager = userManager;
         }
 
         private List<ProductImage> GetProductImages(Product product)
@@ -85,6 +89,14 @@ namespace Mediabasen.Server.Services
             {
                 product.DiscountedPrice = GetCalculatedDiscountedPrice(product);
             }
+
+            if (product.Reviews != null && product.Reviews.Count > 0)
+            {
+                foreach (var review in product.Reviews)
+                {
+                    review.Username = _userManager.FindByIdAsync(review.UserId).GetAwaiter().GetResult().Name;
+                }
+            }
         }
 
         public decimal GetCalculatedDiscountedPrice(Product product)
@@ -94,7 +106,7 @@ namespace Mediabasen.Server.Services
 
         public ProductMovie GetProductMovie(Product product)
         {
-            var movie = _unitOfWork.ProductMovie.GetFirstOrDefault(u => u.Id == product.Id);
+            var movie = _unitOfWork.ProductMovie.GetFirstOrDefault(u => u.Id == product.Id, includeProperties: "Reviews");
 
             SetBasicProperties(movie, product.ProductType);
 
@@ -109,7 +121,7 @@ namespace Mediabasen.Server.Services
 
         public ProductMusic GetProductMusic(Product product)
         {
-            var music = _unitOfWork.ProductMusic.GetFirstOrDefault(u => u.Id == product.Id);
+            var music = _unitOfWork.ProductMusic.GetFirstOrDefault(u => u.Id == product.Id, includeProperties: "Reviews");
 
             SetBasicProperties(music, product.ProductType);
 
@@ -124,7 +136,7 @@ namespace Mediabasen.Server.Services
 
         public ProductGame GetProductGame(Product product)
         {
-            var game = _unitOfWork.ProductGame.GetFirstOrDefault(u => u.Id == product.Id);
+            var game = _unitOfWork.ProductGame.GetFirstOrDefault(u => u.Id == product.Id, includeProperties: "Reviews");
 
             SetBasicProperties(game, product.ProductType);
 
@@ -137,7 +149,7 @@ namespace Mediabasen.Server.Services
 
         public ProductBook GetProductBook(Product product)
         {
-            var book = _unitOfWork.ProductBook.GetFirstOrDefault(u => u.Id == product.Id);
+            var book = _unitOfWork.ProductBook.GetFirstOrDefault(u => u.Id == product.Id, includeProperties: "Reviews");
 
             SetBasicProperties(book, product.ProductType);
 
