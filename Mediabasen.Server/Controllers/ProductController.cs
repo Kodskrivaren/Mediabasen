@@ -99,15 +99,10 @@ namespace Mediabasen.Server.Controllers
             }
         }
 
-        private List<string> SplittedName(string name)
-        {
-            return name.Split().ToList();
-        }
-
         [HttpGet]
         public IActionResult GetProductById(int productId)
         {
-            var product = _unitOfWork.Product.GetFirstOrDefault(u => u.Id == productId);
+            var product = _unitOfWork.Product.GetFirstOrDefault(u => u.Id == productId, includeProperties: "Reviews");
 
             if (product == null) return NotFound();
 
