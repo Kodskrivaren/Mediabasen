@@ -43,7 +43,6 @@ export default function CartPage() {
 
     if (data) {
       setCart(undefined);
-      console.log(data);
     }
   }
 
