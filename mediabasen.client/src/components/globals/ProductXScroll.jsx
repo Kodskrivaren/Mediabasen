@@ -1,30 +1,11 @@
-import React, { useState, useEffect, useRef } from "react";
-import ProductCard from "../../globals/ProductCard";
-import productService from "../../../services/productService";
-import ArrowBtn from "../../globals/ArrowBtn";
+import React, { useEffect, useState, useRef } from "react";
+import ProductCard from "./ProductCard";
+import ArrowBtn from "./ArrowBtn";
 
-export default function NewProducts() {
-  const [movies, setMovies] = useState([]);
+export default function ProductXScroll({ products }) {
   const containerRef = useRef();
   const [size, setSize] = useState(0);
   const [maxSize, setMaxSize] = useState(0);
-
-  useEffect(() => {
-    async function fetchMovies() {
-      const result = await productService.getNewestProducts();
-
-      setMovies(result.products);
-    }
-
-    fetchMovies();
-  }, [setMovies]);
-
-  function rightClick() {
-    moveSlider(
-      containerRef.current.scrollLeft +
-        containerRef.current.scrollWidth / movies.length
-    );
-  }
 
   function moveSlider(newValue) {
     containerRef.current.scroll({
@@ -36,10 +17,17 @@ export default function NewProducts() {
     }, 15);
   }
 
+  function rightClick() {
+    moveSlider(
+      containerRef.current.scrollLeft +
+        containerRef.current.scrollWidth / products.length
+    );
+  }
+
   function leftClick() {
     moveSlider(
       containerRef.current.scrollLeft -
-        containerRef.current.scrollWidth / movies.length
+        containerRef.current.scrollWidth / products.length
     );
   }
 
@@ -48,22 +36,21 @@ export default function NewProducts() {
       setSize(containerRef.current.scrollLeft);
       setMaxSize(
         containerRef.current.scrollWidth -
-          (containerRef.current.scrollWidth / movies.length) * 2
+          (containerRef.current.scrollWidth / products.length) * 2
       );
     }
-  }, [containerRef, movies]);
+  }, [containerRef, products]);
 
   return (
-    <section className="bg-middle p-3 relative">
-      <h2 className="text-white pb-3 font-bold">Nya Produkter</h2>
+    <>
       <ul
         ref={containerRef}
         className="flex gap-card-mobile snap-x w-full overflow-x-hidden flex-row md:gap-card-tablet xl:gap-card-desktop">
-        {movies.map((movie) => (
+        {products.map((product) => (
           <li
-            key={`movie-${movie.id}`}
+            key={`movie-${product.id}`}
             className="inline-block snap-start relative w-card-mobile flex-shrink-0 md:w-card-tablet xl:w-card-desktop">
-            <ProductCard product={movie} />
+            <ProductCard product={product} />
           </li>
         ))}
       </ul>
@@ -79,6 +66,6 @@ export default function NewProducts() {
         disabled={size < 15}>
         <p className="block rotate-180 text-white m-auto">&#x27A4;</p>
       </ArrowBtn>
-    </section>
+    </>
   );
 }
