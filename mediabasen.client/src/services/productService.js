@@ -41,9 +41,22 @@ async function getNewestProducts() {
   return json;
 }
 
+async function postReview(review) {
+  const queries = encodeURI(
+    `productId=${review.ProductId}&rating=${review.Rating}&content=${review.Content}`
+  );
+
+  const response = await fetchHelper(`/Product/PostReview?${queries}`, "POST");
+
+  if (response.status < 400) {
+    return response.json();
+  }
+}
+
 export default {
   getProductById,
   getSimilarProducts,
   getNewestProducts,
   searchProducts,
+  postReview,
 };
