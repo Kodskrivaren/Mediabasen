@@ -14,13 +14,15 @@ namespace Mediabasen.Server.Controllers
         private readonly IUnitOfWork _unitOfWork;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly ProductService _productService;
+        private readonly UserService _userService;
 
         [ActivatorUtilitiesConstructor]
-        public ProductController(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment, ProductService productService)
+        public ProductController(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment, ProductService productService, UserService userService)
         {
             _unitOfWork = unitOfWork;
             _webHostEnvironment = webHostEnvironment;
             _productService = productService;
+            _userService = userService;
         }
 
         [HttpGet]
@@ -121,6 +123,37 @@ namespace Mediabasen.Server.Controllers
                 default:
                     return new JsonResult(product);
             }
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult PostReview(int productId, decimal rating, string content)
+        {
+            var product = _unitOfWork.Product.GetFirstOrDefault(u => u.Id == productId, includeProperties: "Reviews");
+
+            if (product == null) return NotFound();
+
+            if (product.Reviews == null)
+            {
+                product.Reviews = new List<ProductReview>();
+            }
+
+            string userId = _userService.GetUserId(HttpContext);
+
+            var currentReview = product.Reviews.Find(r => r.UserId == userId);
+
+            if (currentReview != null)
+            {
+                return BadRequest();
+            }
+
+            var review = new ProductReview() { UserId = userId, Rating = rating, Content = content };
+
+            product.Reviews.Add(review);
+            _unitOfWork.Product.Update(product);
+            _unitOfWork.Save();
+
+            return new JsonResult(review);
         }
 
         [HttpDelete]
