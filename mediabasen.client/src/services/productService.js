@@ -11,6 +11,17 @@ async function getProductById(id) {
   }
 }
 
+async function getSimilarProducts(id) {
+  const response = await fetchHelper(
+    `/Product/GetSimilarProductsById?productId=${id}`,
+    "GET"
+  );
+
+  if (response.status < 400) {
+    return await response.json();
+  }
+}
+
 async function searchProducts(query) {
   const response = await fetchHelper(
     `/Product/SearchProducts?query=${query}`,
@@ -30,4 +41,9 @@ async function getNewestProducts() {
   return json;
 }
 
-export default { getProductById, getNewestProducts, searchProducts };
+export default {
+  getProductById,
+  getSimilarProducts,
+  getNewestProducts,
+  searchProducts,
+};
