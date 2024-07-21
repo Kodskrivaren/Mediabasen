@@ -16,12 +16,15 @@ namespace Mediabasen.Server.Controllers
         private readonly IUnitOfWork _unitOfWork;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly ImageService _imageService;
+        private readonly ProductService _productService;
 
-        public MusicController(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment, ImageService imageService)
+        [ActivatorUtilitiesConstructor]
+        public MusicController(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment, ImageService imageService, ProductService productService)
         {
             _unitOfWork = unitOfWork;
             _webHostEnvironment = webHostEnvironment;
             _imageService = imageService;
+            _productService = productService;
         }
 
         [HttpPost]
@@ -71,6 +74,52 @@ namespace Mediabasen.Server.Controllers
             }
 
             return new JsonResult(new { message = "Skivan har lagts till!" });
+        }
+
+        [HttpPatch]
+        [Authorize(Roles = SD.Role_Admin)]
+        public IActionResult UpdateMusic(MusicPost product)
+        {
+            var music = _unitOfWork.ProductMusic.GetFirstOrDefault(u => u.Id == product.Id, includeProperties: "Reviews");
+
+            if (music == null) return NotFound();
+
+            music.Name = product.Name;
+            music.Description = product.Description;
+            music.Price = product.Price;
+            music.Discount = product.Discount;
+            music.ReleaseDate = product.ReleaseDate;
+            music.FormatId = product.FormatId;
+
+            music.ArtistId = product.ArtistId;
+            music.PublisherId = product.PublisherId;
+
+            if (product.GenreIds != null && product.GenreIds.Count > 0)
+            {
+                _productService.UpdateProductGenres(music, product.GenreIds);
+            }
+
+            if (product.Images != null && product.Images.Count() > 0)
+            {
+                _imageService.UpdateImages(product.Images, music, "music");
+            }
+            else
+            {
+                var images = _unitOfWork.ProductImage.GetAll(u => u.ProductId == music.Id).ToList();
+
+                foreach (var image in images)
+                {
+                    _imageService.RemoveImage(image);
+                }
+
+                _unitOfWork.ProductImage.RemoveRange(images);
+                _unitOfWork.Save();
+            }
+
+            _unitOfWork.ProductMusic.Update(music);
+            _unitOfWork.Save();
+
+            return new JsonResult(new { message = "Ändringarna har sparats!" });
         }
     }
 }

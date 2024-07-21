@@ -15,10 +15,14 @@ namespace Mediabasen.Server.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly ImageService _imageService;
-        public BookController(IUnitOfWork unitOfWork, ImageService imageService)
+        private readonly ProductService _productService;
+
+        [ActivatorUtilitiesConstructor]
+        public BookController(IUnitOfWork unitOfWork, ImageService imageService, ProductService productService)
         {
             _unitOfWork = unitOfWork;
             _imageService = imageService;
+            _productService = productService;
         }
 
         [HttpPost]
@@ -67,6 +71,52 @@ namespace Mediabasen.Server.Controllers
             }
 
             return new JsonResult(new { message = "Boken har lagts till!" });
+        }
+
+        [HttpPatch]
+        [Authorize(Roles = SD.Role_Admin)]
+        public IActionResult UpdateBook(BookPost product)
+        {
+            var book = _unitOfWork.ProductBook.GetFirstOrDefault(u => u.Id == product.Id, includeProperties: "Reviews");
+
+            if (book == null) return NotFound();
+
+            book.Name = product.Name;
+            book.Description = product.Description;
+            book.Price = product.Price;
+            book.Discount = product.Discount;
+            book.ReleaseDate = product.ReleaseDate;
+            book.FormatId = product.FormatId;
+
+            book.AuthorId = product.AuthorId;
+            book.PublisherId = product.PublisherId;
+
+            if (product.GenreIds != null && product.GenreIds.Count > 0)
+            {
+                _productService.UpdateProductGenres(book, product.GenreIds);
+            }
+
+            if (product.Images != null && product.Images.Count() > 0)
+            {
+                _imageService.UpdateImages(product.Images, book, "book");
+            }
+            else
+            {
+                var images = _unitOfWork.ProductImage.GetAll(u => u.ProductId == book.Id).ToList();
+
+                foreach (var image in images)
+                {
+                    _imageService.RemoveImage(image);
+                }
+
+                _unitOfWork.ProductImage.RemoveRange(images);
+                _unitOfWork.Save();
+            }
+
+            _unitOfWork.ProductBook.Update(book);
+            _unitOfWork.Save();
+
+            return new JsonResult(new { message = "Ändringarna har sparats!" });
         }
     }
 }
