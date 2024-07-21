@@ -3,6 +3,9 @@ import { useParams } from "react-router-dom";
 import productService from "../../../../services/productService";
 import typeHelper from "../../../../utils/typeHelper";
 import EditGame from "./EditGame";
+import EditBook from "./EditBook";
+import EditMusic from "./EditMusic";
+import EditMovie from "./EditMovie";
 
 export default function EditPage() {
   const [product, setProduct] = useState();
@@ -28,6 +31,15 @@ export default function EditPage() {
         <>
           {product.productType.name === typeHelper.productTypes.Game && (
             <EditGame {...{ product }} />
+          )}
+          {product.productType.name === typeHelper.productTypes.Book && (
+            <EditBook {...{ product }} />
+          )}
+          {product.productType.name === typeHelper.productTypes.Music && (
+            <EditMusic {...{ product }} />
+          )}
+          {product.productType.name === typeHelper.productTypes.Movie && (
+            <EditMovie {...{ product }} />
           )}
         </>
       )}
