@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import CategoryPicker from "../globals/CategoryPicker";
 import ProductSearch from "../globals/ProductSearch";
 import ProductsList from "../globals/ProductsList";
@@ -8,7 +9,7 @@ export default function LandingPage() {
 
   useEffect(() => {
     async function fetchProducts() {
-      const result = await productFetch();
+      const result = await productService.getNewestProducts();
 
       setProducts(result.products);
     }
