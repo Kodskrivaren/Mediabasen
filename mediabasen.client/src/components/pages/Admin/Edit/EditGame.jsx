@@ -8,6 +8,7 @@ import useSearchHook from "../../../../hooks/useSearchHook";
 import Input from "../../../globals/Input";
 import NameList from "../NameList";
 import Modal from "../../../globals/Modal";
+import AddNameModal from "../AddNameModal";
 
 export default function EditGame({ product }) {
   const [developerNotFound, setDeveloperNotFound] = useState(undefined);
@@ -146,7 +147,7 @@ export default function EditGame({ product }) {
                   setDeveloperNameSearchResult
                 )
               }
-              listKeyPrefix="artist"
+              listKeyPrefix="developer"
             />
           )}
           <label className="text-white">Utgivare</label>
@@ -167,7 +168,7 @@ export default function EditGame({ product }) {
                   setPublisherNameSearchResult
                 )
               }
-              listKeyPrefix="artist"
+              listKeyPrefix="publisher"
             />
           )}
           <Button
