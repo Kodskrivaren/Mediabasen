@@ -14,18 +14,20 @@ namespace Mediabasen.Server.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly ProductService _productService;
+        private readonly UserService _userService;
 
         [ActivatorUtilitiesConstructor]
-        public OrderController(IUnitOfWork unitOfWork, ProductService productService)
+        public OrderController(IUnitOfWork unitOfWork, ProductService productService, UserService userService)
         {
             _unitOfWork = unitOfWork;
             _productService = productService;
+            _userService = userService;
         }
 
         [HttpGet]
         public IActionResult GetOrders()
         {
-            var userId = GetUserId();
+            var userId = _userService.GetUserId(HttpContext);
 
             var orders = _unitOfWork.Order.GetAll(u => u.UserId == userId, includeProperties: "OrderItems");
 
@@ -45,7 +47,7 @@ namespace Mediabasen.Server.Controllers
         [HttpPost]
         public IActionResult PlaceOrder()
         {
-            var userId = GetUserId();
+            var userId = _userService.GetUserId(HttpContext);
 
             Cart cart = GetUserCart();
 
@@ -84,18 +86,9 @@ namespace Mediabasen.Server.Controllers
             return new JsonResult(newOrder);
         }
 
-        private string GetUserId()
-        {
-            var idClaim = HttpContext.User.Claims.FirstOrDefault(u => u.ToString().Contains("nameidentifier"));
-
-            if (idClaim == null) { return ""; }
-
-            return idClaim.ToString().Split(" ")[1];
-        }
-
         private Cart GetUserCart(bool tracked = false)
         {
-            var userId = GetUserId();
+            var userId = _userService.GetUserId(HttpContext);
 
             return _unitOfWork.Cart.GetFirstOrDefault(u => u.UserId == userId, includeProperties: "CartProducts", tracked: tracked);
         }
