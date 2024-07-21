@@ -4,6 +4,7 @@ import productService from "../../../services/productService";
 import LoadSpinner from "../../globals/LoadSpinner";
 import ProductDetails from "./ProductDetails";
 import ProductsList from "../../globals/ProductsList";
+import ReviewSection from "./ReviewSection";
 
 export default function DetailPage() {
   const [similarProducts, setSimilarProducts] = useState([]);
@@ -30,6 +31,7 @@ export default function DetailPage() {
     <>
       <ProductDetails product={product} />
       <ProductsList title={"Du kanske gillar"} products={similarProducts} />
+      <ReviewSection {...{ product, setProduct }} />
     </>
   ) : (
     <div className="flex p-3 justify-center">
