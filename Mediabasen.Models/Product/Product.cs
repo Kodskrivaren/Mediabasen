@@ -30,5 +30,6 @@ namespace Mediabasen.Models.Product
         public DateTime AddedToStoreDate { get; set; }
         [NotMapped]
         public decimal? DiscountedPrice { get; set; }
+        public List<ProductReview>? Reviews { get; set; }
     }
 }
