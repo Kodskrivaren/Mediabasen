@@ -75,7 +75,7 @@ namespace Mediabasen.Server.Controllers
         [Authorize(Roles = SD.Role_Admin)]
         public IActionResult UpdateGame(GamePost product)
         {
-            var game = _unitOfWork.ProductGame.GetFirstOrDefault(u => u.Id == product.Id);
+            var game = _unitOfWork.ProductGame.GetFirstOrDefault(u => u.Id == product.Id, includeProperties: "Reviews");
 
             if (game == null) return NotFound();
 
