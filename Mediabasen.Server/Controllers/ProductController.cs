@@ -38,6 +38,14 @@ namespace Mediabasen.Server.Controllers
         }
 
         [HttpGet]
+        public IActionResult GetProductTypes()
+        {
+            var productTypes = _unitOfWork.ProductType.GetAll().ToList();
+
+            return new JsonResult(productTypes);
+        }
+
+        [HttpGet]
         public IActionResult SearchProducts(string query)
         {
             List<Product> products = _unitOfWork.Product.SearchProducts(query).ToList();
@@ -49,10 +57,10 @@ namespace Mediabasen.Server.Controllers
             return res;
         }
 
-        [HttpPost]
-        public IActionResult SearchProducts(string? query, int[]? filter, int? page)
+        [HttpGet]
+        public IActionResult FullSearchProducts(string? query, int? productTypeId, int? page)
         {
-            List<Product> products = _unitOfWork.Product.FullSearchProducts(query, filter, page).ToList();
+            List<Product> products = _unitOfWork.Product.FullSearchProducts(query, productTypeId, page).ToList();
             foreach (var product in products)
             {
                 _productService.SetBasicProperties(product, _unitOfWork.ProductType.GetFirstOrDefault(u => u.Id == product.ProductTypeId));
