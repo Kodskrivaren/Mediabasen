@@ -12,6 +12,7 @@ import LandingPageRoute from "./routes/LandingPageRoute";
 import DetailRoutes from "./routes/DetailRoutes";
 import CartRoute from "./routes/CartRoute";
 import useGetUserDetailsHook from "./hooks/useGetUserDetailsHook";
+import UserRoutes from "./routes/UserRoutes";
 
 function App() {
   const [user, setUser] = useState();
@@ -33,6 +34,7 @@ function App() {
               <LandingPageRoute />
               <DetailRoutes />
               <CartRoute />
+              <UserRoutes />
             </main>
             <Footer />
           </BrowserRouter>
