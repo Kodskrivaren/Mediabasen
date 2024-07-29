@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import AddToCartBtn from "./AddToCartBtn";
 import ProductPrice from "../pages/Detail/ProductPrice";
 import DiscountSticker from "../pages/Detail/DiscountSticker";
+import typeHelper from "../../utils/typeHelper";
 
 export default function ProductCard({ product }) {
   const imageUrl =
@@ -29,7 +30,9 @@ export default function ProductCard({ product }) {
           />
         )}
       </Link>
-      <span className="text-gray-300">{product.format.name}</span>
+      <span className="text-gray-300">
+        {typeHelper.getProductTypeName(product)} - {product.format.name}
+      </span>
       <h3 className="font-bold">{product.name}</h3>
       <p>
         <ProductPrice {...{ product, className: "" }} />
