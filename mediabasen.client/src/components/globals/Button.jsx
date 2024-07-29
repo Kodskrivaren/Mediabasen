@@ -7,11 +7,12 @@ export default function Button(props) {
     <button
       className={`${
         classNameColor ? classNameColor : "bg-dark"
-      } w-20 text-bright p-2 rounded-lg hover:bg-dark transition-colors duration-200${
+      } w-20 text-bright p-2 rounded-lg hover:bg-dark transition-colors disabled:text-gray-500 duration-200${
         className ? ` ${className}` : ""
-      }`}
+      } disabled:bg-dark`}
       type={props.type ? props.type : "button"}
-      onClick={props.onClick}>
+      onClick={props.onClick}
+      disabled={props.disabled !== undefined ? props.disabled : false}>
       {props.children}
     </button>
   );
