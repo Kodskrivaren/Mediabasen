@@ -13,6 +13,7 @@ import DetailRoutes from "./routes/DetailRoutes";
 import CartRoute from "./routes/CartRoute";
 import useGetUserDetailsHook from "./hooks/useGetUserDetailsHook";
 import UserRoutes from "./routes/UserRoutes";
+import SearchRoute from "./routes/SearchRoute";
 
 function App() {
   const [user, setUser] = useState();
@@ -35,6 +36,7 @@ function App() {
               <DetailRoutes />
               <CartRoute />
               <UserRoutes />
+              <SearchRoute />
             </main>
             <Footer />
           </BrowserRouter>
