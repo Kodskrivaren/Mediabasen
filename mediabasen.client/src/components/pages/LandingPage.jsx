@@ -3,9 +3,14 @@ import CategoryPicker from "../globals/CategoryPicker";
 import ProductSearch from "../globals/ProductSearch";
 import ProductsList from "../globals/ProductsList";
 import productService from "../../services/productService";
+import useFastSearchHook from "../../hooks/useFastSearchHook";
 
 export default function LandingPage() {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [result, setResult] = useState(undefined);
   const [products, setProducts] = useState([]);
+
+  useFastSearchHook(searchQuery, setResult);
 
   useEffect(() => {
     async function fetchProducts() {
@@ -20,7 +25,7 @@ export default function LandingPage() {
   return (
     <>
       <CategoryPicker />
-      <ProductSearch />
+      <ProductSearch {...{ searchQuery, setSearchQuery, result }} />
       <ProductsList title={"Nya Produkter"} products={products} />
     </>
   );
