@@ -49,6 +49,18 @@ namespace Mediabasen.Server.Controllers
             return res;
         }
 
+        [HttpPost]
+        public IActionResult SearchProducts(string? query, int[]? filter, int? page)
+        {
+            List<Product> products = _unitOfWork.Product.FullSearchProducts(query, filter, page).ToList();
+            foreach (var product in products)
+            {
+                _productService.SetBasicProperties(product, _unitOfWork.ProductType.GetFirstOrDefault(u => u.Id == product.ProductTypeId));
+            }
+            JsonResult res = new JsonResult(new { products });
+            return res;
+        }
+
         [HttpGet]
         public IActionResult GetSimilarProductsById(int productId)
         {
