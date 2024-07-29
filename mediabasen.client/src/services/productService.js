@@ -1,10 +1,19 @@
 import fetchHelper from "../utils/fetchHelper";
+import searchHelper from "../utils/searchHelper";
 
 async function getProductById(id) {
   const response = await fetchHelper(
     `/Product/GetProductById?productId=${id}`,
     "GET"
   );
+
+  if (response.status < 400) {
+    return await response.json();
+  }
+}
+
+async function getProductTypes() {
+  const response = await fetchHelper(`/Product/GetProductTypes`, "GET");
 
   if (response.status < 400) {
     return await response.json();
@@ -25,6 +34,25 @@ async function getSimilarProducts(id) {
 async function searchProducts(query) {
   const response = await fetchHelper(
     `/Product/SearchProducts?query=${query}`,
+    "GET"
+  );
+
+  if (response.status < 400) {
+    return await response.json();
+  }
+}
+
+async function fullSearchProducts(query, productTypeId, page) {
+  const response = await fetchHelper(
+    `/Product/FullSearchProducts?${searchHelper.searchQueries.query}=${query}&${
+      searchHelper.searchQueries.page
+    }=${page || 1}${
+      productTypeId
+        ? `&${searchHelper.searchQueries.productTypeId}=${
+            productTypeId || undefined
+          }`
+        : ""
+    }`,
     "GET"
   );
 
@@ -58,5 +86,7 @@ export default {
   getSimilarProducts,
   getNewestProducts,
   searchProducts,
+  fullSearchProducts,
   postReview,
+  getProductTypes,
 };
