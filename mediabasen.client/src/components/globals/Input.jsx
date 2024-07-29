@@ -8,6 +8,7 @@ export default function Input({
   setState,
   type,
   id,
+  onKeyDown,
 }) {
   return (
     <input
@@ -22,6 +23,11 @@ export default function Input({
       onChange={(e) => {
         if (setState) {
           setState(e.target.value);
+        }
+      }}
+      onKeyDown={(e) => {
+        if (onKeyDown) {
+          onKeyDown(e);
         }
       }}
     />
