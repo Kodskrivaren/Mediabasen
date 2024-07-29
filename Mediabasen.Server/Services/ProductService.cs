@@ -108,7 +108,7 @@ namespace Mediabasen.Server.Services
         {
             var movie = _unitOfWork.ProductMovie.GetFirstOrDefault(u => u.Id == product.Id, includeProperties: "Reviews");
 
-            SetBasicProperties(movie, product.ProductType);
+            SetBasicProperties(movie, _unitOfWork.ProductType.GetFirstOrDefault(u => u.Id == movie.ProductTypeId));
 
             movie.Director = _unitOfWork.Name.GetFirstOrDefault(u => u.Id == movie.DirectorNameId);
 
@@ -123,7 +123,7 @@ namespace Mediabasen.Server.Services
         {
             var music = _unitOfWork.ProductMusic.GetFirstOrDefault(u => u.Id == product.Id, includeProperties: "Reviews");
 
-            SetBasicProperties(music, product.ProductType);
+            SetBasicProperties(music, _unitOfWork.ProductType.GetFirstOrDefault(u => u.Id == music.ProductTypeId));
 
             music.Artist = _unitOfWork.Name.GetFirstOrDefault(u => u.Id == music.ArtistId);
 
@@ -138,7 +138,7 @@ namespace Mediabasen.Server.Services
         {
             var game = _unitOfWork.ProductGame.GetFirstOrDefault(u => u.Id == product.Id, includeProperties: "Reviews");
 
-            SetBasicProperties(game, product.ProductType);
+            SetBasicProperties(game, _unitOfWork.ProductType.GetFirstOrDefault(u => u.Id == game.ProductTypeId));
 
             game.Publisher = _unitOfWork.Name.GetFirstOrDefault(u => u.Id == game.PublisherId);
 
@@ -151,7 +151,7 @@ namespace Mediabasen.Server.Services
         {
             var book = _unitOfWork.ProductBook.GetFirstOrDefault(u => u.Id == product.Id, includeProperties: "Reviews");
 
-            SetBasicProperties(book, product.ProductType);
+            SetBasicProperties(book, _unitOfWork.ProductType.GetFirstOrDefault(u => u.Id == book.ProductTypeId));
 
             book.Publisher = _unitOfWork.Name.GetFirstOrDefault(u => u.Id == book.PublisherId);
 
