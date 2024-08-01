@@ -14,6 +14,8 @@ namespace Mediabasen.Models.Product
         [Required]
         public decimal Price { get; set; }
         public decimal Discount { get; set; }
+        [Range(0, int.MaxValue)]
+        public int StockQuantity { get; set; }
         [NotMapped]
         public List<ProductImage> Images { get; set; }
         [NotMapped]
