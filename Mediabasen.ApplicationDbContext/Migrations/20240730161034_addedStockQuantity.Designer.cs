@@ -3,6 +3,7 @@ using System;
 using Mediabasen.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Mediabasen.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240730161034_addedStockQuantity")]
+    partial class addedStockQuantity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,7 +34,7 @@ namespace Mediabasen.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Carts", (string)null);
+                    b.ToTable("Carts");
                 });
 
             modelBuilder.Entity("Mediabasen.Models.Cart.CartProduct", b =>
@@ -53,7 +56,7 @@ namespace Mediabasen.DataAccess.Migrations
 
                     b.HasIndex("CartId");
 
-                    b.ToTable("CartProduct", (string)null);
+                    b.ToTable("CartProduct");
                 });
 
             modelBuilder.Entity("Mediabasen.Models.Order.Order", b =>
@@ -77,7 +80,7 @@ namespace Mediabasen.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Orders", (string)null);
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("Mediabasen.Models.Order.OrderItem", b =>
@@ -102,7 +105,7 @@ namespace Mediabasen.DataAccess.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("OrderItem", (string)null);
+                    b.ToTable("OrderItem");
                 });
 
             modelBuilder.Entity("Mediabasen.Models.Product.Format", b =>
@@ -118,7 +121,7 @@ namespace Mediabasen.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Formats", (string)null);
+                    b.ToTable("Formats");
                 });
 
             modelBuilder.Entity("Mediabasen.Models.Product.Genre", b =>
@@ -133,7 +136,7 @@ namespace Mediabasen.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Genres", (string)null);
+                    b.ToTable("Genres");
                 });
 
             modelBuilder.Entity("Mediabasen.Models.Product.Movie.MovieActor", b =>
@@ -154,7 +157,7 @@ namespace Mediabasen.DataAccess.Migrations
 
                     b.HasIndex("ProductMovieId");
 
-                    b.ToTable("MoviesActors", (string)null);
+                    b.ToTable("MoviesActors");
                 });
 
             modelBuilder.Entity("Mediabasen.Models.Product.Name", b =>
@@ -169,7 +172,7 @@ namespace Mediabasen.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Names", (string)null);
+                    b.ToTable("Names");
                 });
 
             modelBuilder.Entity("Mediabasen.Models.Product.Product", b =>
@@ -214,7 +217,7 @@ namespace Mediabasen.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("Product");
 
@@ -239,7 +242,7 @@ namespace Mediabasen.DataAccess.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductGenres", (string)null);
+                    b.ToTable("ProductGenres");
                 });
 
             modelBuilder.Entity("Mediabasen.Models.Product.ProductImage", b =>
@@ -259,7 +262,7 @@ namespace Mediabasen.DataAccess.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductImages", (string)null);
+                    b.ToTable("ProductImages");
                 });
 
             modelBuilder.Entity("Mediabasen.Models.Product.ProductReview", b =>
@@ -286,7 +289,7 @@ namespace Mediabasen.DataAccess.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductReview", (string)null);
+                    b.ToTable("ProductReview");
                 });
 
             modelBuilder.Entity("Mediabasen.Models.Product.ProductType", b =>
@@ -301,7 +304,7 @@ namespace Mediabasen.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProductTypes", (string)null);
+                    b.ToTable("ProductTypes");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -515,7 +518,7 @@ namespace Mediabasen.DataAccess.Migrations
                     b.Property<int>("PublisherId")
                         .HasColumnType("int");
 
-                    b.ToTable("Products", null, t =>
+                    b.ToTable("Products", t =>
                         {
                             t.Property("PublisherId")
                                 .HasColumnName("ProductBook_PublisherId");
@@ -534,7 +537,7 @@ namespace Mediabasen.DataAccess.Migrations
                     b.Property<int>("PublisherId")
                         .HasColumnType("int");
 
-                    b.ToTable("Products", null, t =>
+                    b.ToTable("Products", t =>
                         {
                             t.Property("PublisherId")
                                 .HasColumnName("ProductGame_PublisherId");
