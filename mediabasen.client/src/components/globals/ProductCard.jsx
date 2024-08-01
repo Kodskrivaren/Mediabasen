@@ -36,6 +36,8 @@ export default function ProductCard({ product }) {
       <h3 className="font-bold">{product.name}</h3>
       <p>
         <ProductPrice {...{ product, className: "" }} />
+        {" - "}
+        {product.stockQuantity + " i lager"}
       </p>
       <AddToCartBtn {...{ product }} />
     </article>
