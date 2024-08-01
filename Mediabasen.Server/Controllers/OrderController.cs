@@ -53,6 +53,14 @@ namespace Mediabasen.Server.Controllers
 
             if (cart == null) return NotFound();
 
+            var success = _unitOfWork.Product.AttemptTakeFromStock(cart);
+
+            if (!success)
+            {
+                Response.StatusCode = 400;
+                return new JsonResult(new { message = "Du försökte beställa fler än som finns på lager!" });
+            }
+
             var newOrder = new Order()
             {
                 UserId = userId,
@@ -61,13 +69,18 @@ namespace Mediabasen.Server.Controllers
                 TotalPrice = 0
             };
 
-            foreach (var item in cart.CartProducts)
+            var productIds = cart.CartProducts.Select(u => u.ProductId).ToList();
+
+            var products = _unitOfWork.Product.GetAll(u => productIds.Contains(u.Id));
+
+            foreach (var product in products)
             {
-                var product = _unitOfWork.Product.GetFirstOrDefault(u => u.Id == item.ProductId);
+                var item = cart.CartProducts.FirstOrDefault(u => u.ProductId == product.Id);
 
                 var orderItem = new OrderItem()
                 {
                     ProductId = product.Id,
+                    Product = product,
                     Amount = item.Count,
                     Price = product.Discount != 0 ? _productService.GetCalculatedDiscountedPrice(product) : product.Price,
                 };
