@@ -1,6 +1,9 @@
 ﻿using Mediabasen.DataAccess.Data;
 using Mediabasen.DataAccess.Repository.IRepository;
+using Mediabasen.Models.Cart;
 using Mediabasen.Models.Product;
+using Microsoft.EntityFrameworkCore;
+using System.Runtime.CompilerServices;
 
 namespace Mediabasen.DataAccess.Repository
 {
@@ -15,6 +18,41 @@ namespace Mediabasen.DataAccess.Repository
         public void Update(Product product)
         {
             _db.Products.Update(product);
+        }
+
+        public bool AttemptTakeFromStock(Cart cart)
+        {
+            try
+            {
+                var affectedRows = _db.Database.ExecuteSql(GetFormattedStockQuery(cart.CartProducts));
+
+                return affectedRows == cart.CartProducts.Count;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+
+                return false;
+            }
+        }
+
+        private FormattableString GetFormattedStockQuery(List<CartProduct> cartProducts)
+        {
+            string start = $"UPDATE products SET stockquantity = case ";
+
+            string acc = $"";
+
+            List<string> productIds = new List<string>();
+
+            foreach (var item in cartProducts)
+            {
+                acc = acc + $"when id = {item.ProductId} then stockquantity - {item.Count} ";
+                productIds.Add(item.ProductId.ToString());
+            }
+
+            string end = $"end where id in ({string.Join(",", productIds)});";
+
+            return FormattableStringFactory.Create(start + acc + end);
         }
 
         public IEnumerable<Product> GetNewestProducts()

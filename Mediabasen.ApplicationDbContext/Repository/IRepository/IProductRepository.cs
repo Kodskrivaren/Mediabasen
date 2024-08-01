@@ -1,4 +1,5 @@
-﻿using Mediabasen.Models.Product;
+﻿using Mediabasen.Models.Cart;
+using Mediabasen.Models.Product;
 
 namespace Mediabasen.DataAccess.Repository.IRepository
 {
@@ -8,5 +9,6 @@ namespace Mediabasen.DataAccess.Repository.IRepository
         public IEnumerable<Product> GetNewestProducts();
         public IEnumerable<Product> SearchProducts(string query);
         public IEnumerable<Product> FullSearchProducts(string? query, int? productTypeId, int? page);
+        public bool AttemptTakeFromStock(Cart cart);
     }
 }
