@@ -10,12 +10,13 @@ import useFullSearchHook from "../../../hooks/useFullSearchHook";
 export default function SearchPage() {
   const [params, setParams] = useSearchParams();
   const [result, setResult] = useState();
+  const [totalHits, setTotalHits] = useState(0);
   const [searchQuery, setSearchQuery] = useState(
     params.get(searchHelper.searchQueries.query) || ""
   );
   const [productTypes, setProductTypes] = useState();
 
-  useFullSearchHook({ params, setResult, setProductTypes });
+  useFullSearchHook({ params, setResult, setProductTypes, setTotalHits });
 
   function getCurrentPage() {
     const queryPage = params.get(searchHelper.searchQueries.page);
@@ -38,10 +39,14 @@ export default function SearchPage() {
       <h2 className="text-white">Sök produkter</h2>
       <ProductSearch {...{ searchQuery, setSearchQuery, inputOnKeyDown }} />
       {productTypes && productTypes.length > 0 && (
-        <ProductTypes {...{ params, setParams, productTypes }} />
+        <ProductTypes {...{ searchQuery, params, setParams, productTypes }} />
       )}
       <div className="text-white flex justify-between">
-        <p>{getQueryValue() !== "" ? `Träffar på "${getQueryValue()}"` : ""}</p>
+        <p>
+          {getQueryValue() !== "" ? `Träffar på "${getQueryValue()}"` : ""}
+          {" - "}
+          Totala träffar: {totalHits}
+        </p>
         <p>Sida: {getCurrentPage()}</p>
       </div>
       <ul className="flex mt-3 gap-card-mobile w-full flex-row flex-wrap md:gap-card-tablet xl:gap-x-4 gap-y-4 md:gap-y-4 xl:gap-y-4">

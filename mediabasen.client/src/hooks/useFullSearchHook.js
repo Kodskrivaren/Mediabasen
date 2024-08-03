@@ -6,6 +6,7 @@ export default function useFullSearchHook({
   params,
   setResult,
   setProductTypes,
+  setTotalHits,
 }) {
   useEffect(() => {
     async function searchProducts() {
@@ -23,6 +24,7 @@ export default function useFullSearchHook({
 
       if (result) {
         setResult(result.products);
+        setTotalHits(result.totalHits);
       }
     }
 
