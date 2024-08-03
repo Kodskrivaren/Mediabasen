@@ -2,7 +2,7 @@ import React from "react";
 import Input from "./Input";
 import SearchIcon from "../../assets/icons/search-outline.svg?react";
 import SearchResult from "./SearchResult";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import searchHelper from "../../utils/searchHelper";
 
 export default function ProductSearch({
@@ -12,10 +12,16 @@ export default function ProductSearch({
   result,
   inputOnKeyDown,
 }) {
+  const [params, setParams] = useSearchParams();
   const navigate = useNavigate();
 
   function onSearchClick() {
-    navigate(`/search?${searchHelper.searchQueries.query}=${searchQuery}`);
+    const filter = params.get(searchHelper.searchQueries.productTypeId);
+    navigate(
+      `/search?${searchHelper.searchQueries.query}=${searchQuery}${
+        filter ? `&${searchHelper.searchQueries.productTypeId}=${filter}` : ""
+      }`
+    );
   }
 
   return (
