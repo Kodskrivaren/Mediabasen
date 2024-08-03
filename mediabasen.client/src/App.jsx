@@ -6,14 +6,8 @@ import UserContext from "./contexts/UserContext";
 import CartContext from "./contexts/CartContext";
 import NotifyContext from "./contexts/NotifyContext";
 import Notification from "./components/globals/Notification";
-import AuthRoutes from "./routes/AuthRoutes";
-import AdminRoutes from "./routes/AdminRoutes";
-import LandingPageRoute from "./routes/LandingPageRoute";
-import DetailRoutes from "./routes/DetailRoutes";
-import CartRoute from "./routes/CartRoute";
 import useGetUserDetailsHook from "./hooks/useGetUserDetailsHook";
-import UserRoutes from "./routes/UserRoutes";
-import SearchRoute from "./routes/SearchRoute";
+import AppRoutes from "./routes/AppRoutes";
 
 function App() {
   const [user, setUser] = useState();
@@ -30,13 +24,7 @@ function App() {
             <Header />
             {note && <Notification />}
             <main className="flex-grow w-full mx-auto max-w-7xl">
-              <AuthRoutes />
-              <AdminRoutes />
-              <LandingPageRoute />
-              <DetailRoutes />
-              <CartRoute />
-              <UserRoutes />
-              <SearchRoute />
+              <AppRoutes />
             </main>
             <Footer />
           </BrowserRouter>
