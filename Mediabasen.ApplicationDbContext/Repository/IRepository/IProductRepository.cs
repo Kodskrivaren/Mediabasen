@@ -8,7 +8,7 @@ namespace Mediabasen.DataAccess.Repository.IRepository
         public void Update(Product product);
         public IEnumerable<Product> GetNewestProducts();
         public IEnumerable<Product> SearchProducts(string query);
-        public IEnumerable<Product> FullSearchProducts(string? query, int? productTypeId, int? page);
+        public SearchResult FullSearchProducts(string? query, int? productTypeId, int? page);
         public bool AttemptTakeFromStock(Cart cart);
     }
 }

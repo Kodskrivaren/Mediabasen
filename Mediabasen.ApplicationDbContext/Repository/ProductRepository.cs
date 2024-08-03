@@ -67,30 +67,47 @@ namespace Mediabasen.DataAccess.Repository
                 .Take(10);
         }
 
-        public IEnumerable<Product> FullSearchProducts(string? query, int? productTypeId, int? page)
+        private int CalculateSkips(int? page, int itemsPerPage)
+        {
+            if (page != null && page > 1)
+            {
+                return (int.Parse(page.ToString()) - 1) * itemsPerPage;
+            }
+
+            return 0;
+        }
+
+        public SearchResult FullSearchProducts(string? query, int? productTypeId, int? page)
         {
             int itemsPerPage = 5;
 
-            IQueryable<Product> products = _db.Products;
+            var searchQuery = $"%{query}%";
+
+            int totalHits = 0;
+            IQueryable<Product> products;
 
             if (productTypeId != null && productTypeId > 0)
             {
-                products = products.Where((u) => u.ProductTypeId == productTypeId);
-            }
+                products = _db.Products.FromSql(
+                $"SELECT p.* FROM Products p INNER JOIN Names n ON p.ArtistId = n.Id OR p.AuthorId = n.Id OR p.DirectorNameId = n.Id OR p.DeveloperId = n.Id WHERE p.productTypeId = {productTypeId} AND p.Name LIKE {searchQuery} OR n.Fullname LIKE {searchQuery} LIMIT {CalculateSkips(page, itemsPerPage)},{itemsPerPage};"
+                );
 
-            if (query != null && query != "")
+                totalHits = _db.Products.FromSql(
+                $"SELECT p.* FROM Products p INNER JOIN Names n ON p.ArtistId = n.Id OR p.AuthorId = n.Id OR p.DirectorNameId = n.Id OR p.DeveloperId = n.Id WHERE p.productTypeId = {productTypeId} AND p.Name LIKE {searchQuery} OR n.Fullname LIKE {searchQuery};"
+                ).ToList().Count;
+            }
+            else
             {
-                products = products.Where((u) => u.Name.Contains(query));
+                products = _db.Products.FromSql(
+                $"SELECT p.* FROM Products p INNER JOIN Names n ON p.ArtistId = n.Id OR p.AuthorId = n.Id OR p.DirectorNameId = n.Id OR p.DeveloperId = n.Id WHERE p.Name LIKE {searchQuery} OR n.Fullname LIKE {searchQuery} LIMIT {CalculateSkips(page, itemsPerPage)},{itemsPerPage};"
+                );
+
+                totalHits = _db.Products.FromSql(
+                $"SELECT p.* FROM Products p INNER JOIN Names n ON p.ArtistId = n.Id OR p.AuthorId = n.Id OR p.DirectorNameId = n.Id OR p.DeveloperId = n.Id WHERE p.Name LIKE {searchQuery} OR n.Fullname LIKE {searchQuery};"
+                ).ToList().Count;
             }
 
-            if (page != null && page > 1)
-            {
-                products = products.Skip((int.Parse(page.ToString()) - 1) * itemsPerPage);
-            }
-
-            products = products.Take(itemsPerPage);
-
-            return products;
+            return new SearchResult(products, totalHits);
         }
     }
 }
