@@ -3,7 +3,12 @@ import Button from "../../globals/Button";
 import typeHelper from "../../../utils/typeHelper";
 import searchHelper from "../../../utils/searchHelper";
 
-export default function ProductTypes({ params, setParams, productTypes }) {
+export default function ProductTypes({
+  searchQuery,
+  params,
+  setParams,
+  productTypes,
+}) {
   function getProductTypeId() {
     const paramsProductTypeId = params.get(
       searchHelper.searchQueries.productTypeId
