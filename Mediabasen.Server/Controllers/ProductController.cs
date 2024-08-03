@@ -60,12 +60,14 @@ namespace Mediabasen.Server.Controllers
         [HttpGet]
         public IActionResult FullSearchProducts(string? query, int? productTypeId, int? page)
         {
-            List<Product> products = _unitOfWork.Product.FullSearchProducts(query, productTypeId, page).ToList();
+            var results = _unitOfWork.Product.FullSearchProducts(query, productTypeId, page);
+
+            List<Product> products = results.Products.ToList();
             foreach (var product in products)
             {
                 _productService.SetBasicProperties(product, _unitOfWork.ProductType.GetFirstOrDefault(u => u.Id == product.ProductTypeId));
             }
-            JsonResult res = new JsonResult(new { products });
+            JsonResult res = new JsonResult(new { products, totalHits = results.TotalHits });
             return res;
         }
 
