@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import CategoryPicker from "../globals/CategoryPicker";
 import ProductSearch from "../globals/ProductSearch";
 import ProductsList from "../globals/ProductsList";
 import productService from "../../services/productService";
@@ -33,7 +32,6 @@ export default function LandingPage() {
 
   return (
     <>
-      <CategoryPicker />
       <ProductSearch
         {...{
           searchQuery,
