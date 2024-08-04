@@ -43,16 +43,18 @@ async function searchProducts(query) {
 }
 
 async function fullSearchProducts(query, productTypeId, page) {
+  const params = [`${searchHelper.searchQueries.page}=${page || 1}`];
+
+  if (query) {
+    params.push(`${searchHelper.searchQueries.query}=${query}`);
+  }
+
+  if (productTypeId) {
+    params.push(`${searchHelper.searchQueries.productTypeId}=${productTypeId}`);
+  }
+
   const response = await fetchHelper(
-    `/Product/FullSearchProducts?${searchHelper.searchQueries.query}=${query}&${
-      searchHelper.searchQueries.page
-    }=${page || 1}${
-      productTypeId
-        ? `&${searchHelper.searchQueries.productTypeId}=${
-            productTypeId || undefined
-          }`
-        : ""
-    }`,
+    `/Product/FullSearchProducts?${params.join("&")}`,
     "GET"
   );
 
