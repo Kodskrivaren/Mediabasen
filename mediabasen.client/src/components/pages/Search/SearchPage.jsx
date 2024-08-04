@@ -4,8 +4,8 @@ import searchHelper from "../../../utils/searchHelper";
 import ProductSearch from "../../globals/ProductSearch";
 import ProductCard from "../../globals/ProductCard";
 import Pagination from "./Pagination";
-import ProductTypes from "./ProductTypes";
 import useFullSearchHook from "../../../hooks/useFullSearchHook";
+import FilterOptions from "./FilterOptions";
 
 export default function SearchPage() {
   const [params, setParams] = useSearchParams();
@@ -38,10 +38,8 @@ export default function SearchPage() {
     <section className="p-3">
       <h2 className="text-white">Sök produkter</h2>
       <ProductSearch {...{ searchQuery, setSearchQuery, inputOnKeyDown }} />
-      {productTypes && productTypes.length > 0 && (
-        <ProductTypes {...{ searchQuery, params, setParams, productTypes }} />
-      )}
-      <div className="text-white flex justify-between">
+      <FilterOptions {...{ searchQuery, params, setParams, productTypes }} />
+      <div className="text-white my-3 flex justify-between">
         <p>
           {getQueryValue() !== "" ? `Träffar på "${getQueryValue()}"` : ""}
           {" - "}
