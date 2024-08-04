@@ -36,8 +36,12 @@ export default function ProductCard({ product }) {
       <h3 className="font-bold">{product.name}</h3>
       <p>
         <ProductPrice {...{ product, className: "" }} />
-        {" - "}
-        {product.stockQuantity + " i lager"}
+        {product.stockQuantity != 0 && product.stockQuantity <= 5 && (
+          <span className="text-orange-300">
+            {" "}
+            - Få kvar i lager ({product.stockQuantity})
+          </span>
+        )}
       </p>
       <AddToCartBtn {...{ product }} />
     </article>
