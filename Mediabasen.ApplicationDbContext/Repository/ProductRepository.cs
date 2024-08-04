@@ -77,6 +77,13 @@ namespace Mediabasen.DataAccess.Repository
             return 0;
         }
 
+        public IEnumerable<Genre> GetGenresForProductType(int productTypeId)
+        {
+            var genres = _db.Genres.FromSql($"SELECT DISTINCT g.* FROM Genres g INNER JOIN ProductGenres pg INNER JOIN Products p ON pg.ProductId = p.Id AND pg.GenreId = g.Id WHERE p.ProductTypeId = {productTypeId};");
+
+            return genres;
+        }
+
         public SearchResult FullSearchProducts(string? query, int? productTypeId, int? page)
         {
             int itemsPerPage = 5;

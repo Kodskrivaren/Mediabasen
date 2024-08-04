@@ -10,5 +10,6 @@ namespace Mediabasen.DataAccess.Repository.IRepository
         public IEnumerable<Product> SearchProducts(string query);
         public SearchResult FullSearchProducts(string? query, int? productTypeId, int? page);
         public bool AttemptTakeFromStock(Cart cart);
+        public IEnumerable<Genre> GetGenresForProductType(int productTypeId);
     }
 }
