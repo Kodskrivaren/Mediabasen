@@ -86,7 +86,17 @@ namespace Mediabasen.DataAccess.Repository
             int totalHits = 0;
             IQueryable<Product> products;
 
-            if (productTypeId != null && productTypeId > 0)
+            if (query == null && productTypeId != null && productTypeId > 0)
+            {
+                products = _db.Products.FromSql(
+                $"SELECT p.* FROM Products p INNER JOIN Names n ON p.ArtistId = n.Id OR p.AuthorId = n.Id OR p.DirectorNameId = n.Id OR p.DeveloperId = n.Id WHERE p.productTypeId = {productTypeId} LIMIT {CalculateSkips(page, itemsPerPage)},{itemsPerPage};"
+                );
+
+                totalHits = _db.Products.FromSql(
+                $"SELECT p.* FROM Products p INNER JOIN Names n ON p.ArtistId = n.Id OR p.AuthorId = n.Id OR p.DirectorNameId = n.Id OR p.DeveloperId = n.Id WHERE p.productTypeId = {productTypeId};"
+                ).ToList().Count;
+            }
+            else if (productTypeId != null && productTypeId > 0 && query != null)
             {
                 products = _db.Products.FromSql(
                 $"SELECT p.* FROM Products p INNER JOIN Names n ON p.ArtistId = n.Id OR p.AuthorId = n.Id OR p.DirectorNameId = n.Id OR p.DeveloperId = n.Id WHERE p.productTypeId = {productTypeId} AND p.Name LIKE {searchQuery} OR n.Fullname LIKE {searchQuery} LIMIT {CalculateSkips(page, itemsPerPage)},{itemsPerPage};"
@@ -96,7 +106,7 @@ namespace Mediabasen.DataAccess.Repository
                 $"SELECT p.* FROM Products p INNER JOIN Names n ON p.ArtistId = n.Id OR p.AuthorId = n.Id OR p.DirectorNameId = n.Id OR p.DeveloperId = n.Id WHERE p.productTypeId = {productTypeId} AND p.Name LIKE {searchQuery} OR n.Fullname LIKE {searchQuery};"
                 ).ToList().Count;
             }
-            else
+            else if (query != null)
             {
                 products = _db.Products.FromSql(
                 $"SELECT p.* FROM Products p INNER JOIN Names n ON p.ArtistId = n.Id OR p.AuthorId = n.Id OR p.DirectorNameId = n.Id OR p.DeveloperId = n.Id WHERE p.Name LIKE {searchQuery} OR n.Fullname LIKE {searchQuery} LIMIT {CalculateSkips(page, itemsPerPage)},{itemsPerPage};"
@@ -104,6 +114,16 @@ namespace Mediabasen.DataAccess.Repository
 
                 totalHits = _db.Products.FromSql(
                 $"SELECT p.* FROM Products p INNER JOIN Names n ON p.ArtistId = n.Id OR p.AuthorId = n.Id OR p.DirectorNameId = n.Id OR p.DeveloperId = n.Id WHERE p.Name LIKE {searchQuery} OR n.Fullname LIKE {searchQuery};"
+                ).ToList().Count;
+            }
+            else
+            {
+                products = _db.Products.FromSql(
+                $"SELECT p.* FROM Products p INNER JOIN Names n ON p.ArtistId = n.Id OR p.AuthorId = n.Id OR p.DirectorNameId = n.Id OR p.DeveloperId = n.Id LIMIT {CalculateSkips(page, itemsPerPage)},{itemsPerPage};"
+                );
+
+                totalHits = _db.Products.FromSql(
+                $"SELECT p.* FROM Products p INNER JOIN Names n ON p.ArtistId = n.Id OR p.AuthorId = n.Id OR p.DirectorNameId = n.Id OR p.DeveloperId = n.Id;"
                 ).ToList().Count;
             }
 
