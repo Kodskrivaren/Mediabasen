@@ -39,16 +39,35 @@ export default function AddToCartBtn({ product }) {
     );
   }
 
+  function getButtonText() {
+    if (product.stockQuantity > 0) {
+      if (
+        (!cart && product.stockQuantity > 0) ||
+        (cart &&
+          cart.cartProducts &&
+          cart.cartProducts.find((u) => u.productId === product.id) ===
+            undefined)
+      )
+        return "Lägg i varukorgen";
+
+      if (
+        cart &&
+        cart.cartProducts &&
+        cart.cartProducts.find((u) => u.productId === product.id)
+      )
+        return "Redan i varukorgen";
+    }
+
+    return "Slut i lager";
+  }
+
   return (
     <Button
       classNameColor={"bg-accent"}
       onClick={onAddClick}
-      className="font-bold flex-grow w-full max-w-48 max-h-12">
-      {cart &&
-      cart.cartProducts &&
-      cart.cartProducts.find((u) => u.productId === product.id)
-        ? "Redan i varukorgen"
-        : "Lägg i Varukorg"}
+      className="font-bold flex-grow w-full max-w-48 max-h-12"
+      disabled={product.stockQuantity === 0}>
+      {getButtonText()}
     </Button>
   );
 }
