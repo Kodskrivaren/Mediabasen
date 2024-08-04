@@ -58,6 +58,14 @@ namespace Mediabasen.Server.Controllers
         }
 
         [HttpGet]
+        public IActionResult GetGenresForProductType(int productTypeId)
+        {
+            var results = _unitOfWork.Product.GetGenresForProductType(productTypeId);
+
+            return new JsonResult(new { results });
+        }
+
+        [HttpGet]
         public IActionResult FullSearchProducts(string? query, int? productTypeId, int? page)
         {
             var results = _unitOfWork.Product.FullSearchProducts(query, productTypeId, page);
