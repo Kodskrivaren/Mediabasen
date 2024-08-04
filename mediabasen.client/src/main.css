@@ -15,3 +15,11 @@
   flex-direction: column;
   min-height: 100vh;
 }
+
+.menu-item > ul {
+  display: none;
+}
+
+.menu-item:hover > ul {
+  display: flex;
+}
