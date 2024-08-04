@@ -15,11 +15,13 @@ export default function useFullSearchHook({
         searchHelper.searchQueries.productTypeId
       );
       const page = params.get(searchHelper.searchQueries.page);
+      const genreId = params.get(searchHelper.searchQueries.genreId);
 
       const result = await productService.fullSearchProducts(
         query,
         productTypeId,
-        page
+        page,
+        genreId
       );
 
       if (result) {

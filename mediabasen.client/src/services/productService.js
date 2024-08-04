@@ -42,7 +42,18 @@ async function searchProducts(query) {
   }
 }
 
-async function fullSearchProducts(query, productTypeId, page) {
+async function getGenresByProductTypeId(productTypeId) {
+  const response = await fetchHelper(
+    `/Product/GetGenresForProductType?${searchHelper.searchQueries.productTypeId}=${productTypeId}`,
+    "GET"
+  );
+
+  if (response.status < 400) {
+    return await response.json();
+  }
+}
+
+async function fullSearchProducts(query, productTypeId, page, genreId) {
   const params = [`${searchHelper.searchQueries.page}=${page || 1}`];
 
   if (query) {
@@ -51,6 +62,10 @@ async function fullSearchProducts(query, productTypeId, page) {
 
   if (productTypeId) {
     params.push(`${searchHelper.searchQueries.productTypeId}=${productTypeId}`);
+  }
+
+  if (genreId) {
+    params.push(`${searchHelper.searchQueries.genreId}=${genreId}`);
   }
 
   const response = await fetchHelper(
@@ -88,6 +103,7 @@ export default {
   getSimilarProducts,
   getNewestProducts,
   searchProducts,
+  getGenresByProductTypeId,
   fullSearchProducts,
   postReview,
   getProductTypes,
