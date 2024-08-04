@@ -31,6 +31,7 @@ export default {
         "card-mobile": "4%",
         "card-tablet": "3.5%",
         "card-desktop": "2.75%",
+        line: "1px",
       },
       screens: {},
       animation: {
