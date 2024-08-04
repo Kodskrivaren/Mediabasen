@@ -85,7 +85,7 @@ namespace Mediabasen.DataAccess.Repository
             return genres;
         }
 
-        public SearchResult FullSearchProducts(string? query, int? productTypeId, int? page)
+        public SearchResult FullSearchProducts(string? query, int? productTypeId, int? page, int? genreId)
         {
             int itemsPerPage = 5;
 
@@ -108,9 +108,14 @@ namespace Mediabasen.DataAccess.Repository
                 conditions.Add($"p.productTypeId = {productTypeId}");
             }
 
+            if (genreId != null && genreId > 0)
+            {
+                conditions.Add($"pg.ProductId = p.Id AND pg.GenreId = {genreId}");
+            }
+
             var conditionString = (conditions.Count > 0 ? $" WHERE " + string.Join(" AND ", conditions) : $"");
 
-            var baseQuery = $"SELECT p.* FROM Products p INNER JOIN Names n ON p.ArtistId = n.Id OR p.AuthorId = n.Id OR p.DirectorNameId = n.Id OR p.DeveloperId = n.Id";
+            var baseQuery = $"SELECT DISTINCT p.* FROM Products p INNER JOIN Names n ON p.ArtistId = n.Id OR p.AuthorId = n.Id OR p.DirectorNameId = n.Id OR p.DeveloperId = n.Id INNER JOIN ProductGenres pg";
 
             var fullQuery = FormattableStringFactory.Create(baseQuery + conditionString + $" LIMIT {CalculateSkips(page, itemsPerPage)},{itemsPerPage};");
 

@@ -66,9 +66,9 @@ namespace Mediabasen.Server.Controllers
         }
 
         [HttpGet]
-        public IActionResult FullSearchProducts(string? query, int? productTypeId, int? page)
+        public IActionResult FullSearchProducts(string? query, int? productTypeId, int? page, int? genreId)
         {
-            var results = _unitOfWork.Product.FullSearchProducts(query, productTypeId, page);
+            var results = _unitOfWork.Product.FullSearchProducts(query, productTypeId, page, genreId);
 
             List<Product> products = results.Products.ToList();
             foreach (var product in products)
