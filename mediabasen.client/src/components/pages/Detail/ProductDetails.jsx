@@ -14,6 +14,18 @@ export default function ProductDetails({ product }) {
     return product.images !== null && product.images.length > 0;
   }
 
+  function getStockText() {
+    if (product.stockQuantity > 10) {
+      return "Fler än 10 i lager";
+    }
+
+    if (product.stockQuantity <= 5) {
+      return `Endast ${product.stockQuantity} i lager!`;
+    }
+
+    return `${product.stockQuantity} i lager`;
+  }
+
   return (
     <section className="p-3 text-white flex gap-3 flex-col md:flex-row md:justify-between">
       <div className="flex gap-3 flex-col">
@@ -33,6 +45,14 @@ export default function ProductDetails({ product }) {
           {product.discountedPrice && <DiscountSticker {...{ product }} />}
         </div>
         <ProductPrice {...{ product }} />
+        <p
+          className={`${
+            product.stockQuantity != 0 && product.stockQuantity <= 5
+              ? "text-orange-300"
+              : ""
+          }`}>
+          {getStockText()}
+        </p>
         <AddToCartBtn {...{ product }} />
       </div>
       <div className="flex gap-3 flex-col">
