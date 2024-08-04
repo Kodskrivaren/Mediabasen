@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import UserContext from "../../contexts/UserContext";
 import cartService from "../../services/cartService";
 import CartContext from "../../contexts/CartContext";
+import Navbar from "./Nav";
 
 export default function Header() {
   const cartContext = useContext(CartContext);
@@ -53,6 +54,7 @@ export default function Header() {
           </li>
         </ul>
       </section>
+      <Navbar />
     </header>
   );
 }
