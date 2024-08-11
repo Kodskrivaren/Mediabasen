@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ProductTypes from "./ProductTypes";
 import GenreFilters from "./GenreFilters";
 import searchHelper from "../../../utils/searchHelper";
@@ -9,12 +9,24 @@ export default function FilterOptions({
   setParams,
   productTypes,
 }) {
-  const currentProductType = params.get(
-    searchHelper.searchQueries.productTypeId
-  );
-  const [selectedProductTypeId, setSelectedProductTypeId] = useState(
-    currentProductType ? Number(currentProductType) : 0
-  );
+  const [selectedProductTypeId, setSelectedProductTypeId] = useState(0);
+
+  useEffect(() => {
+    const currentProductType = params.get(
+      searchHelper.searchQueries.productTypeId
+    );
+
+    if (
+      currentProductType &&
+      Number(currentProductType) !== selectedProductTypeId
+    ) {
+      setSelectedProductTypeId(Number(currentProductType));
+    } else {
+      if (selectedProductTypeId > 0) {
+        setSelectedProductTypeId(0);
+      }
+    }
+  }, [params, setSelectedProductTypeId]);
 
   return (
     <div className="flex gap-3">
