@@ -2,7 +2,7 @@ import React from "react";
 import Button from "../../globals/Button";
 import searchHelper from "../../../utils/searchHelper";
 
-export default function Pagination({ params, setParams }) {
+export default function Pagination({ params, setParams, totalHits }) {
   function changePage(change) {
     const currentPage = searchHelper.getCurrentPage(params);
     let newPage = Math.max(currentPage + change, 1);
@@ -10,6 +10,17 @@ export default function Pagination({ params, setParams }) {
     params.set(searchHelper.searchQueries.page, newPage);
 
     setParams(params);
+  }
+
+  function isOnLastPage() {
+    const page = searchHelper.getCurrentPage(params);
+
+    return (
+      totalHits +
+        searchHelper.resultsPerPage -
+        page * searchHelper.resultsPerPage <=
+      searchHelper.resultsPerPage
+    );
   }
 
   return (
@@ -23,7 +34,10 @@ export default function Pagination({ params, setParams }) {
       <p className="text-white block h-fit my-auto font-bold text-lg">
         {searchHelper.getCurrentPage(params)}
       </p>
-      <Button onClick={() => changePage(1)} className="hover:bg-accent">
+      <Button
+        {...{ disabled: isOnLastPage() }}
+        onClick={() => changePage(1)}
+        className="hover:bg-accent">
         {"->"}
       </Button>
     </div>
