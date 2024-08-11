@@ -5,4 +5,9 @@ const searchQueries = {
   genreId: "genreId",
 };
 
-export default { searchQueries };
+function getCurrentPage(params) {
+  const queryPage = params.get(searchQueries.page);
+  return queryPage ? Number(queryPage) : 1;
+}
+
+export default { searchQueries, getCurrentPage };
