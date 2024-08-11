@@ -6,6 +6,7 @@ import useFullSearchHook from "../../../../hooks/useFullSearchHook";
 import FilterOptions from "../../Search/FilterOptions";
 import SearchHits from "../../../globals/SearchHits";
 import SearchListItem from "./SearchListItem";
+import Pagination from "../../Search/Pagination";
 
 export default function SearchEdit() {
   const [params, setParams] = useSearchParams();
@@ -44,6 +45,7 @@ export default function SearchEdit() {
             <SearchListItem key={`prod-${index}`} product={product} />
           ))}
       </ul>
+      <Pagination {...{ params, setParams, totalHits }} />
     </div>
   );
 }
