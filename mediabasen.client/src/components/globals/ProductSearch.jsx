@@ -11,6 +11,7 @@ export default function ProductSearch({
   setSearchQuery,
   result,
   inputOnKeyDown,
+  preNavigate = "/search",
 }) {
   const [params, setParams] = useSearchParams();
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ export default function ProductSearch({
   function onSearchClick() {
     const filter = params.get(searchHelper.searchQueries.productTypeId);
     navigate(
-      `/search?${searchHelper.searchQueries.query}=${searchQuery}${
+      `${preNavigate}?${searchHelper.searchQueries.query}=${searchQuery}${
         filter ? `&${searchHelper.searchQueries.productTypeId}=${filter}` : ""
       }`
     );
