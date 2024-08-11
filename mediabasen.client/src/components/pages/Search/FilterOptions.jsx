@@ -11,7 +11,7 @@ export default function FilterOptions({
   const [selectedProductTypeId, setSelectedProductTypeId] = useState(0);
 
   return (
-    <>
+    <div className="flex gap-3">
       {productTypes && productTypes.length > 0 && (
         <>
           <ProductTypes
@@ -27,6 +27,6 @@ export default function FilterOptions({
           <GenreFilters {...{ selectedProductTypeId, params, setParams }} />
         </>
       )}
-    </>
+    </div>
   );
 }
