@@ -2,9 +2,9 @@ import React from "react";
 import Button from "../../globals/Button";
 import searchHelper from "../../../utils/searchHelper";
 
-export default function Pagination({ getCurrentPage, params, setParams }) {
+export default function Pagination({ params, setParams }) {
   function changePage(change) {
-    const currentPage = getCurrentPage();
+    const currentPage = searchHelper.getCurrentPage(params);
     let newPage = Math.max(currentPage + change, 1);
 
     params.set(searchHelper.searchQueries.page, newPage);
@@ -15,13 +15,13 @@ export default function Pagination({ getCurrentPage, params, setParams }) {
   return (
     <div className="flex flex-row justify-center align-middle gap-x-3 pt-3">
       <Button
-        {...{ disabled: getCurrentPage() === 1 }}
+        {...{ disabled: searchHelper.getCurrentPage(params) === 1 }}
         onClick={() => changePage(-1)}
         className="hover:bg-accent">
         {"<-"}
       </Button>
       <p className="text-white block h-fit my-auto font-bold text-lg">
-        {getCurrentPage()}
+        {searchHelper.getCurrentPage(params)}
       </p>
       <Button onClick={() => changePage(1)} className="hover:bg-accent">
         {"->"}
