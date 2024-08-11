@@ -48,7 +48,9 @@ export default function GenreFilters({
       disabled={selectedProductTypeId === 0}>
       <option>Välj genre</option>
       {genres.map((genre) => (
-        <option value={genre.id}>{genre.name}</option>
+        <option key={`genre-${genre.id}`} value={genre.id}>
+          {genre.name}
+        </option>
       ))}
     </FilterSelect>
   );
