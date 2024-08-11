@@ -4,7 +4,7 @@ import productService from "../../services/productService";
 
 export default function Navbar() {
   const [screenX, setScreenX] = useState(0);
-  const [openMenu, setOpenMenu] = useState(true);
+  const [openMenu, setOpenMenu] = useState(false);
   const [productTypes, setProductTypes] = useState([]);
 
   useEffect(() => {
@@ -37,8 +37,8 @@ export default function Navbar() {
       <ul className="flex text-white gap-line -mt-10 justify-center w-fit mx-auto max-w-7xl bg-middle">
         {productTypes.map((productType) => (
           <NavLink
+            key={`desktop-${productType.id}`}
             {...{
-              key: `desktop-${productType.id}`,
               isMobile: false,
               productType,
             }}
@@ -55,8 +55,8 @@ export default function Navbar() {
         <ul className="flex text-white flex-col gap-line justify-start mr-auto max-w-7xl bg-middle w-fit">
           {productTypes.map((productType) => (
             <NavLink
+              key={`mobile-${productType.id}`}
               {...{
-                key: `mobile-${productType.id}`,
                 isMobile: true,
                 productType,
               }}
