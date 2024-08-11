@@ -1,5 +1,6 @@
 import React, { lazy, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
+import LoadPage from "../components/pages/LoadPage";
 
 const SearchPage = lazy(() => import("../components/pages/Search/SearchPage"));
 const LandingPage = lazy(() => import("../components/pages/LandingPage"));
@@ -11,6 +12,8 @@ const RegisterPage = lazy(() =>
   import(".././components/pages/Auth/RegisterPage")
 );
 const AdminPage = lazy(() => import("../components/pages/Admin/AdminPage"));
+const AboutUs = lazy(() => import("../components/pages/AboutUs"));
+const Contact = lazy(() => import("../components/pages/Contact"));
 
 export default function AppRoutes() {
   return (
@@ -18,7 +21,7 @@ export default function AppRoutes() {
       <Route
         index
         element={
-          <Suspense>
+          <Suspense fallback={<LoadPage />}>
             <LandingPage />
           </Suspense>
         }
@@ -26,7 +29,7 @@ export default function AppRoutes() {
       <Route
         path="/admin/*"
         element={
-          <Suspense>
+          <Suspense fallback={<LoadPage />}>
             <AdminPage />
           </Suspense>
         }
@@ -34,7 +37,7 @@ export default function AppRoutes() {
       <Route
         path="/login"
         element={
-          <Suspense>
+          <Suspense fallback={<LoadPage />}>
             <LoginPage />
           </Suspense>
         }
@@ -42,7 +45,7 @@ export default function AppRoutes() {
       <Route
         path="/register"
         element={
-          <Suspense>
+          <Suspense fallback={<LoadPage />}>
             <RegisterPage />
           </Suspense>
         }
@@ -50,7 +53,7 @@ export default function AppRoutes() {
       <Route
         path="/detail/*"
         element={
-          <Suspense>
+          <Suspense fallback={<LoadPage />}>
             <DetailPage />
           </Suspense>
         }
@@ -58,7 +61,7 @@ export default function AppRoutes() {
       <Route
         path="/cart"
         element={
-          <Suspense>
+          <Suspense fallback={<LoadPage />}>
             <CartPage />
           </Suspense>
         }
@@ -66,7 +69,7 @@ export default function AppRoutes() {
       <Route
         path="/user/*"
         element={
-          <Suspense>
+          <Suspense fallback={<LoadPage />}>
             <UserPage />
           </Suspense>
         }
@@ -74,8 +77,24 @@ export default function AppRoutes() {
       <Route
         path="/search"
         element={
-          <Suspense>
+          <Suspense fallback={<LoadPage />}>
             <SearchPage />
+          </Suspense>
+        }
+      />
+      <Route
+        path="/aboutus"
+        element={
+          <Suspense fallback={<LoadPage />}>
+            <AboutUs />
+          </Suspense>
+        }
+      />
+      <Route
+        path="/contact"
+        element={
+          <Suspense fallback={<LoadPage />}>
+            <Contact />
           </Suspense>
         }
       />
