@@ -6,6 +6,7 @@ import ProductCard from "../../globals/ProductCard";
 import Pagination from "./Pagination";
 import useFullSearchHook from "../../../hooks/useFullSearchHook";
 import FilterOptions from "./FilterOptions";
+import SearchHits from "../../globals/SearchHits";
 
 export default function SearchPage() {
   const [params, setParams] = useSearchParams();
@@ -17,15 +18,6 @@ export default function SearchPage() {
   const [productTypes, setProductTypes] = useState();
 
   useFullSearchHook({ params, setResult, setProductTypes, setTotalHits });
-
-  function getCurrentPage() {
-    const queryPage = params.get(searchHelper.searchQueries.page);
-    return queryPage ? Number(queryPage) : 1;
-  }
-
-  function getQueryValue() {
-    return params.get(searchHelper.searchQueries.query) || "";
-  }
 
   function inputOnKeyDown(e) {
     if (e.code.includes("Enter")) {
@@ -39,14 +31,7 @@ export default function SearchPage() {
       <h2 className="text-white">Sök produkter</h2>
       <ProductSearch {...{ searchQuery, setSearchQuery, inputOnKeyDown }} />
       <FilterOptions {...{ searchQuery, params, setParams, productTypes }} />
-      <div className="text-white my-3 flex justify-between">
-        <p>
-          {getQueryValue() !== "" ? `Träffar på "${getQueryValue()}"` : ""}
-          {" - "}
-          Totala träffar: {totalHits}
-        </p>
-        <p>Sida: {getCurrentPage()}</p>
-      </div>
+      <SearchHits {...{ totalHits, params }} />
       <ul className="flex mt-3 gap-card-mobile w-full flex-row flex-wrap md:gap-card-tablet xl:gap-x-4 gap-y-4 md:gap-y-4 xl:gap-y-4">
         {result &&
           result.length > 0 &&
@@ -58,7 +43,7 @@ export default function SearchPage() {
             </li>
           ))}
       </ul>
-      <Pagination {...{ getCurrentPage, params, setParams }} />
+      <Pagination {...{ params, setParams }} />
     </section>
   );
 }
