@@ -43,7 +43,7 @@ export default function SearchPage() {
             </li>
           ))}
       </ul>
-      <Pagination {...{ params, setParams }} />
+      <Pagination {...{ params, setParams, totalHits }} />
     </section>
   );
 }
