@@ -31,14 +31,20 @@ export default function UserIndex() {
 
   return (
     <>
-      <h2 className="text-xl font-bold">Din profil</h2>
+      <h2 className="text-xl font-bold text-center">Din profil</h2>
       {isAdmin() && (
-        <Button className="w-fit" onClick={onAdminClick}>
+        <Button className="w-fit mx-auto" onClick={onAdminClick}>
           Admin-vyn
         </Button>
       )}
-      <Button onClick={() => navigate("/user/orders")}>Mina Ordrar</Button>
-      <Button onClick={onLogoutClick}>Logga ut</Button>
+      <Button
+        className="w-fit mx-auto"
+        onClick={() => navigate("/user/orders")}>
+        Mina Ordrar
+      </Button>
+      <Button className="w-fit mx-auto" onClick={onLogoutClick}>
+        Logga ut
+      </Button>
     </>
   );
 }

@@ -1,9 +1,11 @@
-import React, { useContext, useEffect } from "react";
+import React, { lazy, useContext, useEffect, Suspense } from "react";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../../../contexts/UserContext";
 import { Routes, Route } from "react-router-dom";
 import UserIndex from "./UserIndex";
-import UserOrders from "./UserOrders";
+import LoadPage from "../LoadPage";
+
+const UserOrders = lazy(() => import("./UserOrders"));
 
 export default function UserPage() {
   const userContext = useContext(UserContext);
@@ -16,10 +18,17 @@ export default function UserPage() {
   }, [userContext]);
 
   return (
-    <section className="text-white p-3">
+    <section className="text-white relative p-3 gap-y-4 flex flex-col">
       <Routes>
         <Route index element={<UserIndex />} />
-        <Route path="orders" element={<UserOrders />} />
+        <Route
+          path="orders"
+          element={
+            <Suspense fallback={<LoadPage />}>
+              <UserOrders />
+            </Suspense>
+          }
+        />
       </Routes>
     </section>
   );
