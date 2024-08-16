@@ -2,6 +2,7 @@
 using Mediabasen.DataAccess.Repository.IRepository;
 using Mediabasen.Models.Cart;
 using Mediabasen.Models.Product;
+using Mediabasen.Utility.SD;
 using Microsoft.EntityFrameworkCore;
 using MySql.Data.MySqlClient;
 using System.Runtime.CompilerServices;
@@ -94,8 +95,6 @@ namespace Mediabasen.DataAccess.Repository
 
         public SearchResult FullSearchProducts(string? query, int? productTypeId, int? page, int? genreId)
         {
-            int itemsPerPage = 5;
-
             int totalHits = 0;
             IQueryable<Product> products;
 
@@ -124,7 +123,7 @@ namespace Mediabasen.DataAccess.Repository
 
             var baseQuery = $"SELECT DISTINCT p.* FROM Products p INNER JOIN Names n ON p.ArtistId = n.Id OR p.AuthorId = n.Id OR p.DirectorNameId = n.Id OR p.DeveloperId = n.Id INNER JOIN ProductGenres pg";
 
-            var fullQuery = FormattableStringFactory.Create(baseQuery + conditionString + $" LIMIT {CalculateSkips(page, itemsPerPage)},{itemsPerPage};");
+            var fullQuery = FormattableStringFactory.Create(baseQuery + conditionString + $" LIMIT {CalculateSkips(page, SD.Items_Per_Search_Page)},{SD.Items_Per_Search_Page};");
 
             products = _db.Products.FromSqlRaw(fullQuery.ToString(), queryParameter);
 
