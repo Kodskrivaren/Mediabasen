@@ -29,6 +29,11 @@ export default function AdminLinks() {
           Redigera produkter
         </Link>
       </li>
+      <li>
+        <Link className="text-accent" to={"/admin/uploadproducts"}>
+          Ladda upp produkter
+        </Link>
+      </li>
     </ul>
   );
 }
