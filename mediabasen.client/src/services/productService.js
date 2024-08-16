@@ -31,6 +31,14 @@ async function getSimilarProducts(id) {
   }
 }
 
+async function productsOnSale() {
+  const response = await fetchHelper("/Product/ProductsOnSale", "GET");
+
+  if (response.status < 400) {
+    return await response.json();
+  }
+}
+
 async function searchProducts(query) {
   const response = await fetchHelper(
     `/Product/SearchProducts?query=${query}`,
@@ -101,6 +109,7 @@ async function postReview(review) {
 export default {
   getProductById,
   getSimilarProducts,
+  productsOnSale,
   getNewestProducts,
   searchProducts,
   getGenresByProductTypeId,
