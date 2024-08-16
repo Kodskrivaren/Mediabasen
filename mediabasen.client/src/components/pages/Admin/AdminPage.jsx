@@ -7,6 +7,7 @@ import AddGame from "./AddGame";
 import AddBook from "./AddBook";
 import SearchEdit from "./Edit/SearchEdit";
 import EditPage from "./Edit/EditPage";
+import UploadProducts from "./UploadProducts";
 
 export default function AdminPage() {
   return (
@@ -20,6 +21,7 @@ export default function AdminPage() {
         <Route path="/addbook" element={<AddBook />} />
         <Route path="/searchedit" element={<SearchEdit />} />
         <Route path="/edit/*" element={<EditPage />} />
+        <Route path="/uploadproducts" element={<UploadProducts />} />
       </Routes>
     </section>
   );
