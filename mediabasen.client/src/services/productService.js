@@ -106,6 +106,21 @@ async function postReview(review) {
   }
 }
 
+async function uploadProducts(file) {
+  const formData = new FormData();
+
+  formData.append("file", file);
+
+  const response = await fetch("/api/Product/UploadProducts", {
+    method: "POST",
+    body: formData,
+  });
+
+  if (response.status < 400) {
+    return "Success!";
+  }
+}
+
 export default {
   getProductById,
   getSimilarProducts,
@@ -116,4 +131,5 @@ export default {
   fullSearchProducts,
   postReview,
   getProductTypes,
+  uploadProducts,
 };
