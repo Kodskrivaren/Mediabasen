@@ -68,6 +68,13 @@ namespace Mediabasen.DataAccess.Repository
                 .Take(10);
         }
 
+        public IEnumerable<Product> ProductsOnSale()
+        {
+            return _db.Products
+                .Where((u) => u.Discount > 0)
+                .Take(10);
+        }
+
         private int CalculateSkips(int? page, int itemsPerPage)
         {
             if (page != null && page > 1)
@@ -94,11 +101,11 @@ namespace Mediabasen.DataAccess.Repository
 
             List<FormattableString> conditions = new List<FormattableString>();
 
-            var pQuery = new MySqlParameter("@query", MySqlDbType.VarChar);
+            var queryParameter = new MySqlParameter("@query", MySqlDbType.VarChar);
 
             if (query != null)
             {
-                pQuery.Value = $"%{query}%".ToString();
+                queryParameter.Value = $"%{query}%".ToString();
 
                 conditions.Add($"(p.Name LIKE @query OR n.Fullname LIKE @query)");
             }
@@ -119,10 +126,10 @@ namespace Mediabasen.DataAccess.Repository
 
             var fullQuery = FormattableStringFactory.Create(baseQuery + conditionString + $" LIMIT {CalculateSkips(page, itemsPerPage)},{itemsPerPage};");
 
-            products = _db.Products.FromSqlRaw(fullQuery.ToString(), pQuery);
+            products = _db.Products.FromSqlRaw(fullQuery.ToString(), queryParameter);
 
             totalHits = _db.Products.FromSqlRaw(
-                    FormattableStringFactory.Create(baseQuery + conditionString).ToString(), pQuery
+                    FormattableStringFactory.Create(baseQuery + conditionString).ToString(), queryParameter
                 ).ToList().Count;
 
             return new SearchResult(products, totalHits);
