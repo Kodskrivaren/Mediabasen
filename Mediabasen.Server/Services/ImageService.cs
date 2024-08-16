@@ -71,7 +71,13 @@ namespace Mediabasen.Server.Services
             foreach (var image in Images)
             {
                 string fileName = Guid.NewGuid().ToString() + Path.GetExtension(image.FileName);
-                string productPath = @"images\" + productTypePath + @"\" + productTypePath + "-" + newProduct.Id;
+                string productPath = Path.Combine(
+                    new string[]
+                    {
+                        @"images",
+                        productTypePath,
+                        productTypePath + "-" + newProduct.Id
+                    });
                 string finalPath = Path.Combine(wwwRoot, productPath);
 
                 if (!Directory.Exists(finalPath))
@@ -84,7 +90,9 @@ namespace Mediabasen.Server.Services
                     image.CopyTo(fileStream);
                 }
 
-                AddImageToDb(productPath, fileName, newProduct);
+                string dbProductPath = @"images\" + productTypePath + @"\" + productTypePath + "-" + newProduct.Id;
+
+                AddImageToDb(dbProductPath, fileName, newProduct);
             }
             _unitOfWork.Save();
         }
@@ -107,7 +115,13 @@ namespace Mediabasen.Server.Services
             var wwwRoot = _webHostEnvironment.WebRootPath;
 
             string fileName = Guid.NewGuid().ToString() + "." + image.Image.Type;
-            string productPath = @"images\" + productTypePath + @"\" + productTypePath + "-" + newProduct.Id;
+            string productPath = Path.Combine(
+                new string[]
+                {
+                    @"images",
+                    productTypePath,
+                    productTypePath + "-" + newProduct.Id
+                });
             string finalPath = Path.Combine(wwwRoot, productPath);
 
             if (!Directory.Exists(finalPath))
@@ -120,7 +134,9 @@ namespace Mediabasen.Server.Services
                 fileStream.Write(image.Image.ImageBytes);
             }
 
-            AddImageToDb(productPath, fileName, newProduct);
+            string dbProductPath = @"images\" + productTypePath + @"\" + productTypePath + "-" + newProduct.Id;
+
+            AddImageToDb(dbProductPath, fileName, newProduct);
         }
     }
 }
