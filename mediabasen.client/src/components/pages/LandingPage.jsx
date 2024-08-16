@@ -10,6 +10,7 @@ export default function LandingPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [result, setResult] = useState(undefined);
   const [products, setProducts] = useState([]);
+  const [productsOnSale, setProductsOnSale] = useState([]);
   const navigate = useNavigate();
 
   useFastSearchHook(searchQuery, setResult);
@@ -27,7 +28,14 @@ export default function LandingPage() {
       setProducts(result.products);
     }
 
+    async function fetchProductsOnSale() {
+      const result = await productService.productsOnSale();
+
+      setProductsOnSale(result.products);
+    }
+
     fetchProducts();
+    fetchProductsOnSale();
   }, [setProducts]);
 
   return (
@@ -41,6 +49,7 @@ export default function LandingPage() {
         }}
       />
       <ProductsList title={"Nya Produkter"} products={products} />
+      <ProductsList title={"Rea"} products={productsOnSale} />
     </>
   );
 }
