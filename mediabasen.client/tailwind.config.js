@@ -17,6 +17,7 @@ export default {
         dark: "#24272B",
         light: "#4A525A",
         middle: "#404040",
+        line: "#dac291",
       },
       boxShadow: {
         modal: "0 0 125px 50px",
