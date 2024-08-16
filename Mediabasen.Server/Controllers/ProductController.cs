@@ -4,6 +4,7 @@ using Mediabasen.Server.Services;
 using Mediabasen.Utility.SD;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OfficeOpenXml;
 
 namespace Mediabasen.Server.Controllers
 {
@@ -15,6 +16,7 @@ namespace Mediabasen.Server.Controllers
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly ProductService _productService;
         private readonly UserService _userService;
+
 
         [ActivatorUtilitiesConstructor]
         public ProductController(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment, ProductService productService, UserService userService)
@@ -49,6 +51,18 @@ namespace Mediabasen.Server.Controllers
         public IActionResult SearchProducts(string query)
         {
             List<Product> products = _unitOfWork.Product.SearchProducts(query).ToList();
+            foreach (var product in products)
+            {
+                _productService.SetBasicProperties(product, _unitOfWork.ProductType.GetFirstOrDefault(u => u.Id == product.ProductTypeId));
+            }
+            JsonResult res = new JsonResult(new { products });
+            return res;
+        }
+
+        [HttpGet]
+        public IActionResult ProductsOnSale()
+        {
+            List<Product> products = _unitOfWork.Product.ProductsOnSale().ToList();
             foreach (var product in products)
             {
                 _productService.SetBasicProperties(product, _unitOfWork.ProductType.GetFirstOrDefault(u => u.Id == product.ProductTypeId));
@@ -186,15 +200,40 @@ namespace Mediabasen.Server.Controllers
             return new JsonResult(review);
         }
 
+        [HttpPost]
+        [Authorize(Roles = SD.Role_Admin)]
+        public IActionResult UploadProducts(IFormFile file)
+        {
+            var stream = file.OpenReadStream();
+            using (var package = new ExcelPackage(stream))
+            {
+                var worksheet = package.Workbook.Worksheets.First();
+                int rowCount = worksheet.Dimension.Rows;
+
+                for (int row = 2; row <= rowCount; row++)
+                {
+                    _productService.TryAddProductFromExcel(worksheet, row);
+                }
+            }
+
+            return Ok();
+        }
+
         [HttpDelete]
         [Authorize(Roles = SD.Role_Admin)]
         [ActionName("DeleteAll")]
         public IActionResult DeleteAll()
         {
-            var products = _unitOfWork.Product.GetAll().ToList();
+            var products = _unitOfWork.Product.GetAll(includeProperties: "Reviews").ToList();
 
             foreach (var product in products)
             {
+                product.Reviews = null;
+
+                _unitOfWork.Product.Update(product);
+
+                _unitOfWork.Save();
+
                 var images = _unitOfWork.ProductImage.GetAll(u => u.ProductId == product.Id);
 
                 if (images != null && images.Count() > 0)
