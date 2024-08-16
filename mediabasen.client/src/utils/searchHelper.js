@@ -10,6 +10,6 @@ function getCurrentPage(params) {
   return queryPage ? Number(queryPage) : 1;
 }
 
-const resultsPerPage = 5;
+const resultsPerPage = 10;
 
 export default { searchQueries, getCurrentPage, resultsPerPage };
