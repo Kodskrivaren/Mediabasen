@@ -1,5 +1,6 @@
 ﻿using Mediabasen.DataAccess.Repository.IRepository;
 using Mediabasen.Models.Product;
+using OfficeOpenXml.Drawing;
 
 namespace Mediabasen.Server.Services
 {
@@ -83,15 +84,43 @@ namespace Mediabasen.Server.Services
                     image.CopyTo(fileStream);
                 }
 
-                ProductImage productImage = new ProductImage()
-                {
-                    ImageUrl = @"\" + productPath + @"\" + fileName,
-                    ProductId = newProduct.Id,
-                };
-
-                _unitOfWork.ProductImage.Add(productImage);
+                AddImageToDb(productPath, fileName, newProduct);
             }
             _unitOfWork.Save();
+        }
+
+        private void AddImageToDb(string productPath, string fileName, Product newProduct)
+        {
+            ProductImage productImage = new ProductImage()
+            {
+                ImageUrl = @"\" + productPath + @"\" + fileName,
+                ProductId = newProduct.Id,
+            };
+
+            _unitOfWork.ProductImage.Add(productImage);
+
+            _unitOfWork.Save();
+        }
+
+        public void SaveImagesFromExcelFile(ExcelPicture image, string productTypePath, Product newProduct)
+        {
+            var wwwRoot = _webHostEnvironment.WebRootPath;
+
+            string fileName = Guid.NewGuid().ToString() + "." + image.Image.Type;
+            string productPath = @"images\" + productTypePath + @"\" + productTypePath + "-" + newProduct.Id;
+            string finalPath = Path.Combine(wwwRoot, productPath);
+
+            if (!Directory.Exists(finalPath))
+            {
+                Directory.CreateDirectory(finalPath);
+            }
+
+            using (var fileStream = new FileStream(Path.Combine(finalPath, fileName), FileMode.Create))
+            {
+                fileStream.Write(image.Image.ImageBytes);
+            }
+
+            AddImageToDb(productPath, fileName, newProduct);
         }
     }
 }
