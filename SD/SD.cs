@@ -9,5 +9,7 @@
         public const string Type_Music = "Music";
         public const string Type_Book = "Book";
         public const string Type_Game = "Game";
+
+        public const int Items_Per_Search_Page = 10;
     }
 }
