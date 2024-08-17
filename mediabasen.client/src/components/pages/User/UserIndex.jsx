@@ -42,6 +42,11 @@ export default function UserIndex() {
         onClick={() => navigate("/user/orders")}>
         Mina Ordrar
       </Button>
+      <Button
+        className="w-fit mx-auto"
+        onClick={() => navigate("/user/details")}>
+        Konto
+      </Button>
       <Button className="w-fit mx-auto" onClick={onLogoutClick}>
         Logga ut
       </Button>
