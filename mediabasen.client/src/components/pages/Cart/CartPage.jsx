@@ -4,10 +4,12 @@ import cartService from "../../../services/cartService";
 import Button from "../../globals/Button";
 import ProductList from "./ProductList";
 import orderService from "../../../services/orderService";
+import LoadSpinner from "../../globals/LoadSpinner";
 
 export default function CartPage() {
   const { cart, setCart } = useContext(CartContext);
   const [products, setProducts] = useState();
+  const [placingOrder, setPlacingOrder] = useState(false);
 
   useEffect(() => {
     async function getCartProducts() {
@@ -39,11 +41,13 @@ export default function CartPage() {
   }
 
   async function placeOrderClick() {
+    setPlacingOrder(true);
     const data = await orderService.placeOrder();
 
     if (data) {
       setCart(undefined);
     }
+    setPlacingOrder(false);
   }
 
   return (
@@ -51,6 +55,9 @@ export default function CartPage() {
       <h2 className="text-3xl font-bold">Kundvagn</h2>
       <div className="flex flex-col gap-y-3 md:flex-row">
         {cart === undefined && <p>Din kundvagn är tom!</p>}
+        {cart !== undefined && products === undefined && (
+          <LoadSpinner className={"mx-auto"} />
+        )}
         {cart && products && (
           <>
             <ProductList {...{ products }} />
@@ -59,8 +66,13 @@ export default function CartPage() {
               <Button
                 classNameColor="bg-accent"
                 className="w-fit"
+                disabled={placingOrder}
                 onClick={placeOrderClick}>
-                Lägg Beställning
+                {placingOrder ? (
+                  <LoadSpinner className={"h-8 w-8 mx-8"} />
+                ) : (
+                  "Lägg Beställning"
+                )}
               </Button>
             </section>
           </>
