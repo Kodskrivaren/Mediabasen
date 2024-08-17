@@ -18,4 +18,14 @@ async function createAccount(formValues) {
   }
 }
 
-export default { getUserDetails, createAccount };
+async function deleteUser() {
+  const response = await fetchHelper("/User/DeleteUser", "DELETE");
+
+  if (response.status < 400) {
+    return { success: true, data: await response.json() };
+  } else {
+    return { success: false, data: await response.json() };
+  }
+}
+
+export default { getUserDetails, createAccount, deleteUser };
