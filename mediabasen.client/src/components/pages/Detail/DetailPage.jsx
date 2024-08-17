@@ -39,7 +39,9 @@ export default function DetailPage() {
   return product ? (
     <>
       <ProductDetails product={product} />
-      <ProductsList title={"Du kanske gillar"} products={similarProducts} />
+      {similarProducts && similarProducts.length > 0 && (
+        <ProductsList title={"Du kanske gillar"} products={similarProducts} />
+      )}
       <ReviewSection {...{ product, setProduct }} />
     </>
   ) : (
