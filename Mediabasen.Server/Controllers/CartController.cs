@@ -33,15 +33,34 @@ namespace Mediabasen.Server.Controllers
         [HttpGet]
         public IActionResult GetCartProductsForUser()
         {
-            var cart = GetUserCart();
+            var cart = GetUserCart(false);
 
             if (cart == null) { return NotFound(); }
+
+            List<CartProduct> productsToRemove = new List<CartProduct>();
 
             foreach (var cartProduct in cart.CartProducts)
             {
                 cartProduct.Product = _unitOfWork.Product.GetFirstOrDefault(u => u.Id == cartProduct.ProductId);
 
-                _productService.SetBasicProperties(cartProduct.Product, _unitOfWork.ProductType.GetFirstOrDefault(u => u.Id == cartProduct.Product.ProductTypeId));
+                if (cartProduct.Product == null)
+                {
+                    productsToRemove.Add(cartProduct);
+                }
+                else
+                {
+                    _productService.SetBasicProperties(cartProduct.Product, _unitOfWork.ProductType.GetFirstOrDefault(u => u.Id == cartProduct.Product.ProductTypeId));
+                }
+            }
+
+            if (productsToRemove.Count > 0)
+            {
+                var dbCart = GetUserCart(true);
+                cart.CartProducts = cart.CartProducts.Where(u => !productsToRemove.Contains(u)).ToList();
+                dbCart.CartProducts = cart.CartProducts.Where(u => !productsToRemove.Contains(u)).ToList();
+                Console.WriteLine(dbCart.CartProducts.Count);
+                _unitOfWork.Cart.Update(dbCart);
+                _unitOfWork.Save();
             }
 
             return new JsonResult(cart.CartProducts);
