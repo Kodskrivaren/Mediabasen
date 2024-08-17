@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useState, useContext, useEffect } from "react";
 import CartLogo from "./../../assets/icons/cart-outline.svg?react";
 import UserLogo from "./../../assets/icons/person-outline.svg?react";
 import { Link } from "react-router-dom";
@@ -6,10 +6,24 @@ import UserContext from "../../contexts/UserContext";
 import cartService from "../../services/cartService";
 import CartContext from "../../contexts/CartContext";
 import Navbar from "./Nav";
+import MainLogo from "./../../assets/icons/Logga_TP.png";
 
 export default function Header() {
   const cartContext = useContext(CartContext);
   const userContext = useContext(UserContext);
+  const [width, setWidth] = useState(0);
+
+  useEffect(() => {
+    function onScreenChange() {
+      setWidth(window.innerWidth);
+    }
+
+    window.addEventListener("resize", onScreenChange);
+
+    return () => {
+      window.removeEventListener("resize", onScreenChange);
+    };
+  }, []);
 
   useEffect(() => {
     async function tryGetCart() {
@@ -25,7 +39,8 @@ export default function Header() {
     <header className="bg-dark">
       <section className="flex justify-between p-3 text-bright mx-auto max-w-7xl">
         <Link to={"/"}>
-          <h1 className="text-2xl font-bold">Mediabasen</h1>
+          <img src={MainLogo} className="w-10 mx-auto" />
+          {width > 768 && <h1 className="text-2xl font-bold">Mediabasen</h1>}
         </Link>
         <ul className="flex gap-5">
           <li className="relative">
