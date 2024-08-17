@@ -3,6 +3,7 @@ using Mediabasen.DataAccess.DbInitializer;
 using Mediabasen.DataAccess.Repository;
 using Mediabasen.DataAccess.Repository.IRepository;
 using Mediabasen.Models;
+using Mediabasen.Server.Middleware;
 using Mediabasen.Server.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -56,6 +57,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseMiddleware(typeof(SimulatedLatencyMiddleware), TimeSpan.FromMilliseconds(100), TimeSpan.FromMilliseconds(300));
 }
 
 app.UseHttpsRedirection();
