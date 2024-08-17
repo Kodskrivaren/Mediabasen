@@ -1,6 +1,7 @@
 import React, { lazy, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 import LoadPage from "../components/pages/LoadPage";
+import PlacedOrder from "../components/pages/Order/PlacedOrder";
 
 const SearchPage = lazy(() => import("../components/pages/Search/SearchPage"));
 const LandingPage = lazy(() => import("../components/pages/LandingPage"));
@@ -95,6 +96,14 @@ export default function AppRoutes() {
         element={
           <Suspense fallback={<LoadPage />}>
             <Contact />
+          </Suspense>
+        }
+      />
+      <Route
+        path="/order"
+        element={
+          <Suspense fallback={<LoadPage />}>
+            <PlacedOrder />
           </Suspense>
         }
       />
