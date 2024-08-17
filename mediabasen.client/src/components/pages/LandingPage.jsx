@@ -9,8 +9,8 @@ import searchHelper from "../../utils/searchHelper";
 export default function LandingPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [result, setResult] = useState(undefined);
-  const [products, setProducts] = useState([]);
-  const [productsOnSale, setProductsOnSale] = useState([]);
+  const [products, setProducts] = useState(undefined);
+  const [productsOnSale, setProductsOnSale] = useState(undefined);
   const navigate = useNavigate();
 
   useFastSearchHook(searchQuery, setResult);
