@@ -26,7 +26,7 @@ export default function ProductSearch({
   }
 
   return (
-    <div className="relative pt-4 mb-4 w-full mx-auto max-w-xl flex justify-center">
+    <div className="relative pt-4 px-3 mb-4 w-full mx-auto max-w-xl flex justify-center">
       <Input
         {...{
           placeholder: "Sök på produkter...",
@@ -37,7 +37,7 @@ export default function ProductSearch({
         }}
       />
       <button
-        className="absolute top-1/2 mt-2 -translate-y-1/2 left-2 w-10 h-10"
+        className="absolute top-1/2 mt-2 -translate-y-1/2 left-4 w-10 h-10"
         onClick={onSearchClick}>
         <SearchIcon />
       </button>
