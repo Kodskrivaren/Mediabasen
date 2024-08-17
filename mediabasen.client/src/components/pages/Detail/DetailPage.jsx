@@ -25,6 +25,8 @@ export default function DetailPage() {
 
     fetchProducts();
     getProduct();
+
+    window.scrollTo(0, 0);
   }, [params]);
 
   return product ? (
