@@ -12,5 +12,6 @@ namespace Mediabasen.DataAccess.Repository.IRepository
         public bool AttemptTakeFromStock(Cart cart);
         public IEnumerable<Product> ProductsOnSale();
         public IEnumerable<Genre> GetGenresForProductType(int productTypeId);
+        public void RemoveUserReviews(string userId);
     }
 }

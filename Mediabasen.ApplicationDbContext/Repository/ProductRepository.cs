@@ -22,6 +22,15 @@ namespace Mediabasen.DataAccess.Repository
             _db.Products.Update(product);
         }
 
+        public void RemoveUserReviews(string userId)
+        {
+            var userIdParameter = new MySqlParameter("@userId", MySqlDbType.VarChar);
+
+            userIdParameter.Value = userId;
+
+            _db.Database.ExecuteSqlRaw("DELETE FROM productreview WHERE UserId = @userId", userIdParameter);
+        }
+
         public bool AttemptTakeFromStock(Cart cart)
         {
             try
