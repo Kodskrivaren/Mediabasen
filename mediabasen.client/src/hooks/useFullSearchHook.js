@@ -10,6 +10,7 @@ export default function useFullSearchHook({
 }) {
   useEffect(() => {
     async function searchProducts() {
+      setResult(undefined);
       const query = params.get(searchHelper.searchQueries.query);
       const productTypeId = params.get(
         searchHelper.searchQueries.productTypeId

@@ -7,6 +7,7 @@ import Pagination from "./Pagination";
 import useFullSearchHook from "../../../hooks/useFullSearchHook";
 import FilterOptions from "./FilterOptions";
 import SearchHits from "../../globals/SearchHits";
+import LoadSpinner from "../../globals/LoadSpinner";
 
 export default function SearchPage() {
   const [params, setParams] = useSearchParams();
@@ -42,6 +43,7 @@ export default function SearchPage() {
               <ProductCard key={`prod-${index}`} product={prod} />
             </li>
           ))}
+        {result === undefined && <LoadSpinner className={"mx-auto my-4"} />}
       </ul>
       <Pagination {...{ params, setParams, totalHits }} />
     </section>
