@@ -43,11 +43,11 @@ export default function Header() {
           {width > 768 && <h1 className="text-2xl font-bold">Mediabasen</h1>}
         </Link>
         <ul className="flex gap-5">
-          <li className="relative">
+          <li className="relative flex-grow-0 h-fit">
             <Link to={"/cart"}>
               <CartLogo className="w-8 -scale-x-100" />
               {cartContext.cart && (
-                <div className="absolute bottom-2 -left-2 bg-accent w-6 h-6 flex flex-col justify-center align-middle rounded-full">
+                <div className="absolute -bottom-2 -left-2 bg-accent w-6 h-6 flex flex-col justify-center align-middle rounded-full">
                   <p className="block font-bold text-center w-fit flex-grow-0 mx-auto flex-shrink-0">
                     {cartContext.cart.cartProducts.length}
                   </p>
