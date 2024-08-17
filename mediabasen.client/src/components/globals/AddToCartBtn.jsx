@@ -55,7 +55,7 @@ export default function AddToCartBtn({ product }) {
         cart.cartProducts &&
         cart.cartProducts.find((u) => u.productId === product.id)
       )
-        return "Redan i varukorgen";
+        return "I varukorgen";
     }
 
     return "Slut i lager";
@@ -65,7 +65,7 @@ export default function AddToCartBtn({ product }) {
     <Button
       classNameColor={"bg-accent"}
       onClick={onAddClick}
-      className="font-bold flex-grow w-full max-w-48 max-h-12"
+      className="font-bold flex-grow-0 w-full max-w-48 max-h-12"
       disabled={product.stockQuantity === 0}>
       {getButtonText()}
     </Button>
