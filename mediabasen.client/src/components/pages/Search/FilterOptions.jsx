@@ -17,12 +17,12 @@ export default function FilterOptions({
     );
 
     if (
-      currentProductType &&
+      currentProductType !== null &&
       Number(currentProductType) !== selectedProductTypeId
     ) {
       setSelectedProductTypeId(Number(currentProductType));
     } else {
-      if (selectedProductTypeId > 0) {
+      if (currentProductType === null && selectedProductTypeId > 0) {
         setSelectedProductTypeId(0);
       }
     }
