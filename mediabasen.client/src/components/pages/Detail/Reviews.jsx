@@ -4,8 +4,8 @@ import ReviewStars from "../../globals/ReviewStars";
 export default function Reviews({ reviews }) {
   return (
     <ul className="max-w-xl">
-      {reviews.map((review) => (
-        <li>
+      {reviews.map((review, id) => (
+        <li key={`review-${id}`}>
           <section className="bg-dark flex flex-col gap-y-3 p-3">
             <h4 className="text-xl font-bold">{review.username}</h4>
             <div className="w-1/3">
