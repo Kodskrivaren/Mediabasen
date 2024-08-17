@@ -6,6 +6,7 @@ import UserIndex from "./UserIndex";
 import LoadPage from "../LoadPage";
 
 const UserOrders = lazy(() => import("./UserOrders"));
+const UserDetails = lazy(() => import("./UserDetails"));
 
 export default function UserPage() {
   const userContext = useContext(UserContext);
@@ -26,6 +27,14 @@ export default function UserPage() {
           element={
             <Suspense fallback={<LoadPage />}>
               <UserOrders />
+            </Suspense>
+          }
+        />
+        <Route
+          path="details"
+          element={
+            <Suspense fallback={<LoadPage />}>
+              <UserDetails />
             </Suspense>
           }
         />
