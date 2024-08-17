@@ -12,11 +12,18 @@ export default function DetailPage() {
   const params = useParams();
 
   useEffect(() => {
+    if (product) {
+      if (product.id === Number(params["*"])) return;
+    }
+
+    setProduct(undefined);
+
     async function getProduct() {
       const data = await productService.getProductById(params["*"]);
 
       setProduct(data);
     }
+
     async function fetchProducts() {
       const result = await productService.getSimilarProducts(params["*"]);
 
