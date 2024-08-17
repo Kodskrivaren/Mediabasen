@@ -5,11 +5,13 @@ import Button from "../../globals/Button";
 import ProductList from "./ProductList";
 import orderService from "../../../services/orderService";
 import LoadSpinner from "../../globals/LoadSpinner";
+import { useNavigate } from "react-router-dom";
 
 export default function CartPage() {
   const { cart, setCart } = useContext(CartContext);
   const [products, setProducts] = useState();
   const [placingOrder, setPlacingOrder] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function getCartProducts() {
@@ -46,6 +48,7 @@ export default function CartPage() {
 
     if (data) {
       setCart(undefined);
+      navigate("/order", { state: data });
     }
     setPlacingOrder(false);
   }
