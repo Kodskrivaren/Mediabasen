@@ -11,7 +11,7 @@ export default function ProductCard({ product }) {
     product.images.length > 0 ? product.images[0].imageUrl : undefined;
 
   return (
-    <article className="bg-light text-white p-2 w-full rounded flex flex-col gap-1">
+    <article className="bg-light text-white p-2 w-full h-full rounded flex flex-col gap-1 flex-grow-1">
       <Link
         className="relative h-52"
         to={`/detail/${product ? product.id : ""}`}>
@@ -34,7 +34,7 @@ export default function ProductCard({ product }) {
         {typeHelper.getProductTypeName(product)} - {product.format.name}
       </span>
       <h3 className="font-bold">{product.name}</h3>
-      <p>
+      <p className="mt-auto">
         <ProductPrice {...{ product, className: "" }} />
         {product.stockQuantity != 0 && product.stockQuantity <= 5 && (
           <span className="text-orange-300">
