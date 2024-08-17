@@ -1,20 +1,23 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import Button from "./Button";
 import cartService from "../../services/cartService";
 import CartContext from "../../contexts/CartContext";
 import UserContext from "../../contexts/UserContext";
 import { useNavigate } from "react-router-dom";
 import NotifyContext from "../../contexts/NotifyContext";
+import LoadSpinner from "./LoadSpinner";
 
 export default function AddToCartBtn({ product }) {
   const { user } = useContext(UserContext);
   const { cart, setCart } = useContext(CartContext);
   const { setNote } = useContext(NotifyContext);
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
   async function onAddClick() {
     if (!user) return navigate("/login");
+    setLoading(true);
 
     let count = 1;
 
@@ -37,6 +40,8 @@ export default function AddToCartBtn({ product }) {
         <p>"{product.name}" har lagts till i varukorgen!</p>
       </>
     );
+
+    setLoading(false);
   }
 
   function getButtonText() {
@@ -66,8 +71,12 @@ export default function AddToCartBtn({ product }) {
       classNameColor={"bg-accent"}
       onClick={onAddClick}
       className="font-bold flex-grow-0 w-full max-w-48 max-h-12"
-      disabled={product.stockQuantity === 0}>
-      {getButtonText()}
+      disabled={product.stockQuantity === 0 || loading}>
+      {loading ? (
+        <LoadSpinner className={"mx-auto w-6 h-6"} />
+      ) : (
+        getButtonText()
+      )}
     </Button>
   );
 }
