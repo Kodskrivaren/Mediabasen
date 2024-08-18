@@ -1,23 +1,12 @@
 import { useEffect, useState } from "react";
 import NavLink from "./NavLink";
 import productService from "../../services/productService";
+import useScreenXHook from "../../hooks/useScreenXHook";
 
 export default function Navbar() {
-  const [screenX, setScreenX] = useState(0);
   const [productTypes, setProductTypes] = useState([]);
 
-  useEffect(() => {
-    setScreenX(window.innerWidth);
-    function onScreenChange() {
-      setScreenX(window.innerWidth);
-    }
-
-    window.addEventListener("resize", onScreenChange);
-
-    return () => {
-      window.removeEventListener("resize", onScreenChange);
-    };
-  }, [setScreenX]);
+  const screenX = useScreenXHook();
 
   useEffect(() => {
     async function fetchAndSetProductTypes() {

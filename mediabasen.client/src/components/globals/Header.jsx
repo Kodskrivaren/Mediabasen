@@ -7,23 +7,13 @@ import cartService from "../../services/cartService";
 import CartContext from "../../contexts/CartContext";
 import Navbar from "./Nav";
 import MainLogo from "./../../assets/icons/Logga_TP.png";
+import useScreenXHook from "../../hooks/useScreenXHook";
 
 export default function Header() {
   const cartContext = useContext(CartContext);
   const userContext = useContext(UserContext);
-  const [width, setWidth] = useState(0);
 
-  useEffect(() => {
-    function onScreenChange() {
-      setWidth(window.innerWidth);
-    }
-
-    window.addEventListener("resize", onScreenChange);
-
-    return () => {
-      window.removeEventListener("resize", onScreenChange);
-    };
-  }, []);
+  const screenX = useScreenXHook();
 
   useEffect(() => {
     async function tryGetCart() {
@@ -40,7 +30,7 @@ export default function Header() {
       <section className="flex justify-between p-3 text-bright mx-auto max-w-7xl">
         <Link to={"/"}>
           <img src={MainLogo} className="w-10 mx-auto" />
-          {width > 768 && <h1 className="text-2xl font-bold">Mediabasen</h1>}
+          {screenX > 768 && <h1 className="text-2xl font-bold">Mediabasen</h1>}
         </Link>
         <ul className="flex gap-5">
           <li className="relative flex-grow-0 h-fit">
