@@ -269,9 +269,14 @@ namespace Mediabasen.Server.Services
                 _unitOfWork.Save();
             }
 
-            var image = worksheet.Drawings[$"Bild {row - 1}"] as ExcelPicture;
+            var images = worksheet.Drawings.Select(u => u as ExcelPicture);
 
-            _imageService.SaveImagesFromExcelFile(image, excelProduct.ProductType.ToLower(), createdProduct);
+            var filteredImages = images.Where(u => u.From.Row == row - 1);
+
+            foreach (var image in filteredImages)
+            {
+                _imageService.SaveImagesFromExcelFile(image, excelProduct.ProductType.ToLower(), createdProduct);
+            }
         }
 
         private ProductMovie CreateMovieFromExcel(ExcelProduct excelProduct, CultureInfo cultureInfo)
