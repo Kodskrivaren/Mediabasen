@@ -8,6 +8,7 @@ import ProductPrice from "./ProductPrice";
 import DiscountSticker from "./DiscountSticker";
 import BookDetails from "./BookDetails";
 import GameDetails from "./GameDetails";
+import ProductImages from "./ProductImages";
 
 export default function ProductDetails({ product }) {
   function hasImages() {
@@ -37,11 +38,7 @@ export default function ProductDetails({ product }) {
           <span className="inline text-gray-300">{product.format.name}</span>
         </div>
         <div className="relative w-full md:max-w-xs">
-          {hasImages() ? (
-            <img className="w-full" src={`${product.images[0].imageUrl}`} />
-          ) : (
-            <NoImageIcon />
-          )}
+          {hasImages() ? <ProductImages {...{ product }} /> : <NoImageIcon />}
           {product.discountedPrice && <DiscountSticker {...{ product }} />}
         </div>
         <ProductPrice {...{ product }} />
