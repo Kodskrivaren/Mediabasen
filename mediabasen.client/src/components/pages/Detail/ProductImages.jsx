@@ -9,7 +9,7 @@ export default function ProductImages({ product }) {
   const [fullscreen, setFullscreen] = useState(false);
   const imageContainerRef = useRef();
 
-  useImageSwitchHook(imageContainerRef, index);
+  useImageSwitchHook({ imageContainerRef, index });
 
   const screenX = useScreenXHook();
 
