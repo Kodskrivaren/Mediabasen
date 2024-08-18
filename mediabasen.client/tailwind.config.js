@@ -10,6 +10,12 @@ export default {
         closed: "0fr",
         open: "1fr",
       },
+      maxHeight: {
+        imageFullScreen: "100%",
+      },
+      height: {
+        imageFullScreen: "90vh",
+      },
       colors: {
         primary: "#000000",
         bright: "#ffffff",
