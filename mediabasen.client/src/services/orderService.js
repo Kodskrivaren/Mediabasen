@@ -1,7 +1,10 @@
 import fetchHelper from "../utils/fetchHelper";
+import orderHelper from "../utils/orderHelper";
 
-async function getOrders() {
-  const response = await fetchHelper("/Order/GetOrders");
+async function getOrders(filter, page) {
+  const response = await fetchHelper(
+    `/Order/GetOrders?${orderHelper.orderPageQueries.page}=${page}&${orderHelper.orderPageQueries.filter}=${filter}`
+  );
 
   if (response.status < 400) {
     return await response.json();
@@ -16,4 +19,12 @@ async function placeOrder() {
   }
 }
 
-export default { getOrders, placeOrder };
+async function getOrderCounts() {
+  const response = await fetchHelper("/Order/GetOrderCounts", "GET");
+
+  if (response.status < 400) {
+    return await response.json();
+  }
+}
+
+export default { getOrders, placeOrder, getOrderCounts };
