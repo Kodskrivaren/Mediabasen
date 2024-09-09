@@ -25,11 +25,54 @@ namespace Mediabasen.Server.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetOrders()
+        public IActionResult GetOrderCounts()
         {
             var userId = _userService.GetUserId(HttpContext);
 
-            var orders = _unitOfWork.Order.GetAll(u => u.UserId == userId, includeProperties: "OrderItems");
+            int shippedOrdersCount = _unitOfWork.Order.GetAll((u) => u.UserId == userId && u.OrderShipped != null).Count();
+
+            int unshippedOrdersCount = _unitOfWork.Order.GetAll((u) => u.UserId == userId && u.OrderShipped == null).Count();
+
+            return new JsonResult(new { shippedOrdersCount, unshippedOrdersCount });
+        }
+
+        [HttpGet]
+        public IActionResult GetOrders(string? filter, int page = 1)
+        {
+            if (page < 1) { return BadRequest(); }
+
+            var userId = _userService.GetUserId(HttpContext);
+
+            IEnumerable<Order> orders = new List<Order>();
+
+            if (filter != null && filter != "all")
+            {
+                switch (filter)
+                {
+                    case "shipped":
+                        orders = _unitOfWork.Order
+                            .GetAll(u => u.UserId == userId && u.OrderShipped != null, includeProperties: "OrderItems")
+                            .OrderByDescending(u => u.OrderPlaced)
+                            .Skip((page - 1) * 3)
+                            .Take(3);
+                        break;
+                    case "unshipped":
+                        orders = _unitOfWork.Order
+                            .GetAll(u => u.UserId == userId && u.OrderShipped == null, includeProperties: "OrderItems")
+                            .OrderByDescending(u => u.OrderPlaced)
+                            .Skip((page - 1) * 3)
+                            .Take(3);
+                        break;
+                }
+            }
+            else
+            {
+                orders = _unitOfWork.Order
+                    .GetAll(u => u.UserId == userId, includeProperties: "OrderItems")
+                    .OrderByDescending(u => u.OrderPlaced)
+                    .Skip((page - 1) * 3)
+                    .Take(3);
+            }
 
             foreach (var order in orders)
             {
