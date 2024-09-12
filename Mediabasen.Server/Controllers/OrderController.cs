@@ -1,7 +1,9 @@
 ﻿using Mediabasen.DataAccess.Repository.IRepository;
 using Mediabasen.Models.Cart;
+using Mediabasen.Models.ControllerModels;
 using Mediabasen.Models.Order;
 using Mediabasen.Server.Services;
+using Mediabasen.Utility.SD;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,22 +11,24 @@ namespace Mediabasen.Server.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    [Authorize]
     public class OrderController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly ProductService _productService;
         private readonly UserService _userService;
+        private readonly CartService _cartService;
 
         [ActivatorUtilitiesConstructor]
-        public OrderController(IUnitOfWork unitOfWork, ProductService productService, UserService userService)
+        public OrderController(IUnitOfWork unitOfWork, ProductService productService, UserService userService, CartService cartService)
         {
             _unitOfWork = unitOfWork;
             _productService = productService;
             _userService = userService;
+            _cartService = cartService;
         }
 
         [HttpGet]
+        [Authorize]
         public IActionResult GetOrderCounts()
         {
             var userId = _userService.GetUserId(HttpContext);
@@ -37,6 +41,7 @@ namespace Mediabasen.Server.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public IActionResult GetOrders(string? filter, int page = 1)
         {
             if (page < 1) { return BadRequest(); }
@@ -88,13 +93,24 @@ namespace Mediabasen.Server.Controllers
         }
 
         [HttpPost]
-        public IActionResult PlaceOrder()
+        public IActionResult PlaceOrder(PlaceOrderPost? guestPost)
         {
+            string cartCookieId = Request.Cookies[SD.Cart_Id_Cookie];
+
+            if (cartCookieId == null) { return BadRequest(); }
+
             var userId = _userService.GetUserId(HttpContext);
 
-            Cart cart = GetUserCart();
+            if (userId == "" && guestPost == null) return BadRequest();
+
+            Cart cart = _cartService.GetCart(Request.Cookies[SD.Cart_Id_Cookie]);
 
             if (cart == null) return NotFound();
+
+            if (userId == "" && (guestPost == null || ModelState.ErrorCount > 0))
+            {
+                return BadRequest();
+            }
 
             var success = _unitOfWork.Product.AttemptTakeFromStock(cart);
 
@@ -104,9 +120,15 @@ namespace Mediabasen.Server.Controllers
                 return new JsonResult(new { message = "Du försökte beställa fler än som finns på lager!" });
             }
 
+            if (userId == "" && guestPost != null)
+            {
+                guestPost.Id = 0;
+            }
+
             var newOrder = new Order()
             {
-                UserId = userId,
+                UserId = userId != "" ? userId : null,
+                GuestDetails = userId == "" ? guestPost : null,
                 OrderPlaced = DateTime.Now,
                 OrderItems = new List<OrderItem>() { },
                 TotalPrice = 0
@@ -138,15 +160,9 @@ namespace Mediabasen.Server.Controllers
 
             _unitOfWork.Cart.Remove(cart);
             _unitOfWork.Save();
+            Response.Cookies.Delete(SD.Cart_Id_Cookie);
 
             return new JsonResult(newOrder);
-        }
-
-        private Cart GetUserCart(bool tracked = false)
-        {
-            var userId = _userService.GetUserId(HttpContext);
-
-            return _unitOfWork.Cart.GetFirstOrDefault(u => u.UserId == userId, includeProperties: "CartProducts", tracked: tracked);
         }
     }
 }
