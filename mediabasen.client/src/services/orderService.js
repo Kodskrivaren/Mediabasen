@@ -19,6 +19,14 @@ async function placeOrder() {
   }
 }
 
+async function placeOrderAsGuest(formData) {
+  const response = await fetchHelper("/Order/PlaceOrder", "POST", formData);
+
+  if (response.status < 400) {
+    return await response.json();
+  }
+}
+
 async function getOrderCounts() {
   const response = await fetchHelper("/Order/GetOrderCounts", "GET");
 
@@ -27,4 +35,4 @@ async function getOrderCounts() {
   }
 }
 
-export default { getOrders, placeOrder, getOrderCounts };
+export default { getOrders, placeOrder, placeOrderAsGuest, getOrderCounts };
