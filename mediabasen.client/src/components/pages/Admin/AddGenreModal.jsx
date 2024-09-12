@@ -30,7 +30,7 @@ export default function AddGenreModal({
       <Input
         state={nameNotFound}
         setState={setNameNotFound}
-        classNames={"text-black"}
+        className={"text-black"}
       />
       <div className="flex flex-row justify-between">
         <Button

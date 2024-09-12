@@ -1,7 +1,7 @@
 import React from "react";
 
 export default function Input({
-  classNames,
+  className,
   name,
   placeholder,
   state,
@@ -13,9 +13,7 @@ export default function Input({
   return (
     <input
       id={id}
-      className={`p-3 outline-none rounded${
-        classNames ? ` ${classNames}` : ""
-      }`}
+      className={`p-3 outline-none rounded${className ? ` ${className}` : ""}`}
       name={name}
       placeholder={placeholder}
       value={state}

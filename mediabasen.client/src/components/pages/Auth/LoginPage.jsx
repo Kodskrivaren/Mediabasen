@@ -38,12 +38,12 @@ export default function LoginPage() {
         <h2 className="text-3xl text-center">Logga in</h2>
         <Input
           name={"email"}
-          classNames={"text-black"}
+          className={"text-black"}
           placeholder={"Email..."}
         />
         <Input
           name={"password"}
-          classNames={"text-black"}
+          className={"text-black"}
           placeholder={"Lösenord..."}
           type="password"
         />

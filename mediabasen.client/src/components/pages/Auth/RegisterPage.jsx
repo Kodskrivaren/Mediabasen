@@ -81,14 +81,14 @@ export default function RegisterPage() {
         <Input
           id={"name"}
           name={"name"}
-          classNames={"text-black"}
+          className={"text-black"}
           placeholder={"Fullständigt namn..."}
         />
         <label htmlFor="email">Email:</label>
         <Input
           id={"email"}
           name={"email"}
-          classNames={"text-black"}
+          className={"text-black"}
           placeholder={"Email..."}
           type="mail"
         />
@@ -96,42 +96,42 @@ export default function RegisterPage() {
         <Input
           id={"adress"}
           name={"adress"}
-          classNames={"text-black"}
+          className={"text-black"}
           placeholder={"Adress..."}
         />
         <label htmlFor="postalCode">Postnummer:</label>
         <Input
           id={"postalCode"}
           name={"postalCode"}
-          classNames={"text-black"}
+          className={"text-black"}
           placeholder={"Postnummer..."}
         />
         <label htmlFor="city">Stad</label>
         <Input
           id={"city"}
           name={"city"}
-          classNames={"text-black"}
+          className={"text-black"}
           placeholder={"Stad..."}
         />
         <label htmlFor="phoneNumber">Telefonummer</label>
         <Input
           id={"phoneNumber"}
           name={"phoneNumber"}
-          classNames={"text-black"}
+          className={"text-black"}
           placeholder={"Telefon..."}
         />
         <label htmlFor="password">Lösenord</label>
         <Input
           id={"password"}
           name={"password"}
-          classNames={"text-black"}
+          className={"text-black"}
           placeholder={"Lösenord..."}
           type="password"
         />
         <label htmlFor="confirmPassword">Bekräfta Lösenord</label>
         <Input
           id={"confirmPassword"}
-          classNames={"text-black"}
+          className={"text-black"}
           placeholder={"Bekräfta Lösenord..."}
           state={confirmPassword}
           setState={setConfirmPassword}
