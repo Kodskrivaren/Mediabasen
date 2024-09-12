@@ -1,29 +1,34 @@
 ﻿using Mediabasen.DataAccess.Repository.IRepository;
 using Mediabasen.Models.Cart;
 using Mediabasen.Server.Services;
-using Microsoft.AspNetCore.Authorization;
+using Mediabasen.Utility.SD;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Mediabasen.Server.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    [Authorize]
     public class CartController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly ProductService _productService;
+        private readonly CartService _cartService;
+        private readonly UserService _userService;
 
-        public CartController(IUnitOfWork unitOfWork, ProductService productService)
+        public CartController(IUnitOfWork unitOfWork, ProductService productService, CartService cartService, UserService userService)
         {
             _unitOfWork = unitOfWork;
             _productService = productService;
+            _cartService = cartService;
+            _userService = userService;
         }
 
         [HttpGet]
         public IActionResult GetCartForUser()
         {
-            var cart = GetUserCart();
+            string cartId = Request.Cookies[SD.Cart_Id_Cookie];
+
+            var cart = _cartService.GetCart(cartId);
 
             if (cart == null) { return NotFound(); }
 
@@ -33,7 +38,7 @@ namespace Mediabasen.Server.Controllers
         [HttpGet]
         public IActionResult GetCartProductsForUser()
         {
-            var cart = GetUserCart(false);
+            var cart = _cartService.GetCart(Request.Cookies[SD.Cart_Id_Cookie], false);
 
             if (cart == null) { return NotFound(); }
 
@@ -55,10 +60,9 @@ namespace Mediabasen.Server.Controllers
 
             if (productsToRemove.Count > 0)
             {
-                var dbCart = GetUserCart(true);
+                var dbCart = _cartService.GetCart(Request.Cookies[SD.Cart_Id_Cookie], true);
                 cart.CartProducts = cart.CartProducts.Where(u => !productsToRemove.Contains(u)).ToList();
                 dbCart.CartProducts = cart.CartProducts.Where(u => !productsToRemove.Contains(u)).ToList();
-                Console.WriteLine(dbCart.CartProducts.Count);
                 _unitOfWork.Cart.Update(dbCart);
                 _unitOfWork.Save();
             }
@@ -69,7 +73,7 @@ namespace Mediabasen.Server.Controllers
         [HttpPost]
         public IActionResult IncreaseProductCount(int productId)
         {
-            var cart = GetUserCart();
+            var cart = _cartService.GetCart(Request.Cookies[SD.Cart_Id_Cookie]);
 
             if (cart == null) { return NotFound(); }
 
@@ -87,7 +91,7 @@ namespace Mediabasen.Server.Controllers
         [HttpPost]
         public IActionResult DecreaseProductCount(int productId)
         {
-            var cart = GetUserCart(true);
+            var cart = _cartService.GetCart(Request.Cookies[SD.Cart_Id_Cookie], true);
 
             if (cart == null) { return NotFound(); }
 
@@ -106,6 +110,8 @@ namespace Mediabasen.Server.Controllers
                 {
                     _unitOfWork.Cart.Remove(cart);
                     _unitOfWork.Save();
+
+                    Response.Cookies.Delete(SD.Cart_Id_Cookie);
                     return new JsonResult(new { message = "Kundvagnen har tömts!" });
                 }
             }
@@ -121,7 +127,7 @@ namespace Mediabasen.Server.Controllers
         [HttpDelete]
         public IActionResult RemoveProductFromCart(int cartProductId)
         {
-            var cart = GetUserCart(true);
+            var cart = _cartService.GetCart(Request.Cookies[SD.Cart_Id_Cookie], true);
 
             if (cart == null) { return NotFound(); }
 
@@ -138,6 +144,7 @@ namespace Mediabasen.Server.Controllers
             {
                 _unitOfWork.Cart.Remove(cart);
                 _unitOfWork.Save();
+                Response.Cookies.Delete(SD.Cart_Id_Cookie);
                 return Ok();
             }
 
@@ -147,18 +154,22 @@ namespace Mediabasen.Server.Controllers
         [HttpPost]
         public IActionResult AddProductToCart(int productId, int count)
         {
-            var userId = GetUserId();
+            var userId = _userService.GetUserId(HttpContext);
 
-            if (userId == "") return NotFound();
+            var cart = _cartService.GetCart(Request.Cookies[SD.Cart_Id_Cookie]);
 
-            var cart = GetUserCart();
-
-            if (cart == null)
+            if (Request.Cookies[SD.Cart_Id_Cookie] == null)
             {
+                DateTime expireDate = DateTime.Now.AddDays(7);
+                CookieOptions option = new CookieOptions();
+                option.Expires = expireDate;
+                option.HttpOnly = true;
+
                 cart = new Cart()
                 {
                     Id = 0,
-                    UserId = userId,
+                    UserId = userId != "" ? userId : null,
+                    Expires = expireDate,
                     CartProducts = new List<CartProduct>()
                     {
 
@@ -167,6 +178,13 @@ namespace Mediabasen.Server.Controllers
 
                 _unitOfWork.Cart.Add(cart);
                 _unitOfWork.Save();
+
+                Response.Cookies.Append(SD.Cart_Id_Cookie, cart.Id.ToString(), option);
+            }
+            else if (cart == null)
+            {
+                Response.Cookies.Delete(SD.Cart_Id_Cookie);
+                return BadRequest();
             }
 
             var currentProduct = cart.CartProducts.FirstOrDefault(u => u.ProductId == productId);
@@ -191,22 +209,6 @@ namespace Mediabasen.Server.Controllers
             _unitOfWork.Save();
 
             return new JsonResult(cart);
-        }
-
-        private string GetUserId()
-        {
-            var idClaim = HttpContext.User.Claims.FirstOrDefault(u => u.ToString().Contains("nameidentifier"));
-
-            if (idClaim == null) { return ""; }
-
-            return idClaim.ToString().Split(" ")[1];
-        }
-
-        private Cart GetUserCart(bool tracked = false)
-        {
-            var userId = GetUserId();
-
-            return _unitOfWork.Cart.GetFirstOrDefault(u => u.UserId == userId, includeProperties: "CartProducts", tracked: tracked);
         }
     }
 }
