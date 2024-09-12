@@ -3,6 +3,7 @@ using System;
 using Mediabasen.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Mediabasen.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240912085204_AddedExpirationDate")]
+    partial class AddedExpirationDate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -58,48 +61,11 @@ namespace Mediabasen.DataAccess.Migrations
                     b.ToTable("CartProduct");
                 });
 
-            modelBuilder.Entity("Mediabasen.Models.ControllerModels.PlaceOrderPost", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("Adress")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("PostalCode")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PlaceOrderPost");
-                });
-
             modelBuilder.Entity("Mediabasen.Models.Order.Order", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
-
-                    b.Property<int?>("GuestDetailsId")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("OrderPlaced")
                         .HasColumnType("datetime(6)");
@@ -111,11 +77,10 @@ namespace Mediabasen.DataAccess.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("UserId")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("GuestDetailsId");
 
                     b.ToTable("Orders");
                 });
@@ -639,15 +604,6 @@ namespace Mediabasen.DataAccess.Migrations
                         .HasForeignKey("CartId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Mediabasen.Models.Order.Order", b =>
-                {
-                    b.HasOne("Mediabasen.Models.ControllerModels.PlaceOrderPost", "GuestDetails")
-                        .WithMany()
-                        .HasForeignKey("GuestDetailsId");
-
-                    b.Navigation("GuestDetails");
                 });
 
             modelBuilder.Entity("Mediabasen.Models.Order.OrderItem", b =>
