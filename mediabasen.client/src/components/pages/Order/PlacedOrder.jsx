@@ -30,10 +30,12 @@ export default function PlacedOrder() {
             </li>
           ))}
         </ul>
-        <p>Totalpris: {state.totalPrice}</p>
+        <p>Totalpris: {state.totalPrice} kr</p>
         <p>Status: Behandlas</p>
       </section>
-      <p>Du kan hitta alla dina ordrar i din profil när du loggat in.</p>
+      {state.userId != null && (
+        <p>Du kan hitta alla dina ordrar i din profil när du loggat in.</p>
+      )}
     </section>
   );
 }
