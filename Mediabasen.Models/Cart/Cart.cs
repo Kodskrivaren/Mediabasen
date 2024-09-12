@@ -8,8 +8,9 @@ namespace Mediabasen.Models.Cart
         [Key]
         public int Id { get; set; }
         public List<CartProduct> CartProducts { get; set; }
+        public string? UserId { get; set; }
         [Required]
-        public string UserId { get; set; }
+        public DateTime Expires { get; set; }
         [NotMapped]
         [ForeignKey("UserId")]
         public ApplicationUser User { get; set; }
