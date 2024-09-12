@@ -1,17 +1,16 @@
 import React, { useState, useContext, useEffect } from "react";
 import CartContext from "../../../contexts/CartContext";
+import UserContext from "../../../contexts/UserContext";
 import cartService from "../../../services/cartService";
-import Button from "../../globals/Button";
 import ProductList from "./ProductList";
-import orderService from "../../../services/orderService";
 import LoadSpinner from "../../globals/LoadSpinner";
-import { useNavigate } from "react-router-dom";
+import LoggedInUserSection from "./LoggedInUserSection";
+import GuestForm from "./GuestForm";
 
 export default function CartPage() {
+  const { user } = useContext(UserContext);
   const { cart, setCart } = useContext(CartContext);
   const [products, setProducts] = useState();
-  const [placingOrder, setPlacingOrder] = useState(false);
-  const navigate = useNavigate();
 
   useEffect(() => {
     async function getCartProducts() {
@@ -42,17 +41,6 @@ export default function CartPage() {
     return price;
   }
 
-  async function placeOrderClick() {
-    setPlacingOrder(true);
-    const data = await orderService.placeOrder();
-
-    if (data) {
-      setCart(undefined);
-      navigate("/order", { state: data });
-    }
-    setPlacingOrder(false);
-  }
-
   return (
     <section className="p-3 text-white flex flex-col gap-y-3">
       <h2 className="text-3xl font-bold">Kundvagn</h2>
@@ -64,20 +52,11 @@ export default function CartPage() {
         {cart && products && (
           <>
             <ProductList {...{ products }} />
-            <section className="flex flex-col gap-y-3">
-              <h2 className="text-xl">Totalt: {calculateTotalPrice()} kr</h2>
-              <Button
-                classNameColor="bg-accent"
-                className="w-fit"
-                disabled={placingOrder}
-                onClick={placeOrderClick}>
-                {placingOrder ? (
-                  <LoadSpinner className={"h-8 w-8 mx-8"} />
-                ) : (
-                  "Lägg Beställning"
-                )}
-              </Button>
-            </section>
+            {user != null ? (
+              <LoggedInUserSection {...{ calculateTotalPrice }} />
+            ) : (
+              <GuestForm {...{ calculateTotalPrice }} />
+            )}
           </>
         )}
       </div>
