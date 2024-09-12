@@ -17,7 +17,6 @@ namespace Mediabasen.Server.Controllers
         private readonly ProductService _productService;
         private readonly UserService _userService;
 
-
         [ActivatorUtilitiesConstructor]
         public ProductController(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment, ProductService productService, UserService userService)
         {
