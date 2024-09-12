@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Mediabasen.Models.ControllerModels;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Mediabasen.Models.Order
@@ -7,8 +8,8 @@ namespace Mediabasen.Models.Order
     {
         [Key]
         public Guid Id { get; set; }
-        [Required]
-        public string UserId { get; set; }
+        public string? UserId { get; set; }
+        public PlaceOrderPost? GuestDetails { get; set; }
         [ForeignKey("UserId")]
         [NotMapped]
         public ApplicationUser User { get; set; }
