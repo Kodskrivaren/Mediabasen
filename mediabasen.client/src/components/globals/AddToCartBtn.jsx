@@ -2,21 +2,15 @@ import React, { useContext, useState } from "react";
 import Button from "./Button";
 import cartService from "../../services/cartService";
 import CartContext from "../../contexts/CartContext";
-import UserContext from "../../contexts/UserContext";
-import { useNavigate } from "react-router-dom";
 import NotifyContext from "../../contexts/NotifyContext";
 import LoadSpinner from "./LoadSpinner";
 
 export default function AddToCartBtn({ product }) {
-  const { user } = useContext(UserContext);
   const { cart, setCart } = useContext(CartContext);
   const { setNote } = useContext(NotifyContext);
   const [loading, setLoading] = useState(false);
 
-  const navigate = useNavigate();
-
   async function onAddClick() {
-    if (!user) return navigate("/login");
     setLoading(true);
 
     let count = 1;
