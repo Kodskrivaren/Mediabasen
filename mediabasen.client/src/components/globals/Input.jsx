@@ -9,6 +9,8 @@ export default function Input({
   type,
   id,
   onKeyDown,
+  required,
+  autocomplete,
 }) {
   return (
     <input
@@ -17,6 +19,8 @@ export default function Input({
       name={name}
       placeholder={placeholder}
       value={state}
+      autoComplete={autocomplete || ""}
+      required={required ? true : false}
       type={type ? type : "text"}
       onChange={(e) => {
         if (setState) {
