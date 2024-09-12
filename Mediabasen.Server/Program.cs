@@ -23,6 +23,7 @@ builder.Services.AddScoped<IDbInitializer, DbInitializer>();
 builder.Services.AddScoped<ProductService>();
 builder.Services.AddScoped<ImageService>();
 builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<CartService>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddEndpointsApiExplorer();
