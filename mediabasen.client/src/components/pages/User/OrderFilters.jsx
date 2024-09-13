@@ -25,10 +25,11 @@ export default function OrderFilters({
     getOrderCounts();
   }, []);
 
-  const btnBaseClasses = "p-2 rounded-full";
+  const btnBaseClasses =
+    "p-2 rounded-full transition-[background] hover:bg-black flex-shrink-0";
 
   return (
-    <div className="flex justify-between">
+    <div className="flex justify-between w-full flex-grow gap-3 overflow-x-scroll pb-3 md:overflow-x-auto">
       <button
         onClick={() => {
           setFilter(orderHelper.orderFilterOptions.all);
