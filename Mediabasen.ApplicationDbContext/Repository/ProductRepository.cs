@@ -36,7 +36,8 @@ namespace Mediabasen.DataAccess.Repository
             try
             {
                 var affectedRows = _db.Database.ExecuteSql(GetFormattedStockQuery(cart.CartProducts));
-
+                Console.WriteLine(affectedRows);
+                Console.WriteLine(cart.CartProducts.Count);
                 return affectedRows == cart.CartProducts.Count;
             }
             catch (Exception e)
