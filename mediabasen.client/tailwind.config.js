@@ -42,14 +42,12 @@ export default {
       },
       screens: {},
       animation: {
-        note: "slide-in 5s ease-in forwards",
+        note: "slide-in 0.5s ease-in forwards",
       },
       keyframes: {
         "slide-in": {
           "0%": { transform: "translateX(100%)" },
-          "10%": { transform: "translateX(0)" },
-          "90%": { opacity: "1" },
-          "100%": { transform: "translateX(0)", opacity: "0" },
+          "100%": { transform: "translateX(0)" },
         },
       },
     },
