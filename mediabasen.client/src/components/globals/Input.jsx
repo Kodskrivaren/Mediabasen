@@ -11,6 +11,7 @@ export default function Input({
   onKeyDown,
   required,
   autocomplete,
+  onClick,
 }) {
   return (
     <input
@@ -30,6 +31,11 @@ export default function Input({
       onKeyDown={(e) => {
         if (onKeyDown) {
           onKeyDown(e);
+        }
+      }}
+      onClick={(e) => {
+        if (onClick) {
+          onClick(e);
         }
       }}
     />
