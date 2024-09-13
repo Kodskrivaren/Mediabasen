@@ -18,7 +18,9 @@ Appsettings structure:
   },
   "AllowedHosts": "*",
   "ConnectionStrings": {
-    "DefaultConnection": "Server={HOST};Database={DBNAME};port={PORTNUMBER};user={USER};password={PASSWORD}"
+    "DefaultConnection": "Server={HOST};Database={DBNAME};port={PORTNUMBER};user={USER};password={PASSWORD}",
+    "StripeSecret": "{STRIPE_SECRET_KEY}",
+    "StripeRedirectUrlBase": "{REDIRECT_URL}"
   }
 }
 ```
