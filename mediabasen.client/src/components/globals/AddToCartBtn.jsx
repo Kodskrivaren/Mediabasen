@@ -7,7 +7,7 @@ import LoadSpinner from "./LoadSpinner";
 
 export default function AddToCartBtn({ product }) {
   const { cart, setCart } = useContext(CartContext);
-  const { setNote } = useContext(NotifyContext);
+  const { addNote } = useContext(NotifyContext);
   const [loading, setLoading] = useState(false);
 
   async function onAddClick() {
@@ -29,11 +29,7 @@ export default function AddToCartBtn({ product }) {
 
     setCart(newCart);
 
-    setNote(
-      <>
-        <p>"{product.name}" har lagts till i varukorgen!</p>
-      </>
-    );
+    addNote(`${product.name} har lagts till i varukorgen!`);
 
     setLoading(false);
   }

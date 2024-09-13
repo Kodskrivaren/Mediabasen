@@ -1,28 +1,39 @@
 import React, { useContext, useEffect } from "react";
 import NotifyContext from "../../contexts/NotifyContext";
 
-export default function Notification() {
-  const { note, setNote } = useContext(NotifyContext);
+export default function Notifications() {
+  const { notes, setNotes } = useContext(NotifyContext);
 
   useEffect(() => {
     let timeoutId;
 
-    if (note) {
+    if (notes && notes.length > 0) {
       timeoutId = setTimeout(() => {
-        setNote(undefined);
+        setNotes(notes.filter((note, index) => index > 0));
       }, 5500);
     }
 
     return () => {
       if (timeoutId) {
-        clearTimeout();
+        clearTimeout(timeoutId);
       }
     };
-  }, [note]);
+  }, [notes]);
 
   return (
-    <div className="fixed z-50 text-white max-w-60 shadow-black shadow-note right-3 translate-x-full top-5 bg-middle p-3 rounded animate-note">
-      {note}
+    <div className="fixed z-50 text-white  right-3 top-5 ">
+      {notes.map((note, i) => (
+        <p
+          key={`note-${note}-${i}`}
+          className={`max-w-60 relative shadow-black shadow-note bg-middle p-3 pr-8 rounded mb-3`}>
+          {note}
+          <button
+            className="absolute top-1 right-1 rounded-full bg-dark w-8 h-8"
+            onClick={() => setNotes(notes.filter((note, index) => index != i))}>
+            X
+          </button>
+        </p>
+      ))}
     </div>
   );
 }
