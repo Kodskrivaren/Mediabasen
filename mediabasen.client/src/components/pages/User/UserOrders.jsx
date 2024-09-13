@@ -4,8 +4,10 @@ import UserOrder from "./UserOrder";
 import orderHelper from "../../../utils/orderHelper";
 import OrderFilters from "./OrderFilters";
 import Button from "../../globals/Button";
+import LoadSpinner from "../../globals/LoadSpinner";
 
 export default function UserOrders() {
+  const [fetchingOrders, setFetchingOrders] = useState(false);
   const [orders, setOrders] = useState();
   const [filter, setFilter] = useState(orderHelper.orderFilterOptions.all);
   const [page, setPage] = useState(1);
@@ -15,10 +17,14 @@ export default function UserOrders() {
 
   useEffect(() => {
     async function getOrders() {
+      if (page == 1) {
+        setFetchingOrders(true);
+      }
       const data = await orderService.getOrders(filter, page);
 
       if (page == 1) {
         setOrders(data);
+        setFetchingOrders(false);
       } else {
         setOrders([...orders, ...data]);
       }
@@ -42,8 +48,8 @@ export default function UserOrders() {
   }
 
   return (
-    <section className="flex flex-col gap-y-3 max-w-xl mx-auto">
-      <h2 className="text-xl font-bold">Dina ordrar</h2>
+    <section className="flex flex-col gap-y-3 max-w-xl mx-auto w-full">
+      <h2 className="text-xl font-bold w-full">Dina ordrar</h2>
       {shippedOrdersCount + unshippedOrdersCount + reservedOrdersCount ===
         0 && <p>Du har inga ordrar!</p>}
       <OrderFilters
@@ -59,7 +65,8 @@ export default function UserOrders() {
           setPage,
         }}
       />
-      {orders && orders.length > 0 && (
+      {fetchingOrders && <LoadSpinner className={`mx-auto mt-3`} />}
+      {orders && orders.length > 0 && !fetchingOrders && (
         <>
           <ul>
             {orders.map((order) => (
