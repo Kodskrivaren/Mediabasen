@@ -7,8 +7,10 @@ export default function OrderFilters({
   setFilter,
   shippedOrdersCount,
   setShippedOrdersCount,
+  reservedOrdersCount,
   unshippedOrdersCount,
   setUnshippedOrdersCount,
+  setReservedOrdersCount,
   setPage,
 }) {
   useEffect(() => {
@@ -17,6 +19,7 @@ export default function OrderFilters({
 
       setShippedOrdersCount(result.shippedOrdersCount);
       setUnshippedOrdersCount(result.unshippedOrdersCount);
+      setReservedOrdersCount(result.reservedOrdersCount);
     }
 
     getOrderCounts();
@@ -34,7 +37,19 @@ export default function OrderFilters({
         className={`${btnBaseClasses} ${
           filter == orderHelper.orderFilterOptions.all ? "bg-accent" : "bg-dark"
         }`}>
-        Alla ({shippedOrdersCount + unshippedOrdersCount})
+        Alla ({shippedOrdersCount + unshippedOrdersCount + reservedOrdersCount})
+      </button>
+      <button
+        onClick={() => {
+          setFilter(orderHelper.orderFilterOptions.unpaid);
+          setPage(1);
+        }}
+        className={`${btnBaseClasses} ${
+          filter == orderHelper.orderFilterOptions.unpaid
+            ? "bg-accent"
+            : "bg-dark"
+        }`}>
+        Obetalda ({reservedOrdersCount})
       </button>
       <button
         onClick={() => {
