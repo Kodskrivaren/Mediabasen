@@ -35,4 +35,33 @@ async function getOrderCounts() {
   }
 }
 
-export default { getOrders, placeOrder, placeOrderAsGuest, getOrderCounts };
+async function payOrder(orderId) {
+  const response = await fetchHelper(
+    "/Order/PayOrder?orderId=" + orderId,
+    "POST"
+  );
+
+  if (response.status < 400) {
+    return await response.json();
+  }
+}
+
+async function getOrderById(orderId) {
+  const response = await fetchHelper(
+    `/Order/GetOrderById?orderId=${orderId}`,
+    "GET"
+  );
+
+  if (response.status < 400) {
+    return await response.json();
+  }
+}
+
+export default {
+  getOrders,
+  placeOrder,
+  placeOrderAsGuest,
+  getOrderCounts,
+  payOrder,
+  getOrderById,
+};
