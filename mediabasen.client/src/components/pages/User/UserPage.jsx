@@ -13,7 +13,7 @@ export default function UserPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!userContext.user) {
+    if (!userContext.user && userContext.userLoaded) {
       navigate("/login");
     }
   }, [userContext]);

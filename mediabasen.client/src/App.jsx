@@ -11,15 +11,17 @@ import AppRoutes from "./routes/AppRoutes";
 
 function App() {
   const [user, setUser] = useState();
+  const [userLoaded, setUserLoaded] = useState(false);
   const [cart, setCart] = useState();
   const [note, setNote] = useState();
 
-  useGetUserDetailsHook(setUser);
+  useGetUserDetailsHook(setUser, setUserLoaded);
 
   return (
     <NotifyContext.Provider value={{ note, setNote }}>
       <CartContext.Provider value={{ cart, setCart }}>
-        <UserContext.Provider value={{ user, setUser }}>
+        <UserContext.Provider
+          value={{ user, setUser, userLoaded, setUserLoaded }}>
           <BrowserRouter>
             <Header />
             {note && <Notification />}

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import userService from "../services/userService";
 
-export default function useGetUserDetailsHook(setUser) {
+export default function useGetUserDetailsHook(setUser, setUserLoaded) {
   useEffect(() => {
     async function tryGetUserDetails() {
       const result = await userService.getUserDetails();
@@ -9,6 +9,8 @@ export default function useGetUserDetailsHook(setUser) {
       if (result) {
         setUser(result);
       }
+
+      setUserLoaded(true);
     }
 
     tryGetUserDetails();
