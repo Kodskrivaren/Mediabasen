@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Input from "./Input";
 import SearchIcon from "../../assets/icons/search-outline.svg?react";
 import SearchResult from "./SearchResult";
@@ -13,6 +13,7 @@ export default function ProductSearch({
   inputOnKeyDown,
   preNavigate = "/search",
 }) {
+  const [show, setShow] = useState(true);
   const [params, setParams] = useSearchParams();
   const navigate = useNavigate();
 
@@ -25,23 +26,32 @@ export default function ProductSearch({
     );
   }
 
+  function onInputClick() {
+    setTimeout(() => {
+      setShow(true);
+    }, 50);
+  }
+
   return (
-    <div className="relative pt-4 px-3 mb-4 w-full mx-auto max-w-xl flex justify-center">
-      <Input
-        {...{
-          placeholder: "Sök på produkter...",
-          className: "w-full rounded pl-14",
-          state: searchQuery,
-          setState: setSearchQuery,
-          onKeyDown: inputOnKeyDown,
-        }}
-      />
-      <button
-        className="absolute top-1/2 mt-2 -translate-y-1/2 left-4 w-10 h-10"
-        onClick={onSearchClick}>
-        <SearchIcon />
-      </button>
-      {result && <SearchResult {...{ result, preIdLink }} />}
+    <div className="relative pt-4 mb-4 w-full mx-auto max-w-xl flex justify-center">
+      <div className="w-3/4 relative">
+        <Input
+          {...{
+            placeholder: "Sök på produkter...",
+            className: "w-full rounded pl-14",
+            state: searchQuery,
+            setState: setSearchQuery,
+            onKeyDown: inputOnKeyDown,
+            onClick: onInputClick,
+          }}
+        />
+        <button
+          className="absolute top-1/2 -translate-y-1/2 left-3 w-8 h-8"
+          onClick={onSearchClick}>
+          <SearchIcon />
+        </button>
+      </div>
+      {result && show && <SearchResult {...{ result, preIdLink, setShow }} />}
     </div>
   );
 }
