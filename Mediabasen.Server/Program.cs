@@ -7,6 +7,7 @@ using Mediabasen.Server.Middleware;
 using Mediabasen.Server.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Stripe;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,15 +16,19 @@ builder.Services.AddControllers();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseMySQL(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
+
+StripeConfiguration.ApiKey = builder.Configuration.GetConnectionString("StripeSecret");
+
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
     options.User.RequireUniqueEmail = true;
 }).AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 builder.Services.AddScoped<IDbInitializer, DbInitializer>();
-builder.Services.AddScoped<ProductService>();
+builder.Services.AddScoped<Mediabasen.Server.Services.ProductService>();
 builder.Services.AddScoped<ImageService>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<CartService>();
+builder.Services.AddSingleton(builder.Configuration);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddEndpointsApiExplorer();
