@@ -11,6 +11,7 @@ export default function UserOrders() {
   const [page, setPage] = useState(1);
   const [shippedOrdersCount, setShippedOrdersCount] = useState(0);
   const [unshippedOrdersCount, setUnshippedOrdersCount] = useState(0);
+  const [reservedOrdersCount, setReservedOrdersCount] = useState(0);
 
   useEffect(() => {
     async function getOrders() {
@@ -29,7 +30,10 @@ export default function UserOrders() {
   function doesMoreOrdersExist() {
     switch (filter) {
       case orderHelper.orderFilterOptions.all:
-        return orders.length < shippedOrdersCount + unshippedOrdersCount;
+        return (
+          orders.length <
+          shippedOrdersCount + unshippedOrdersCount + reservedOrdersCount
+        );
       case orderHelper.orderFilterOptions.shipped:
         return orders.length < shippedOrdersCount;
       case orderHelper.orderFilterOptions.unshipped:
@@ -40,9 +44,8 @@ export default function UserOrders() {
   return (
     <section className="flex flex-col gap-y-3 max-w-xl mx-auto">
       <h2 className="text-xl font-bold">Dina ordrar</h2>
-      {shippedOrdersCount + unshippedOrdersCount === 0 && (
-        <p>Du har inga ordrar!</p>
-      )}
+      {shippedOrdersCount + unshippedOrdersCount + reservedOrdersCount ===
+        0 && <p>Du har inga ordrar!</p>}
       <OrderFilters
         {...{
           filter,
@@ -51,6 +54,8 @@ export default function UserOrders() {
           setShippedOrdersCount,
           unshippedOrdersCount,
           setUnshippedOrdersCount,
+          reservedOrdersCount,
+          setReservedOrdersCount,
           setPage,
         }}
       />
