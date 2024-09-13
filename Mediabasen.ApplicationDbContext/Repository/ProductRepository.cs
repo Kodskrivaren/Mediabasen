@@ -28,7 +28,7 @@ namespace Mediabasen.DataAccess.Repository
 
             userIdParameter.Value = userId;
 
-            _db.Database.ExecuteSqlRaw("DELETE FROM productreview WHERE UserId = @userId", userIdParameter);
+            _db.Database.ExecuteSqlRaw("DELETE FROM ProductReview WHERE UserId = @userId", userIdParameter);
         }
 
         public bool AttemptTakeFromStock(Cart cart)
@@ -36,8 +36,7 @@ namespace Mediabasen.DataAccess.Repository
             try
             {
                 var affectedRows = _db.Database.ExecuteSql(GetFormattedStockQuery(cart.CartProducts));
-                Console.WriteLine(affectedRows);
-                Console.WriteLine(cart.CartProducts.Count);
+
                 return affectedRows == cart.CartProducts.Count;
             }
             catch (Exception e)
@@ -50,7 +49,7 @@ namespace Mediabasen.DataAccess.Repository
 
         private FormattableString GetFormattedStockQuery(List<CartProduct> cartProducts)
         {
-            string start = $"UPDATE products SET stockquantity = case ";
+            string start = $"UPDATE Products SET StockQuantity = case ";
 
             string acc = $"";
 
@@ -58,11 +57,11 @@ namespace Mediabasen.DataAccess.Repository
 
             foreach (var item in cartProducts)
             {
-                acc = acc + $"when id = {item.ProductId} then stockquantity - {item.Count} ";
+                acc = acc + $"when Id = {item.ProductId} then StockQuantity - {item.Count} ";
                 productIds.Add(item.ProductId.ToString());
             }
 
-            string end = $"end where id in ({string.Join(",", productIds)});";
+            string end = $"end where Id in ({string.Join(",", productIds)});";
 
             return FormattableStringFactory.Create(start + acc + end);
         }
@@ -121,7 +120,7 @@ namespace Mediabasen.DataAccess.Repository
 
             if (productTypeId != null && productTypeId > 0)
             {
-                conditions.Add($"p.productTypeId = {productTypeId}");
+                conditions.Add($"p.ProductTypeId = {productTypeId}");
             }
 
             if (genreId != null && genreId > 0)
