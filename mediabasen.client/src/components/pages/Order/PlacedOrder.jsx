@@ -25,7 +25,6 @@ export default function PlacedOrder() {
     if (state == null) {
       const orderId = params.get("orderId");
 
-      console.log(orderId);
       if (orderId) {
         getAndSetOrder(orderId);
       } else {
