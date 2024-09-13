@@ -6,6 +6,7 @@ using Mediabasen.Server.Services;
 using Mediabasen.Utility.SD;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Stripe.Checkout;
 
 namespace Mediabasen.Server.Controllers
 {
@@ -14,17 +15,19 @@ namespace Mediabasen.Server.Controllers
     public class OrderController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly ProductService _productService;
+        private readonly Mediabasen.Server.Services.ProductService _productService;
         private readonly UserService _userService;
         private readonly CartService _cartService;
+        private readonly ConfigurationManager _configurationManager;
 
         [ActivatorUtilitiesConstructor]
-        public OrderController(IUnitOfWork unitOfWork, ProductService productService, UserService userService, CartService cartService)
+        public OrderController(IUnitOfWork unitOfWork, Mediabasen.Server.Services.ProductService productService, UserService userService, CartService cartService, ConfigurationManager configurationManager)
         {
             _unitOfWork = unitOfWork;
             _productService = productService;
             _userService = userService;
             _cartService = cartService;
+            _configurationManager = configurationManager;
         }
 
         [HttpGet]
@@ -35,9 +38,43 @@ namespace Mediabasen.Server.Controllers
 
             int shippedOrdersCount = _unitOfWork.Order.GetAll((u) => u.UserId == userId && u.OrderShipped != null).Count();
 
-            int unshippedOrdersCount = _unitOfWork.Order.GetAll((u) => u.UserId == userId && u.OrderShipped == null).Count();
+            int unshippedOrdersCount = _unitOfWork.Order.GetAll((u) => u.UserId == userId && u.OrderShipped == null && u.Paid).Count();
 
-            return new JsonResult(new { shippedOrdersCount, unshippedOrdersCount });
+            int reservedOrdersCount = _unitOfWork.Order.GetAll((u) => u.UserId == userId && !u.Paid).Count();
+
+            return new JsonResult(new { shippedOrdersCount, unshippedOrdersCount, reservedOrdersCount });
+        }
+
+        [HttpGet]
+        public IActionResult GetOrderById(Guid orderId)
+        {
+            var order = _unitOfWork.Order.GetFirstOrDefault(u => u.Id == orderId, includeProperties: "OrderItems");
+
+            if (order == null) return NotFound();
+
+            if (order.Paid == false && order.StripeId != null)
+            {
+                var service = new SessionService();
+
+                var session = service.Get(order.StripeId);
+
+                if (session.PaymentStatus == "paid")
+                {
+                    order.Paid = true;
+                    _unitOfWork.Order.Update(order);
+                    _unitOfWork.Save();
+                }
+
+            }
+
+            foreach (var item in order.OrderItems)
+            {
+                item.Product = _unitOfWork.Product.GetFirstOrDefault(u => u.Id == item.ProductId);
+
+                item.Product.Images = _unitOfWork.ProductImage.GetAll(u => u.ProductId == item.ProductId).ToList();
+            }
+
+            return new JsonResult(order);
         }
 
         [HttpGet]
@@ -54,6 +91,13 @@ namespace Mediabasen.Server.Controllers
             {
                 switch (filter)
                 {
+                    case "unpaid":
+                        orders = _unitOfWork.Order
+                            .GetAll(u => u.UserId == userId && u.Paid == false, includeProperties: "OrderItems")
+                            .OrderByDescending(u => u.OrderPlaced)
+                            .Skip((page - 1) * 3)
+                            .Take(3);
+                        break;
                     case "shipped":
                         orders = _unitOfWork.Order
                             .GetAll(u => u.UserId == userId && u.OrderShipped != null, includeProperties: "OrderItems")
@@ -90,6 +134,66 @@ namespace Mediabasen.Server.Controllers
             }
 
             return new JsonResult(orders);
+        }
+
+        [HttpPost]
+        public IActionResult PayOrder(Guid orderId)
+        {
+            var order = _unitOfWork.Order.GetFirstOrDefault(u => u.Id == orderId, includeProperties: "OrderItems");
+
+            if (order == null) return NotFound();
+
+            var service = new SessionService();
+
+            Session session;
+
+            if (order.StripeId == null)
+            {
+                var options = new SessionCreateOptions
+                {
+                    LineItems =
+                        order.OrderItems.Select(item =>
+                            {
+                                var lineItem = new SessionLineItemOptions();
+
+                                var product = _unitOfWork.Product.GetFirstOrDefault(u => u.Id == item.ProductId);
+
+                                lineItem.PriceData = new SessionLineItemPriceDataOptions
+                                {
+                                    Currency = "sek",
+                                    ProductData = new SessionLineItemPriceDataProductDataOptions
+                                    {
+                                        Name = product.Name,
+                                    },
+                                    UnitAmount = (long)_productService.GetCalculatedDiscountedPrice(product) * 100,
+                                };
+
+                                lineItem.Quantity = item.Amount;
+
+                                return lineItem;
+                            })
+                        .ToList()
+                    ,
+                    Mode = "payment"
+                };
+
+                string redirectBaseUrl = _configurationManager.GetConnectionString("StripeRedirectUrlBase");
+
+                options.SuccessUrl = $"{redirectBaseUrl}/order?orderId={order.Id}";
+                options.CancelUrl = $"{redirectBaseUrl}/order?orderId={order.Id}";
+
+                session = service.Create(options);
+
+                order.StripeId = session.Id;
+                _unitOfWork.Order.Update(order);
+                _unitOfWork.Save();
+            }
+            else
+            {
+                session = service.Get(order.StripeId);
+            }
+
+            return new JsonResult(new { stripeUrl = session.Url });
         }
 
         [HttpPost]
