@@ -10,7 +10,7 @@ export default function UserDetails() {
       <h2 className="text-2xl font-bold text-center">Konto</h2>
       <Button
         classNameColor="bg-red-500"
-        className="mx-auto"
+        className="mx-auto hover:bg-black"
         onClick={() => setShowDeleteModal(true)}>
         Ta bort konto
       </Button>

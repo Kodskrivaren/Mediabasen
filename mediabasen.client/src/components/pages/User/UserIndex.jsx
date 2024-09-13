@@ -33,21 +33,21 @@ export default function UserIndex() {
     <>
       <h2 className="text-xl font-bold text-center">Din profil</h2>
       {isAdmin() && (
-        <Button className="w-fit mx-auto" onClick={onAdminClick}>
+        <Button className="w-fit mx-auto hover:bg-black" onClick={onAdminClick}>
           Admin-vyn
         </Button>
       )}
       <Button
-        className="w-fit mx-auto"
+        className="w-fit mx-auto hover:bg-black"
         onClick={() => navigate("/user/orders")}>
         Mina Ordrar
       </Button>
       <Button
-        className="w-fit mx-auto"
+        className="w-fit mx-auto hover:bg-black"
         onClick={() => navigate("/user/details")}>
         Konto
       </Button>
-      <Button className="w-fit mx-auto" onClick={onLogoutClick}>
+      <Button className="w-fit mx-auto hover:bg-black" onClick={onLogoutClick}>
         Logga ut
       </Button>
     </>
