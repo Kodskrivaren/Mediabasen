@@ -17,5 +17,7 @@ namespace Mediabasen.Models.Order
         public DateTime OrderPlaced { get; set; }
         public DateTime? OrderShipped { get; set; }
         public List<OrderItem> OrderItems { get; set; }
+        public string? StripeId { get; set; }
+        public bool Paid { get; set; }
     }
 }
