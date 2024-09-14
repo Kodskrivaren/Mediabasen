@@ -12,6 +12,6 @@
 
         public const string Cart_Id_Cookie = "cart";
 
-        public const int Items_Per_Search_Page = 10;
+        public const int Items_Per_Search_Page = 12;
     }
 }
