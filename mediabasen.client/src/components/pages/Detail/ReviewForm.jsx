@@ -1,9 +1,9 @@
 import React, { useContext, useState } from "react";
 import Textarea from "../../globals/Textarea";
-import Button from "../../globals/Button";
 import productService from "../../../services/productService";
 import ReviewStars from "../../globals/ReviewStars";
 import UserContext from "../../../contexts/UserContext";
+import ButtonPrimary from "../../globals/ButtonPrimary";
 
 export default function ReviewForm({ product, setProduct }) {
   const userCtx = useContext(UserContext);
@@ -56,9 +56,7 @@ export default function ReviewForm({ product, setProduct }) {
         name={"Content"}
         placeholder={"Berätta vad du tycker..."}
       />
-      <Button classNameColor="bg-accent" type="submit">
-        Publicera
-      </Button>
+      <ButtonPrimary type="submit">Publicera</ButtonPrimary>
     </form>
   );
 }

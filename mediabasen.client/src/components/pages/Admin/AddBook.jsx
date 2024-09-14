@@ -3,11 +3,11 @@ import Input from "../../globals/Input";
 import useSearchHook from "../../../hooks/useSearchHook";
 import AddNameModal from "./AddNameModal";
 import NameList from "./NameList";
-import Button from "../../globals/Button";
 import bookService from "../../../services/bookService";
 import Modal from "../../globals/Modal";
 import nameService from "../../../services/nameService";
 import AddBaseForm from "./AddBaseForm";
+import ButtonPrimary from "../../globals/ButtonPrimary";
 
 export default function AddBook() {
   const [authorNotFound, setAuthorNotFound] = useState(undefined);
@@ -132,9 +132,9 @@ export default function AddBook() {
             listKeyPrefix="publisher"
           />
         )}
-        <Button classNameColor="bg-accent" className="w-fit" type="submit">
+        <ButtonPrimary className="w-fit" type="submit">
           Lägg till boken
-        </Button>
+        </ButtonPrimary>
       </form>
       {publisherNameSearchResult.length === 0 && publisherNotFound && (
         <AddNameModal

@@ -4,11 +4,11 @@ import useSearchHook from "../../../hooks/useSearchHook";
 import AddNameModal from "./AddNameModal";
 import NameList from "./NameList";
 import AddedList from "./AddedList";
-import Button from "../../globals/Button";
 import movieService from "../../../services/movieService";
 import Modal from "../../globals/Modal";
 import nameService from "../../../services/nameService";
 import AddBaseForm from "./AddBaseForm";
+import ButtonPrimary from "../../globals/ButtonPrimary";
 
 export default function AddMovie() {
   const [directorNotFound, setDirectorNotFound] = useState(undefined);
@@ -131,9 +131,9 @@ export default function AddMovie() {
           setList={setSelectedActors}
           keyPrefix="actors"
         />
-        <Button classNameColor="bg-accent" className="w-fit" type="submit">
+        <ButtonPrimary className="w-fit" type="submit">
           Lägg till film
-        </Button>
+        </ButtonPrimary>
       </form>
       {actorNameSearchResult.length === 0 && actorNotFound && (
         <AddNameModal

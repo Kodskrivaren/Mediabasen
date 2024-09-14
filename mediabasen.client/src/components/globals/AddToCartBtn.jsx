@@ -1,9 +1,9 @@
 import React, { useContext, useState } from "react";
-import Button from "./Button";
 import cartService from "../../services/cartService";
 import CartContext from "../../contexts/CartContext";
 import NotifyContext from "../../contexts/NotifyContext";
 import LoadSpinner from "./LoadSpinner";
+import ButtonPrimary from "./ButtonPrimary";
 
 export default function AddToCartBtn({ product }) {
   const { cart, setCart } = useContext(CartContext);
@@ -57,16 +57,15 @@ export default function AddToCartBtn({ product }) {
   }
 
   return (
-    <Button
-      classNameColor={"bg-accent"}
+    <ButtonPrimary
       onClick={onAddClick}
-      className="font-bold flex-grow-0 w-full max-w-48 max-h-12"
+      className="font-bold flex-grow-0 w-full max-w-48 max-h-12 hover:bg-middle"
       disabled={product.stockQuantity === 0 || loading}>
       {loading ? (
         <LoadSpinner className={"mx-auto w-6 h-6"} />
       ) : (
         getButtonText()
       )}
-    </Button>
+    </ButtonPrimary>
   );
 }

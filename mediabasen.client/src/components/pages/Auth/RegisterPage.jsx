@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import Form from "../../globals/Form";
 import Input from "../../globals/Input";
-import Button from "../../globals/Button";
 import { Link, useNavigate } from "react-router-dom";
 import userService from "../../../services/userService";
 import UserContext from "../../../contexts/UserContext";
+import ButtonPrimary from "../../globals/ButtonPrimary";
 
 function getErrorMessage(key) {
   switch (key) {
@@ -145,12 +145,9 @@ export default function RegisterPage() {
             </React.Fragment>
           ))}
         </p>
-        <Button
-          classNameColor="bg-accent w-fit"
-          type="submit"
-          className="mx-auto">
+        <ButtonPrimary type="submit" className="mx-auto w-fit">
           Bli medlem
-        </Button>
+        </ButtonPrimary>
         <p className="text-center">Är du redan medlem?</p>
         <Link className="text-center text-accent" to={"/login"}>
           Logga in här

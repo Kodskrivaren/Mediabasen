@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
-import Button from "../../globals/Button";
 import authService from "../../../services/authService";
 import UserContext from "../../../contexts/UserContext";
 import { useNavigate } from "react-router-dom";
+import ButtonSecondary from "../../globals/ButtonSecondary";
 
 export default function UserIndex() {
   const userContext = useContext(UserContext);
@@ -33,23 +33,23 @@ export default function UserIndex() {
     <>
       <h2 className="text-xl font-bold text-center">Din profil</h2>
       {isAdmin() && (
-        <Button className="w-fit mx-auto hover:bg-black" onClick={onAdminClick}>
+        <ButtonSecondary className="w-fit mx-auto" onClick={onAdminClick}>
           Admin-vyn
-        </Button>
+        </ButtonSecondary>
       )}
-      <Button
-        className="w-fit mx-auto hover:bg-black"
+      <ButtonSecondary
+        className="w-fit mx-auto"
         onClick={() => navigate("/user/orders")}>
         Mina Ordrar
-      </Button>
-      <Button
-        className="w-fit mx-auto hover:bg-black"
+      </ButtonSecondary>
+      <ButtonSecondary
+        className="w-fit mx-auto"
         onClick={() => navigate("/user/details")}>
         Konto
-      </Button>
-      <Button className="w-fit mx-auto hover:bg-black" onClick={onLogoutClick}>
+      </ButtonSecondary>
+      <ButtonSecondary className="w-fit mx-auto" onClick={onLogoutClick}>
         Logga ut
-      </Button>
+      </ButtonSecondary>
     </>
   );
 }

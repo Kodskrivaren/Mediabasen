@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import Form from "../../globals/Form";
 import Input from "../../globals/Input";
-import Button from "../../globals/Button";
 import { Link, useNavigate } from "react-router-dom";
 import authService from "../../../services/authService";
 import UserContext from "../../../contexts/UserContext";
+import ButtonPrimary from "../../globals/ButtonPrimary";
 
 export default function LoginPage() {
   const [errorMessage, setErrorMessage] = useState("");
@@ -48,9 +48,9 @@ export default function LoginPage() {
           type="password"
         />
         <p className="text-center text-red-200">{errorMessage}</p>
-        <Button classNameColor="bg-accent" type="submit" className="mx-auto">
+        <ButtonPrimary type="submit" className="mx-auto">
           Logga in
-        </Button>
+        </ButtonPrimary>
         <p className="text-center">Har du inget konto?</p>
         <Link className="text-center text-accent" to={"/register"}>
           Skapa konto här

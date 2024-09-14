@@ -1,6 +1,6 @@
 import React from "react";
-import Button from "../../globals/Button";
 import searchHelper from "../../../utils/searchHelper";
+import ButtonSecondary from "../../globals/ButtonSecondary";
 
 export default function Pagination({ params, setParams, totalHits }) {
   function changePage(change) {
@@ -25,21 +25,19 @@ export default function Pagination({ params, setParams, totalHits }) {
 
   return (
     <div className="flex flex-row justify-center align-middle gap-x-3 pt-3">
-      <Button
+      <ButtonSecondary
         {...{ disabled: searchHelper.getCurrentPage(params) === 1 }}
-        onClick={() => changePage(-1)}
-        className="hover:bg-accent">
+        onClick={() => changePage(-1)}>
         {"<-"}
-      </Button>
+      </ButtonSecondary>
       <p className="text-white block h-fit my-auto font-bold text-lg">
         {searchHelper.getCurrentPage(params)}
       </p>
-      <Button
+      <ButtonSecondary
         {...{ disabled: isOnLastPage() }}
-        onClick={() => changePage(1)}
-        className="hover:bg-accent">
+        onClick={() => changePage(1)}>
         {"->"}
-      </Button>
+      </ButtonSecondary>
     </div>
   );
 }

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import bookService from "../../../../services/bookService";
 import EditBaseForm from "./EditBaseForm";
-import Button from "../../../globals/Button";
 import useBasicEditPropsHook from "../../../../hooks/useBasicEditPropsHook";
 import nameService from "../../../../services/nameService";
 import useSearchHook from "../../../../hooks/useSearchHook";
@@ -9,6 +8,7 @@ import Input from "../../../globals/Input";
 import NameList from "../NameList";
 import Modal from "../../../globals/Modal";
 import AddNameModal from "../AddNameModal";
+import ButtonPrimary from "../../../globals/ButtonPrimary";
 
 export default function EditBook({ product }) {
   const [authorNotFound, setAuthorNotFound] = useState(undefined);
@@ -171,12 +171,9 @@ export default function EditBook({ product }) {
               listKeyPrefix="publisher"
             />
           )}
-          <Button
-            classNameColor="bg-accent"
-            className="w-fit"
-            onClick={onSaveChangesClick}>
+          <ButtonPrimary className="w-fit" onClick={onSaveChangesClick}>
             Spara ändringar
-          </Button>
+          </ButtonPrimary>
         </>
       )}
       {authorNameSearchResult.length === 0 && authorNotFound && (

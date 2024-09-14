@@ -1,9 +1,9 @@
 import React, { useState, useContext } from "react";
-import Button from "../../globals/Button";
 import orderService from "../../../services/orderService";
 import { useNavigate } from "react-router-dom";
 import CartContext from "../../../contexts/CartContext";
 import LoadSpinner from "../../globals/LoadSpinner";
+import ButtonPrimary from "../../globals/ButtonPrimary";
 
 export default function LoggedInUserSection({ calculateTotalPrice }) {
   const [placingOrder, setPlacingOrder] = useState(false);
@@ -24,8 +24,7 @@ export default function LoggedInUserSection({ calculateTotalPrice }) {
   return (
     <section className="flex flex-col gap-y-3">
       <h2 className="text-xl">Totalt: {calculateTotalPrice()} kr</h2>
-      <Button
-        classNameColor="bg-accent"
+      <ButtonPrimary
         className="w-fit"
         disabled={placingOrder}
         onClick={placeOrderClick}>
@@ -34,7 +33,7 @@ export default function LoggedInUserSection({ calculateTotalPrice }) {
         ) : (
           "Lägg Beställning"
         )}
-      </Button>
+      </ButtonPrimary>
     </section>
   );
 }

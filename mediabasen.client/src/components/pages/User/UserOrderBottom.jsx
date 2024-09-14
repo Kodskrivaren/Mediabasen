@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import OrderProduct from "./OrderProduct";
-import Button from "../../globals/Button";
 import orderService from "../../../services/orderService";
 import LoadSpinner from "../../globals/LoadSpinner";
+import ButtonPrimary from "../../globals/ButtonPrimary";
 
 export default function UserOrderBottom({ order, extended }) {
   const [loadingPaymentUrl, setLoadingPaymentUrl] = useState(false);
@@ -32,8 +32,7 @@ export default function UserOrderBottom({ order, extended }) {
         <p>
           Betald: {order.paid ? "Ja" : "Nej"}{" "}
           {!order.paid && (
-            <Button
-              classNameColor="bg-accent"
+            <ButtonPrimary
               className="mr-0 ml-auto"
               disabled={loadingPaymentUrl}
               onClick={payOrderClick}>
@@ -42,7 +41,7 @@ export default function UserOrderBottom({ order, extended }) {
               ) : (
                 "Betala"
               )}
-            </Button>
+            </ButtonPrimary>
           )}
         </p>
         <p>Antal: {order.orderItems.length}</p>

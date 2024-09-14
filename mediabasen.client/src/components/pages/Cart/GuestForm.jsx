@@ -1,12 +1,12 @@
 import React, { useContext, useState } from "react";
 import Link from "../../globals/Link";
 import Input from "../../globals/Input";
-import Button from "../../globals/Button";
 import Form from "../../globals/Form";
 import LoadSpinner from "../../globals/LoadSpinner";
 import orderService from "../../../services/orderService";
 import CartContext from "../../../contexts/CartContext";
 import { useNavigate } from "react-router-dom";
+import ButtonPrimary from "../../globals/ButtonPrimary";
 
 export default function GuestForm({ calculateTotalPrice }) {
   const { setCart } = useContext(CartContext);
@@ -80,8 +80,7 @@ export default function GuestForm({ calculateTotalPrice }) {
         required={true}
       />
       <p className="font-bold text-xl">Totalt: {calculateTotalPrice()} kr</p>
-      <Button
-        classNameColor="bg-accent"
+      <ButtonPrimary
         className="w-fit mx-auto hover:bg-middle"
         disabled={placingOrder}
         type="submit">
@@ -90,7 +89,7 @@ export default function GuestForm({ calculateTotalPrice }) {
         ) : (
           "Lägg Beställning"
         )}
-      </Button>
+      </ButtonPrimary>
     </Form>
   );
 }

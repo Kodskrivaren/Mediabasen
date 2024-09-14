@@ -3,8 +3,8 @@ import orderService from "../../../services/orderService";
 import UserOrder from "./UserOrder";
 import orderHelper from "../../../utils/orderHelper";
 import OrderFilters from "./OrderFilters";
-import Button from "../../globals/Button";
 import LoadSpinner from "../../globals/LoadSpinner";
+import ButtonPrimary from "../../globals/ButtonPrimary";
 
 export default function UserOrders() {
   const [fetchingOrders, setFetchingOrders] = useState(false);
@@ -74,14 +74,13 @@ export default function UserOrders() {
             ))}
           </ul>
           {doesMoreOrdersExist() && (
-            <Button
-              classNameColor="bg-accent"
+            <ButtonPrimary
               className="mx-auto w-fit"
               onClick={() => {
                 setPage(page + 1);
               }}>
               Hämta fler
-            </Button>
+            </ButtonPrimary>
           )}
         </>
       )}

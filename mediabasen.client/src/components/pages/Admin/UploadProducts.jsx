@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import Button from "../../globals/Button";
 import productService from "../../../services/productService";
 import LoadSpinner from "../../globals/LoadSpinner";
+import ButtonSecondary from "../../globals/ButtonSecondary";
 
 export default function UploadProducts() {
   const [file, setFile] = useState();
@@ -30,9 +30,9 @@ export default function UploadProducts() {
     <form className="text-white flex flex-col gap-y-3" onSubmit={onSubmit}>
       <h3>Ladda upp produkter</h3>
       <input type="file" onChange={onFileChange} />
-      <Button type="submit" disabled={file === undefined || loading}>
+      <ButtonSecondary type="submit" disabled={file === undefined || loading}>
         {loading ? <LoadSpinner className={"mx-auto h-8 w-8"} /> : "Ladda upp"}
-      </Button>
+      </ButtonSecondary>
       <p>{serverMessage}</p>
     </form>
   );

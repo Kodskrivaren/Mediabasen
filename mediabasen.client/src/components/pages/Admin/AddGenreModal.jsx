@@ -1,9 +1,10 @@
 import React from "react";
 import Modal from "../../globals/Modal";
 import Input from "../../globals/Input";
-import Button from "../../globals/Button";
 import genreService from "../../../services/genreService";
 import useCapitalizeFirstCharHook from "../../../hooks/capitalizeFirstCharHook";
+import ButtonPrimary from "../../globals/ButtonPrimary";
+import ButtonSecondary from "../../globals/ButtonSecondary";
 
 export default function AddGenreModal({
   setNameSearch,
@@ -33,16 +34,13 @@ export default function AddGenreModal({
         className={"text-black"}
       />
       <div className="flex flex-row justify-between">
-        <Button
-          classNameColor="bg-accent"
+        <ButtonPrimary
           onClick={() => addGenre(setNameSearch, preventNameSearch)}>
           Lägg Till
-        </Button>
-        <Button
-          classNameColor="bg-red-500"
-          onClick={() => setNameNotFound(undefined)}>
+        </ButtonPrimary>
+        <ButtonSecondary onClick={() => setNameNotFound(undefined)}>
           Avbryt
-        </Button>
+        </ButtonSecondary>
       </div>
     </Modal>
   );

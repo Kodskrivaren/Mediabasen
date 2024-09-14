@@ -1,8 +1,8 @@
 import React, { useState, useContext } from "react";
-import Button from "../../globals/Button";
 import cartService from "../../../services/cartService";
 import LoadSpinner from "../../globals/LoadSpinner";
 import CartContext from "../../../contexts/CartContext";
+import ButtonSecondary from "../../globals/ButtonSecondary";
 
 export default function RemoveProductBtn({ id }) {
   const { setCart } = useContext(CartContext);
@@ -17,8 +17,7 @@ export default function RemoveProductBtn({ id }) {
   }
 
   return (
-    <Button
-      classNameColor="bg-red-500"
+    <ButtonSecondary
       className="mt-auto"
       disabled={removeClickLoading}
       onClick={removeProduct}>
@@ -27,6 +26,6 @@ export default function RemoveProductBtn({ id }) {
       ) : (
         "Ta bort"
       )}
-    </Button>
+    </ButtonSecondary>
   );
 }

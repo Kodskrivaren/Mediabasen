@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import movieService from "../../../../services/movieService";
 import EditBaseForm from "./EditBaseForm";
-import Button from "../../../globals/Button";
 import useBasicEditPropsHook from "../../../../hooks/useBasicEditPropsHook";
 import nameService from "../../../../services/nameService";
 import useSearchHook from "../../../../hooks/useSearchHook";
@@ -10,6 +9,7 @@ import NameList from "../NameList";
 import Modal from "../../../globals/Modal";
 import AddNameModal from "../AddNameModal";
 import AddedList from "../AddedList";
+import ButtonPrimary from "../../../globals/ButtonPrimary";
 
 export default function EditMovie({ product }) {
   const [directorNotFound, setDirectorNotFound] = useState(undefined);
@@ -179,12 +179,9 @@ export default function EditMovie({ product }) {
             setList={setSelectedActors}
             keyPrefix="actors"
           />
-          <Button
-            classNameColor="bg-accent"
-            className="w-fit"
-            onClick={onSaveChangesClick}>
+          <ButtonPrimary className="w-fit" onClick={onSaveChangesClick}>
             Spara ändringar
-          </Button>
+          </ButtonPrimary>
         </>
       )}
       {directorNameSearchResult.length === 0 && directorNotFound && (

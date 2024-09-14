@@ -1,5 +1,5 @@
 import React from "react";
-import Button from "../../globals/Button";
+import ButtonSecondary from "../../globals/ButtonSecondary";
 
 export default function AddedList({
   title,
@@ -23,11 +23,10 @@ export default function AddedList({
             key={`${keyPrefix}-${index}`}
             className="text-white flex flex-row justify-between">
             <p>{listItem[entityDisplayProperty]}</p>
-            <Button
-              classNameColor="bg-red-500"
+            <ButtonSecondary
               onClick={() => setList(list.filter((item) => item !== listItem))}>
               Ta bort
-            </Button>
+            </ButtonSecondary>
           </li>
         ))}
       </ul>

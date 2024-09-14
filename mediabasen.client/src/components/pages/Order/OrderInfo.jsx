@@ -1,6 +1,6 @@
 import React from "react";
-import Button from "../../globals/Button";
 import orderService from "../../../services/orderService";
+import ButtonPrimary from "../../globals/ButtonPrimary";
 
 export default function OrderInfo({ order }) {
   async function payOrder() {
@@ -33,9 +33,7 @@ export default function OrderInfo({ order }) {
         <p>Totalpris: {order.totalPrice} kr</p>
         <p>Betald: {order.paid ? "Ja" : "Nej"}</p>
         {!order.paid && (
-          <Button classNameColor="bg-accent" onClick={payOrder}>
-            Betala
-          </Button>
+          <ButtonPrimary onClick={payOrder}>Betala</ButtonPrimary>
         )}
         <p>Status: {!order.paid ? "Reserverad" : "Behandlas"}</p>
       </section>

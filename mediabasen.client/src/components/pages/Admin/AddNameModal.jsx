@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
 import Modal from "../../globals/Modal";
 import Input from "../../globals/Input";
-import Button from "../../globals/Button";
 import nameService from "../../../services/nameService";
+import ButtonPrimary from "../../globals/ButtonPrimary";
+import ButtonSecondary from "../../globals/ButtonSecondary";
 
 export default function AddNameModal({
   setNameSearch,
@@ -52,16 +53,13 @@ export default function AddNameModal({
         className={"text-black"}
       />
       <div className="flex flex-row justify-between">
-        <Button
-          classNameColor="bg-accent"
+        <ButtonPrimary
           onClick={() => addName(setNameSearch, preventNameSearch)}>
           Lägg Till
-        </Button>
-        <Button
-          classNameColor="bg-red-500"
-          onClick={() => setNameNotFound(undefined)}>
+        </ButtonPrimary>
+        <ButtonSecondary onClick={() => setNameNotFound(undefined)}>
           Avbryt
-        </Button>
+        </ButtonSecondary>
       </div>
     </Modal>
   );

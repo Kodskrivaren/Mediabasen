@@ -1,10 +1,11 @@
 import React, { useContext, useState } from "react";
 import Modal from "../../globals/Modal";
-import Button from "../../globals/Button";
 import userService from "../../../services/userService";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../../../contexts/UserContext";
 import LoadSpinner from "../../globals/LoadSpinner";
+import ButtonSecondary from "../../globals/ButtonSecondary";
+import ButtonDanger from "../../globals/ButtonDanger";
 
 export default function DeleteUserModal({ setShowDeleteModal }) {
   const { setUser } = useContext(UserContext);
@@ -36,17 +37,14 @@ export default function DeleteUserModal({ setShowDeleteModal }) {
         bort. Detta går inte att ångra!
       </p>
       <div className="flex justify-between">
-        <Button
-          classNameColor="bg-middle"
+        <ButtonSecondary
+          className="bg-middle"
           onClick={() => setShowDeleteModal(false)}>
           Nej
-        </Button>
-        <Button
-          classNameColor="bg-red-500"
-          disabled={deletingUser}
-          onClick={onConfirmDeleteUser}>
+        </ButtonSecondary>
+        <ButtonDanger disabled={deletingUser} onClick={onConfirmDeleteUser}>
           {deletingUser ? <LoadSpinner className={"w-6 h-6 mx-auto"} /> : "Ja"}
-        </Button>
+        </ButtonDanger>
       </div>
       <p>{serverMessage}</p>
     </Modal>

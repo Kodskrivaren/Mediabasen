@@ -3,11 +3,11 @@ import Input from "../../globals/Input";
 import useSearchHook from "../../../hooks/useSearchHook";
 import AddNameModal from "./AddNameModal";
 import NameList from "./NameList";
-import Button from "../../globals/Button";
 import gameService from "../../../services/gameService";
 import Modal from "../../globals/Modal";
 import nameService from "../../../services/nameService";
 import AddBaseForm from "./AddBaseForm";
+import ButtonPrimary from "../../globals/ButtonPrimary";
 
 export default function AddGame() {
   const [developerNotFound, setDeveloperNotFound] = useState(undefined);
@@ -132,9 +132,9 @@ export default function AddGame() {
             listKeyPrefix="publisher"
           />
         )}
-        <Button classNameColor="bg-accent" className="w-fit" type="submit">
+        <ButtonPrimary className="w-fit" type="submit">
           Lägg till spelet
-        </Button>
+        </ButtonPrimary>
       </form>
       {publisherNameSearchResult.length === 0 && publisherNotFound && (
         <AddNameModal
