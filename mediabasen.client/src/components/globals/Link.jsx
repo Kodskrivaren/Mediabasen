@@ -7,7 +7,9 @@ export default function Link({ className, target, rel, to, children }) {
       to={to}
       target={target}
       rel={rel}
-      className={`text-accent${className ? ` ${className}` : ""}`}>
+      className={`hover:underline decoration-solid text-accent${
+        className ? ` ${className}` : ""
+      }`}>
       {children}
     </RLink>
   );
