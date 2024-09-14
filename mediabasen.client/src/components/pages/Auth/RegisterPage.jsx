@@ -1,10 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
 import Form from "../../globals/Form";
 import Input from "../../globals/Input";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import userService from "../../../services/userService";
 import UserContext from "../../../contexts/UserContext";
 import ButtonPrimary from "../../globals/ButtonPrimary";
+import Link from "../../globals/Link";
 
 function getErrorMessage(key) {
   switch (key) {
@@ -99,20 +100,26 @@ export default function RegisterPage() {
           className={"text-black"}
           placeholder={"Adress..."}
         />
-        <label htmlFor="postalCode">Postnummer:</label>
-        <Input
-          id={"postalCode"}
-          name={"postalCode"}
-          className={"text-black"}
-          placeholder={"Postnummer..."}
-        />
-        <label htmlFor="city">Stad</label>
-        <Input
-          id={"city"}
-          name={"city"}
-          className={"text-black"}
-          placeholder={"Stad..."}
-        />
+        <div className="flex gap-x-3 w-full">
+          <div className="w-1/2">
+            <label htmlFor="postalCode">Postnummer:</label>
+            <Input
+              id={"postalCode"}
+              name={"postalCode"}
+              className={"text-black w-full"}
+              placeholder={"Postnummer..."}
+            />
+          </div>
+          <div>
+            <label htmlFor="city">Stad</label>
+            <Input
+              id={"city"}
+              name={"city"}
+              className={"text-black w-full"}
+              placeholder={"Stad..."}
+            />
+          </div>
+        </div>
         <label htmlFor="phoneNumber">Telefonummer</label>
         <Input
           id={"phoneNumber"}

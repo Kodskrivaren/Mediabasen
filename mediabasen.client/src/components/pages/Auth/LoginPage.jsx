@@ -1,10 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
 import Form from "../../globals/Form";
 import Input from "../../globals/Input";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import authService from "../../../services/authService";
 import UserContext from "../../../contexts/UserContext";
 import ButtonPrimary from "../../globals/ButtonPrimary";
+import Link from "../../globals/Link";
 
 export default function LoginPage() {
   const [errorMessage, setErrorMessage] = useState("");
