@@ -153,7 +153,7 @@ export default function AddMovie() {
             preventNameSearch: preventDirectorSearch,
             nameNotFound: directorNotFound,
             setNameNotFound: setDirectorNotFound,
-            setNameId: setActorId,
+            setNameId: setDirectorId,
           }}
         />
       )}

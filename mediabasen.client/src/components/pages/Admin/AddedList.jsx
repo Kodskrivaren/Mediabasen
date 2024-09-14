@@ -24,6 +24,7 @@ export default function AddedList({
             className="text-white flex flex-row justify-between">
             <p>{listItem[entityDisplayProperty]}</p>
             <ButtonSecondary
+              className="bg-middle"
               onClick={() => setList(list.filter((item) => item !== listItem))}>
               Ta bort
             </ButtonSecondary>

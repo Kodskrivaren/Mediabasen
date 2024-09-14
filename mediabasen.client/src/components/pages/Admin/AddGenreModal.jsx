@@ -34,13 +34,15 @@ export default function AddGenreModal({
         className={"text-black"}
       />
       <div className="flex flex-row justify-between">
+        <ButtonSecondary
+          className="bg-middle"
+          onClick={() => setNameNotFound(undefined)}>
+          Avbryt
+        </ButtonSecondary>
         <ButtonPrimary
           onClick={() => addGenre(setNameSearch, preventNameSearch)}>
           Lägg Till
         </ButtonPrimary>
-        <ButtonSecondary onClick={() => setNameNotFound(undefined)}>
-          Avbryt
-        </ButtonSecondary>
       </div>
     </Modal>
   );
