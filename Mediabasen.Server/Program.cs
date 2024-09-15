@@ -17,7 +17,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseMySQL(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
-StripeConfiguration.ApiKey = builder.Configuration.GetConnectionString("StripeSecret");
+StripeConfiguration.ApiKey = builder.Configuration.GetSection("StripeSettings")["StripeSecret"];
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
@@ -28,6 +28,7 @@ builder.Services.AddScoped<Mediabasen.Server.Services.ProductService>();
 builder.Services.AddScoped<ImageService>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<CartService>();
+builder.Services.AddScoped<EmailService>();
 builder.Services.AddSingleton(builder.Configuration);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
