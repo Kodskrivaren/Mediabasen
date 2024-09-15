@@ -26,6 +26,56 @@ namespace Mediabasen.Server.Services
             _imageService = imageService;
         }
 
+        public IEnumerable<Product> GetSimilarProducts(Product product)
+        {
+            product.ProductType = _unitOfWork.ProductType.GetFirstOrDefault(u => u.Id == product.ProductTypeId);
+
+            switch (product.ProductType.Name)
+            {
+                case SD.Type_Movie:
+                    var movie = GetProductMovie(product);
+
+                    var similarMovies = _unitOfWork.ProductMovie
+                        .GetAll(u => u.Id != movie.Id && (u.DirectorNameId == movie.DirectorNameId))
+                        .Take(SD.Items_Per_Search_Page)
+                        .ToList()
+                        .Select(GetProductMovie);
+
+                    return similarMovies;
+                case SD.Type_Music:
+                    var music = GetProductMusic(product);
+
+                    var similarMusic = _unitOfWork.ProductMusic
+                        .GetAll(u => u.Id != music.Id && (u.ArtistId == music.ArtistId || u.PublisherId == music.PublisherId))
+                        .Take(SD.Items_Per_Search_Page)
+                        .ToList()
+                        .Select(GetProductMusic);
+
+                    return similarMusic;
+                case SD.Type_Book:
+                    var book = GetProductBook(product);
+                    var similarBooks = _unitOfWork.ProductBook
+                        .GetAll(u => u.Id != book.Id && (u.AuthorId == book.AuthorId))
+                        .Take(SD.Items_Per_Search_Page)
+                        .ToList()
+                        .Select(GetProductBook);
+                    return similarBooks;
+                case SD.Type_Game:
+                    var game = GetProductGame(product);
+
+                    var similarGames = _unitOfWork.ProductGame
+                        .GetAll(u => u.Id != game.Id && (u.DeveloperId == game.DeveloperId || game.FormatId == u.FormatId))
+                        .OrderBy(u => u.DeveloperId == game.DeveloperId ? -1 : 1)
+                        .Take(SD.Items_Per_Search_Page)
+                        .ToList()
+                        .Select(GetProductGame);
+
+                    return similarGames;
+                default:
+                    return null;
+            }
+        }
+
         private List<ProductImage> GetProductImages(Product product)
         {
             List<ProductImage> Images = _unitOfWork.ProductImage.GetAll(u => u.ProductId == product.Id).ToList();
