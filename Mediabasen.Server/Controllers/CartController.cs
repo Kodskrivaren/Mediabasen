@@ -1,5 +1,6 @@
 ﻿using Mediabasen.DataAccess.Repository.IRepository;
 using Mediabasen.Models.Cart;
+using Mediabasen.Models.Product;
 using Mediabasen.Server.Services;
 using Mediabasen.Utility.SD;
 using Microsoft.AspNetCore.Mvc;
@@ -21,6 +22,45 @@ namespace Mediabasen.Server.Controllers
             _productService = productService;
             _cartService = cartService;
             _userService = userService;
+        }
+
+        [HttpGet]
+        public IActionResult GetProductSuggestions()
+        {
+            string cartId = Request.Cookies[SD.Cart_Id_Cookie];
+
+            var cart = _cartService.GetCart(cartId);
+
+            if (cart == null) { return NotFound(); }
+
+            var productIds = cart.CartProducts.Select(p => p.ProductId).ToList();
+
+            var totalSimilarProducts = _unitOfWork.Product.GetAll(u => productIds.Contains(u.Id));
+
+            List<Product[]> productsLists = new List<Product[]>();
+
+            foreach (var product in totalSimilarProducts)
+            {
+                product.ProductType = _unitOfWork.ProductType.GetFirstOrDefault(u => u.Id == product.ProductTypeId);
+
+                productsLists.Add(_productService.GetSimilarProducts(product).ToArray());
+            }
+
+            List<Product> similarProducts = new List<Product>();
+
+            foreach (var list in productsLists)
+            {
+                foreach (var product in list)
+                {
+                    if (productIds.Contains(product.Id) || similarProducts.Find(u => u.Id == product.Id) != null) continue;
+                    similarProducts.Add(product);
+                    if (similarProducts.Count == SD.Items_Per_Search_Page) break;
+                }
+
+                if (similarProducts.Count == SD.Items_Per_Search_Page) break;
+            }
+
+            return new JsonResult(new { similarProducts });
         }
 
         [HttpGet]
