@@ -62,6 +62,14 @@ async function addProductToCart(productId, count) {
   }
 }
 
+async function getProductSuggestions() {
+  const response = await fetchHelper(`/Cart/GetProductSuggestions`, "GET");
+
+  if (response.status < 400) {
+    return await response.json();
+  }
+}
+
 export default {
   getCart,
   getCartProducts,
@@ -69,4 +77,5 @@ export default {
   increaseProductCount,
   decreaseProductCount,
   addProductToCart,
+  getProductSuggestions,
 };
