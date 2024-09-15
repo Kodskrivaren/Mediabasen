@@ -101,47 +101,11 @@ namespace Mediabasen.Server.Controllers
 
             product.ProductType = _unitOfWork.ProductType.GetFirstOrDefault(u => u.Id == product.ProductTypeId);
 
-            switch (product.ProductType.Name)
-            {
-                case SD.Type_Movie:
-                    var movie = _productService.GetProductMovie(product);
+            var products = _productService.GetSimilarProducts(product);
 
-                    var similarMovies = _unitOfWork.ProductMovie
-                        .GetAll(u => u.Id != movie.Id && (u.DirectorNameId == movie.DirectorNameId))
-                        .ToList()
-                        .Select(_productService.GetProductMovie);
+            if (products == null) return BadRequest();
 
-                    return new JsonResult(new { products = similarMovies });
-                case SD.Type_Music:
-                    var music = _productService.GetProductMusic(product);
-
-                    var similarMusic = _unitOfWork.ProductMusic
-                        .GetAll(u => u.Id != music.Id && (u.ArtistId == music.ArtistId || u.PublisherId == music.PublisherId))
-                        .ToList()
-                        .Select(_productService.GetProductMusic);
-
-                    return new JsonResult(new { products = similarMusic });
-                case SD.Type_Book:
-                    var book = _productService.GetProductBook(product);
-                    var similarBooks = _unitOfWork.ProductBook
-                        .GetAll(u => u.Id != book.Id && (u.AuthorId == book.AuthorId))
-                        .ToList()
-                        .Select(_productService.GetProductBook);
-                    return new JsonResult(new { products = similarBooks });
-                case SD.Type_Game:
-                    var game = _productService.GetProductGame(product);
-
-                    var similarGames = _unitOfWork.ProductGame
-                        .GetAll(u => u.Id != game.Id && (u.DeveloperId == game.DeveloperId || game.FormatId == u.FormatId))
-                        .OrderBy(u => u.DeveloperId == game.DeveloperId ? -1 : 1)
-                        .ToList()
-                        .Select(_productService.GetProductGame);
-
-                    return new JsonResult(new { products = similarGames });
-                default:
-                    HttpContext.Response.StatusCode = 400;
-                    return new JsonResult(new { message = "Unkown product type!" });
-            }
+            return new JsonResult(new { products });
         }
 
         [HttpGet]
