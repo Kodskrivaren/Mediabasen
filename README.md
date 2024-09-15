@@ -18,9 +18,19 @@ Appsettings structure:
   },
   "AllowedHosts": "*",
   "ConnectionStrings": {
-    "DefaultConnection": "Server={HOST};Database={DBNAME};port={PORTNUMBER};user={USER};password={PASSWORD}",
-    "StripeSecret": "{STRIPE_SECRET_KEY}",
-    "StripeRedirectUrlBase": "{REDIRECT_URL}"
+    "DefaultConnection": "Server={HOST};Database={DBNAME};port={PORTNUMBER};user={USER};password={PASSWORD}"
+  },
+  "StripeSettings": {
+    "StripeSecret": "{STRIPE_SECRET_KEY}"
+  },
+  "GeneralSettings": {
+    "BaseUrl": "{BASE_URL_FOR_WEBSITE}"
+  },
+  "EmailSettings": {
+    "MailHost": "{MAIL_HOST}",
+    "MailPort": "{MAIL_PORT}",
+    "MailUsername": "{MAIL_USERNAME}",
+    "MailAppPassword": "{MAIL_PASSWORD}"
   }
 }
 ```
