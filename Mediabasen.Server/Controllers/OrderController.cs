@@ -19,15 +19,17 @@ namespace Mediabasen.Server.Controllers
         private readonly UserService _userService;
         private readonly CartService _cartService;
         private readonly ConfigurationManager _configurationManager;
+        private readonly EmailService _emailService;
 
         [ActivatorUtilitiesConstructor]
-        public OrderController(IUnitOfWork unitOfWork, Mediabasen.Server.Services.ProductService productService, UserService userService, CartService cartService, ConfigurationManager configurationManager)
+        public OrderController(IUnitOfWork unitOfWork, Mediabasen.Server.Services.ProductService productService, UserService userService, CartService cartService, ConfigurationManager configurationManager, EmailService emailService)
         {
             _unitOfWork = unitOfWork;
             _productService = productService;
             _userService = userService;
             _cartService = cartService;
             _configurationManager = configurationManager;
+            _emailService = emailService;
         }
 
         [HttpGet]
@@ -48,7 +50,7 @@ namespace Mediabasen.Server.Controllers
         [HttpGet]
         public IActionResult GetOrderById(Guid orderId)
         {
-            var order = _unitOfWork.Order.GetFirstOrDefault(u => u.Id == orderId, includeProperties: "OrderItems");
+            var order = _unitOfWork.Order.GetFirstOrDefault(u => u.Id == orderId, includeProperties: "OrderItems,GuestDetails");
 
             if (order == null) return NotFound();
 
@@ -63,8 +65,11 @@ namespace Mediabasen.Server.Controllers
                     order.Paid = true;
                     _unitOfWork.Order.Update(order);
                     _unitOfWork.Save();
-                }
 
+                    var userEmail = order.UserId != null ? _userService.GetUserEmailById(order.UserId) : order.GuestDetails.Email;
+
+                    var test = _emailService.SendPaymentConfirmation(userEmail, order);
+                }
             }
 
             foreach (var item in order.OrderItems)
@@ -177,7 +182,7 @@ namespace Mediabasen.Server.Controllers
                     Mode = "payment"
                 };
 
-                string redirectBaseUrl = _configurationManager.GetConnectionString("StripeRedirectUrlBase");
+                string redirectBaseUrl = _configurationManager.GetSection("GeneralSettings")["BaseUrl"];
 
                 options.SuccessUrl = $"{redirectBaseUrl}/order?orderId={order.Id}";
                 options.CancelUrl = $"{redirectBaseUrl}/order?orderId={order.Id}";
@@ -265,6 +270,10 @@ namespace Mediabasen.Server.Controllers
             _unitOfWork.Cart.Remove(cart);
             _unitOfWork.Save();
             Response.Cookies.Delete(SD.Cart_Id_Cookie);
+
+            string toEmail = userId != "" ? _userService.GetUserEmailById(userId) : guestPost.Email;
+
+            var test = _emailService.SendOrderConfirmation(toEmail, newOrder, products.ToList());
 
             return new JsonResult(newOrder);
         }
