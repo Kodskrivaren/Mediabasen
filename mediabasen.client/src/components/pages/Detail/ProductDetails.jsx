@@ -16,6 +16,10 @@ export default function ProductDetails({ product }) {
   }
 
   function getStockText() {
+    if (product.stockQuantity == 0) {
+      return "Slut i lager!";
+    }
+
     if (product.stockQuantity > 10) {
       return "Fler än 10 i lager";
     }
