@@ -31,7 +31,9 @@ export default function GuestForm({ calculateTotalPrice }) {
   }
 
   return (
-    <Form className="flex flex-col gap-y-3 w-full max-w-md" onSubmit={onSubmit}>
+    <Form
+      className="flex flex-col gap-y-3 p-3 mx-3 max-w-md md:mx-auto"
+      onSubmit={onSubmit}>
       <p>
         Fyll i formuläret med dina uppgifter. Om du redan har ett konto så kan
         du <Link to={"/login"}>logga in</Link> så kopplas ordern till ditt konto

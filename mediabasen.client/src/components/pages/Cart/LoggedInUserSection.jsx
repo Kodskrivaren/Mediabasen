@@ -22,7 +22,7 @@ export default function LoggedInUserSection({ calculateTotalPrice }) {
   }
 
   return (
-    <section className="flex flex-col gap-y-3">
+    <section className="flex flex-col gap-y-3 flex-grow p-3 md:w-2/3 md:mx-auto">
       <h2 className="text-xl">Totalt: {calculateTotalPrice()} kr</h2>
       <ButtonPrimary
         className="w-fit"

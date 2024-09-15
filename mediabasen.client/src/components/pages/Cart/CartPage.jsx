@@ -6,6 +6,7 @@ import ProductList from "./ProductList";
 import LoadSpinner from "../../globals/LoadSpinner";
 import LoggedInUserSection from "./LoggedInUserSection";
 import GuestForm from "./GuestForm";
+import CartProductsSuggestions from "./CartProductsSuggestions";
 
 export default function CartPage() {
   const { user } = useContext(UserContext);
@@ -42,9 +43,9 @@ export default function CartPage() {
   }
 
   return (
-    <section className="p-3 text-white flex flex-col gap-y-3">
-      <h2 className="text-3xl font-bold">Kundvagn</h2>
-      <div className="flex flex-col gap-y-3 md:flex-row">
+    <section className="py-3 text-white flex flex-col gap-y-3">
+      <h2 className="text-3xl font-bold px-3 md:w-2/3 md:mx-auto">Kundvagn</h2>
+      <div className="flex flex-col">
         {cart === undefined && <p>Din kundvagn är tom!</p>}
         {cart !== undefined && products === undefined && (
           <LoadSpinner className={"mx-auto"} />
@@ -57,6 +58,7 @@ export default function CartPage() {
             ) : (
               <GuestForm {...{ calculateTotalPrice }} />
             )}
+            <CartProductsSuggestions />
           </>
         )}
       </div>

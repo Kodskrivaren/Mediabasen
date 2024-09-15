@@ -8,9 +8,11 @@ import RemoveProductBtn from "./RemoveProductBtn";
 
 export default function CartProduct({ id, product, count }) {
   return (
-    <li key={`item-${product.id}`} className="flex gap-x-3">
+    <li
+      key={`item-${product.id}`}
+      className="flex gap-x-3 relative bg-dark rounded overflow-hidden md:w-2/3">
       <Link
-        className="block relative w-1/3 max-w-52 flex-shrink-0"
+        className="block relative w-1/3 max-w-52 flex-shrink-0 my-auto md:w-1/6"
         to={`/detail/${product.id}`}>
         {product.images && product.images.length > 0 ? (
           <img
@@ -30,14 +32,14 @@ export default function CartProduct({ id, product, count }) {
           />
         )}
       </Link>
-      <section className="flex flex-col gap-y-1">
-        <h3 className="text-xl font-bold">{product.name}</h3>
-        <CartProductAmount {...{ product, count }} />
-        <p>Format: {product.format.name}</p>
-        <p>
-          Pris (styck): <ProductPrice {...{ product }} />
-        </p>
-        <RemoveProductBtn {...{ id }} />
+      <section className="flex flex-col gap-y-1 py-3 md:flex-grow md:pr-3 md:justify-between">
+        <h3 className="text-xl font-bold w-[80%]">{product.name}</h3>
+        <div className="flex flex-col gap-y-1 py-3 md:flex-row md:justify-between md:items-end">
+          <CartProductAmount {...{ product, count }} />
+          <p>{product.format.name}</p>
+          <ProductPrice {...{ product }} />
+          <RemoveProductBtn {...{ id }} />
+        </div>
       </section>
     </li>
   );

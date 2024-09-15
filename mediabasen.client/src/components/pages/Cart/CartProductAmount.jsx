@@ -36,28 +36,30 @@ export default function CartProductAmount({ product, count }) {
   }
 
   return (
-    <p>
-      <span className="inline-block my-auto">Antal: {count} </span>
-      <ButtonSecondary
-        className="w-8 h-8 mx-2 font-bold"
-        disabled={clickLoading}
-        onClick={minusClick}>
-        {clickLoading ? (
-          <LoadSpinner className={"w-4 h-4"} />
-        ) : (
-          <p className="-mt-1">-</p>
-        )}
-      </ButtonSecondary>
-      <ButtonPrimary
-        className="w-8 h-8 mx-2 font-bold"
-        disabled={clickLoading}
-        onClick={addClick}>
-        {clickLoading ? (
-          <LoadSpinner className={"w-4 h-4"} />
-        ) : (
-          <p className="-mt-1">+</p>
-        )}
-      </ButtonPrimary>
-    </p>
+    <div className="flex md:flex-col">
+      <span className="inline-block my-auto md:text-center">x {count} </span>
+      <div>
+        <ButtonSecondary
+          className="w-8 h-8 mx-2 font-bold bg-middle"
+          disabled={clickLoading}
+          onClick={minusClick}>
+          {clickLoading ? (
+            <LoadSpinner className={"w-4 h-4"} />
+          ) : (
+            <p className="-mt-1">-</p>
+          )}
+        </ButtonSecondary>
+        <ButtonPrimary
+          className="w-8 h-8 mx-2 font-bold"
+          disabled={clickLoading}
+          onClick={addClick}>
+          {clickLoading ? (
+            <LoadSpinner className={"w-4 h-4"} />
+          ) : (
+            <p className="-mt-1">+</p>
+          )}
+        </ButtonPrimary>
+      </div>
+    </div>
   );
 }
