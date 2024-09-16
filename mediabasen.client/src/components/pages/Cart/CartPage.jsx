@@ -47,7 +47,7 @@ export default function CartPage() {
       <h2 className="text-3xl font-bold px-3 md:w-2/3 md:mx-auto">Kundvagn</h2>
       <div className="flex flex-col">
         {cart === undefined && (
-          <p className="md:w-2/3 md:mx-auto md:px-3">Din kundvagn är tom!</p>
+          <p className="md:w-2/3 md:mx-auto px-3">Din kundvagn är tom!</p>
         )}
         {cart !== undefined && products === undefined && (
           <LoadSpinner className={"mx-auto"} />
