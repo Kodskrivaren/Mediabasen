@@ -10,9 +10,9 @@ using Microsoft.EntityFrameworkCore;
 using Stripe;
 
 var builder = WebApplication.CreateBuilder(args);
-
 // Add services to the container.
 builder.Services.AddControllers();
+builder.Configuration.AddJsonFile($"./appsettings.{builder.Environment.EnvironmentName}.json");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseMySQL(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
@@ -67,8 +67,6 @@ if (app.Environment.IsDevelopment())
     app.UseMiddleware(typeof(SimulatedLatencyMiddleware), TimeSpan.FromMilliseconds(100), TimeSpan.FromMilliseconds(300));
 }
 
-app.UseHttpsRedirection();
-app.UseStaticFiles();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseSession();
