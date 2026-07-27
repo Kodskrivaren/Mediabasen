@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router";
 import searchHelper from "../../../utils/searchHelper";
 import ProductSearch from "../../globals/ProductSearch";
 import ProductCard from "../../globals/ProductCard";
@@ -14,7 +14,7 @@ export default function SearchPage() {
   const [result, setResult] = useState();
   const [totalHits, setTotalHits] = useState(0);
   const [searchQuery, setSearchQuery] = useState(
-    params.get(searchHelper.searchQueries.query) || ""
+    params.get(searchHelper.searchQueries.query) || "",
   );
   const [productTypes, setProductTypes] = useState();
 
@@ -39,7 +39,8 @@ export default function SearchPage() {
           result.map((prod, index) => (
             <li
               key={`prod-${index}`}
-              className="relative w-card-mobile flex-shrink-0 md:w-card-tablet xl:w-card-desktop">
+              className="relative w-card-mobile flex-shrink-0 md:w-card-tablet xl:w-card-desktop"
+            >
               <ProductCard key={`prod-${index}`} product={prod} />
             </li>
           ))}

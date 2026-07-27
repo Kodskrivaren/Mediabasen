@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "../../assets/icons/no-image-outline.svg?react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import AddToCartBtn from "./AddToCartBtn";
 import ProductPrice from "../pages/Detail/ProductPrice";
 import DiscountSticker from "../pages/Detail/DiscountSticker";
@@ -14,7 +14,8 @@ export default function ProductCard({ product }) {
     <article className="bg-light text-white p-2 w-full h-full rounded flex flex-col gap-1 flex-grow-1">
       <Link
         className="relative h-52"
-        to={`/detail/${product ? product.id : ""}`}>
+        to={`/detail/${product ? product.id : ""}`}
+      >
         {imageUrl ? (
           <img src={imageUrl} className="w-full object-contain h-full" />
         ) : (

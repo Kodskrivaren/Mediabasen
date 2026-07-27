@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import typeHelper from "../../utils/typeHelper";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 export default function SearchResult({
   result,
@@ -31,10 +31,12 @@ export default function SearchResult({
         result.map((product, index) => (
           <li
             key={`search-product-${index}`}
-            className={`transition-[background] hover:bg-light`}>
+            className={`transition-[background] hover:bg-light`}
+          >
             <Link
               to={`${preIdLink}${product.id}`}
-              className="transition-[text-color] hover:text-white">
+              className="transition-[text-color] hover:text-white"
+            >
               <p className="px-3 py-2">
                 {typeHelper.getProductTypeName(product)} - {product.name} -{" "}
                 {product.format.name}

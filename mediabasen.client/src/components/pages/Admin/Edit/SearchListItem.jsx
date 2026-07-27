@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import typeHelper from "../../../../utils/typeHelper";
 import Image from "../../../../assets/icons/no-image-outline.svg?react";
 
@@ -12,7 +12,8 @@ export default function SearchListItem({ product }) {
       <article className="bg-light text-white p-2 w-full rounded flex flex-col gap-1">
         <Link
           className="relative h-52"
-          to={`/admin/edit/${product ? product.id : ""}`}>
+          to={`/admin/edit/${product ? product.id : ""}`}
+        >
           {imageUrl ? (
             <img src={imageUrl} className="w-full object-contain h-full" />
           ) : (

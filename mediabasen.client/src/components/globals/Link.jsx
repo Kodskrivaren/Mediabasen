@@ -1,5 +1,5 @@
 import React from "react";
-import { Link as RLink } from "react-router-dom";
+import { Link as RLink } from "react-router";
 
 export default function Link({ className, target, rel, to, children }) {
   return (
@@ -9,7 +9,8 @@ export default function Link({ className, target, rel, to, children }) {
       rel={rel}
       className={`hover:underline decoration-solid text-accent${
         className ? ` ${className}` : ""
-      }`}>
+      }`}
+    >
       {children}
     </RLink>
   );

@@ -3,7 +3,7 @@ import ProductSearch from "../globals/ProductSearch";
 import ProductsList from "../globals/ProductsList";
 import productService from "../../services/productService";
 import useFastSearchHook from "../../hooks/useFastSearchHook";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import searchHelper from "../../utils/searchHelper";
 
 export default function LandingPage() {

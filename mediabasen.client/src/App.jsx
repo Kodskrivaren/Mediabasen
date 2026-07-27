@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter } from "react-router";
 import Footer from "./components/globals/Footer";
 import Header from "./components/globals/Header";
 import UserContext from "./contexts/UserContext";
@@ -25,7 +25,8 @@ function App() {
     <NotifyContext.Provider value={{ notes, setNotes, addNote }}>
       <CartContext.Provider value={{ cart, setCart }}>
         <UserContext.Provider
-          value={{ user, setUser, userLoaded, setUserLoaded }}>
+          value={{ user, setUser, userLoaded, setUserLoaded }}
+        >
           <BrowserRouter>
             <Header />
             <Notifications />

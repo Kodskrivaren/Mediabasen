@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router";
 import LoadSpinner from "../../globals/LoadSpinner";
 import orderService from "../../../services/orderService";
 import OrderInfo from "./OrderInfo";

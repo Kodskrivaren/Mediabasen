@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import Form from "../../globals/Form";
 import Input from "../../globals/Input";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import authService from "../../../services/authService";
 import UserContext from "../../../contexts/UserContext";
 import ButtonPrimary from "../../globals/ButtonPrimary";

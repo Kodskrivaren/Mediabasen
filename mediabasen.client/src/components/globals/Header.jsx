@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 import CartLogo from "./../../assets/icons/cart-outline.svg?react";
 import UserLogo from "./../../assets/icons/person-outline.svg?react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import UserContext from "../../contexts/UserContext";
 import cartService from "../../services/cartService";
 import CartContext from "../../contexts/CartContext";
@@ -48,7 +48,8 @@ export default function Header() {
           <li>
             <Link
               to={userContext.user ? "/user" : "/login"}
-              className="text-center">
+              className="text-center"
+            >
               <UserLogo className="w-8 mx-auto" />
               <p className="text-sm">
                 {userContext.user

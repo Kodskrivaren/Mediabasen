@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import Form from "../../globals/Form";
 import Input from "../../globals/Input";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import userService from "../../../services/userService";
 import UserContext from "../../../contexts/UserContext";
 import ButtonPrimary from "../../globals/ButtonPrimary";
@@ -56,7 +56,7 @@ export default function RegisterPage() {
         const errors = result.data.errors;
         if (Array.isArray(errors)) {
           setErrorMessage(
-            errors.map((error) => getErrorMessage(error.code)).join("\n")
+            errors.map((error) => getErrorMessage(error.code)).join("\n"),
           );
         } else {
           const keys = Object.keys(errors);

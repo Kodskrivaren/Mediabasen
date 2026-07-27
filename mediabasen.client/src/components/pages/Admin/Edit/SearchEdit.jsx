@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import ProductSearch from "../../../globals/ProductSearch";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router";
 import searchHelper from "../../../../utils/searchHelper";
 import useFullSearchHook from "../../../../hooks/useFullSearchHook";
 import FilterOptions from "../../Search/FilterOptions";
@@ -11,7 +11,7 @@ import Pagination from "../../Search/Pagination";
 export default function SearchEdit() {
   const [params, setParams] = useSearchParams();
   const [searchQuery, setSearchQuery] = useState(
-    params.get(searchHelper.searchQueries.query) || ""
+    params.get(searchHelper.searchQueries.query) || "",
   );
   const [result, setResult] = useState();
   const [productTypes, setProductTypes] = useState();

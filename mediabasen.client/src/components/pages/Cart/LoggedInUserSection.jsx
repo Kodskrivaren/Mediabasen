@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import orderService from "../../../services/orderService";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import CartContext from "../../../contexts/CartContext";
 import LoadSpinner from "../../globals/LoadSpinner";
 import ButtonPrimary from "../../globals/ButtonPrimary";
@@ -27,7 +27,8 @@ export default function LoggedInUserSection({ calculateTotalPrice }) {
       <ButtonPrimary
         className="w-fit"
         disabled={placingOrder}
-        onClick={placeOrderClick}>
+        onClick={placeOrderClick}
+      >
         {placingOrder ? (
           <LoadSpinner className={"h-8 w-8 mx-8"} />
         ) : (

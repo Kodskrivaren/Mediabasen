@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import UserContext from "../../../contexts/UserContext";
 import ReviewForm from "./ReviewForm";
 import Reviews from "./Reviews";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 export default function ReviewSection({ product, setProduct }) {
   const userCtx = useContext(UserContext);

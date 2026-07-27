@@ -1,7 +1,7 @@
 import React, { lazy, useContext, useEffect, Suspense } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import UserContext from "../../../contexts/UserContext";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router";
 import UserIndex from "./UserIndex";
 import LoadPage from "../LoadPage";
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router";
 import AddMovie from "./AddMovie";
 import AdminLinks from "./AdminLinks";
 import AddMusic from "./AddMusic";

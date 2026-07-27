@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import authService from "../../../services/authService";
 import UserContext from "../../../contexts/UserContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import ButtonSecondary from "../../globals/ButtonSecondary";
 
 export default function UserIndex() {
@@ -39,12 +39,14 @@ export default function UserIndex() {
       )}
       <ButtonSecondary
         className="w-fit mx-auto"
-        onClick={() => navigate("/user/orders")}>
+        onClick={() => navigate("/user/orders")}
+      >
         Mina Ordrar
       </ButtonSecondary>
       <ButtonSecondary
         className="w-fit mx-auto"
-        onClick={() => navigate("/user/details")}>
+        onClick={() => navigate("/user/details")}
+      >
         Konto
       </ButtonSecondary>
       <ButtonSecondary className="w-fit mx-auto" onClick={onLogoutClick}>

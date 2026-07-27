@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import Modal from "../../globals/Modal";
 import userService from "../../../services/userService";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import UserContext from "../../../contexts/UserContext";
 import LoadSpinner from "../../globals/LoadSpinner";
 import ButtonSecondary from "../../globals/ButtonSecondary";
@@ -39,7 +39,8 @@ export default function DeleteUserModal({ setShowDeleteModal }) {
       <div className="flex justify-between">
         <ButtonSecondary
           className="bg-middle"
-          onClick={() => setShowDeleteModal(false)}>
+          onClick={() => setShowDeleteModal(false)}
+        >
           Nej
         </ButtonSecondary>
         <ButtonDanger disabled={deletingUser} onClick={onConfirmDeleteUser}>

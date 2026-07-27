@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import productService from "../../../services/productService";
 import LoadSpinner from "../../globals/LoadSpinner";
 import ProductDetails from "./ProductDetails";

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Input from "./Input";
 import SearchIcon from "../../assets/icons/search-outline.svg?react";
 import SearchResult from "./SearchResult";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router";
 import searchHelper from "../../utils/searchHelper";
 
 export default function ProductSearch({
@@ -22,7 +22,7 @@ export default function ProductSearch({
     navigate(
       `${preNavigate}?${searchHelper.searchQueries.query}=${searchQuery}${
         filter ? `&${searchHelper.searchQueries.productTypeId}=${filter}` : ""
-      }`
+      }`,
     );
   }
 
@@ -47,7 +47,8 @@ export default function ProductSearch({
         />
         <button
           className="absolute top-1/2 -translate-y-1/2 left-3 w-8 h-8"
-          onClick={onSearchClick}>
+          onClick={onSearchClick}
+        >
           <SearchIcon />
         </button>
       </div>

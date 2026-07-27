@@ -1,5 +1,5 @@
 import React, { lazy, Suspense } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router";
 import LoadPage from "../components/pages/LoadPage";
 import PlacedOrder from "../components/pages/Order/PlacedOrder";
 
@@ -9,8 +9,8 @@ const UserPage = lazy(() => import("../components/pages/User/UserPage"));
 const DetailPage = lazy(() => import("../components/pages/Detail/DetailPage"));
 const CartPage = lazy(() => import("../components/pages/Cart/CartPage"));
 const LoginPage = lazy(() => import(".././components/pages/Auth/LoginPage"));
-const RegisterPage = lazy(() =>
-  import(".././components/pages/Auth/RegisterPage")
+const RegisterPage = lazy(
+  () => import(".././components/pages/Auth/RegisterPage"),
 );
 const AdminPage = lazy(() => import("../components/pages/Admin/AdminPage"));
 const AboutUs = lazy(() => import("../components/pages/AboutUs"));

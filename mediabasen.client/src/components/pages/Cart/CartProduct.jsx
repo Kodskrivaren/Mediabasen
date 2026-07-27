@@ -1,7 +1,7 @@
 import React from "react";
 import DiscountSticker from "../Detail/DiscountSticker";
 import ImagePreview from "../../../assets/icons/no-image-outline.svg?react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import ProductPrice from "../Detail/ProductPrice";
 import CartProductAmount from "./CartProductAmount";
 import RemoveProductBtn from "./RemoveProductBtn";
@@ -10,10 +10,12 @@ export default function CartProduct({ id, product, count }) {
   return (
     <li
       key={`item-${product.id}`}
-      className="flex gap-x-3 relative bg-dark rounded overflow-hidden md:w-2/3">
+      className="flex gap-x-3 relative bg-dark rounded overflow-hidden md:w-2/3"
+    >
       <Link
         className="block relative w-1/3 max-w-52 flex-shrink-0 my-auto md:w-1/6"
-        to={`/detail/${product.id}`}>
+        to={`/detail/${product.id}`}
+      >
         {product.images && product.images.length > 0 ? (
           <img
             className="w-full object-cover"
