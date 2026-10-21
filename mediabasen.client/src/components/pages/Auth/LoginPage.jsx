@@ -35,7 +35,7 @@ export default function LoginPage() {
 
   return (
     <section className="text-white p-3 flex justify-center flex-row">
-      <Form onSubmit={onSubmit} className="flex-shrink-0 mt-10">
+      <Form onSubmit={onSubmit} className="shrink-0 mt-10">
         <h2 className="text-3xl text-center">Logga in</h2>
         <Input
           name={"email"}

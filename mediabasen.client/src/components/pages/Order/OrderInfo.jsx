@@ -18,7 +18,7 @@ export default function OrderInfo({ order }) {
         <h3 className="text-lg font-semibold">Orderinformation</h3>
         <p>Ordernummer: {order.id}</p>
         <p>Produkter:</p>
-        <ul className="p-3 w-fit flex flex-col gap-y-3 bg-dark rounded">
+        <ul className="p-3 w-fit flex flex-col gap-y-3 bg-dark rounded-sm">
           {order.orderItems.map((item) => (
             <li key={`order-item-${item.id}`}>
               <p>{item.product.name}</p>

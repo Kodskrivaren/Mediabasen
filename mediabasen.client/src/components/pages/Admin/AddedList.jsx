@@ -12,7 +12,7 @@ export default function AddedList({
   return (
     <>
       <p className="text-white">{title}:</p>
-      <ul className="flex flex-col gap-4 overflow-y-scroll h-40 rounded bg-dark p-3">
+      <ul className="flex flex-col gap-4 overflow-y-scroll h-40 rounded-sm bg-dark p-3">
         {list.length === 0 && (
           <li>
             <p className="text-white">{nothingAddedText}</p>

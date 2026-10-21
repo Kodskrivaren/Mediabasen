@@ -9,7 +9,7 @@ export default function Textarea({
 }) {
   return (
     <textarea
-      className={`p-3 outline-none rounded${
+      className={`p-3 outline-hidden rounded${
         classNames ? ` ${classNames}` : ""
       }`}
       name={name}

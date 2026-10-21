@@ -76,7 +76,7 @@ export default function RegisterPage() {
 
   return (
     <section className="text-white p-3 flex justify-center flex-row">
-      <Form onSubmit={onSubmit} className="flex-shrink-0 mt-10 w-10/12">
+      <Form onSubmit={onSubmit} className="shrink-0 mt-10 w-10/12">
         <h2 className="text-3xl text-center">Bli medlem</h2>
         <label htmlFor="name">Fullständigt namn:</label>
         <Input

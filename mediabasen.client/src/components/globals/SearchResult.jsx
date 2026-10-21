@@ -21,7 +21,7 @@ export default function SearchResult({
   }, [result]);
 
   return (
-    <ul className="absolute w-3/4 top-full left-1/2 -translate-x-1/2 z-20 bg-white rounded">
+    <ul className="absolute w-3/4 top-full left-1/2 -translate-x-1/2 z-20 bg-white rounded-sm">
       {result.length === 0 && (
         <li className={`py-3 px-2`}>
           <p>Vi hittade ingen produkt som matchade din sökning!</p>

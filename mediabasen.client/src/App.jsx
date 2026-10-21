@@ -30,7 +30,7 @@ function App() {
           <BrowserRouter>
             <Header />
             <Notifications />
-            <main className="flex-grow w-full mx-auto max-w-7xl">
+            <main className="grow w-full mx-auto max-w-7xl">
               <AppRoutes />
             </main>
             <Footer />

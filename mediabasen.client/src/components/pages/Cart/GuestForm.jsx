@@ -61,7 +61,7 @@ export default function GuestForm({ calculateTotalPrice }) {
         type={"adress"}
         required={true}
       />
-      <div className="flex flex-shrink w-full gap-x-3 justify-between">
+      <div className="flex shrink w-full gap-x-3 justify-between">
         <Input
           className="text-black w-1/2"
           placeholder={"Postnummer"}

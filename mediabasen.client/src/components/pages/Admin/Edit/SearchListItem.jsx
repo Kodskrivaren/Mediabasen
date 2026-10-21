@@ -8,8 +8,8 @@ export default function SearchListItem({ product }) {
     product.images.length > 0 ? product.images[0].imageUrl : undefined;
 
   return (
-    <li className="relative w-card-mobile flex-shrink-0 md:w-card-tablet xl:w-card-desktop">
-      <article className="bg-light text-white p-2 w-full rounded flex flex-col gap-1">
+    <li className="relative w-card-mobile shrink-0 md:w-card-tablet xl:w-card-desktop">
+      <article className="bg-light text-white p-2 w-full rounded-sm flex flex-col gap-1">
         <Link
           className="relative h-52"
           to={`/admin/edit/${product ? product.id : ""}`}

@@ -18,7 +18,7 @@ export default function ProductImages({ product }) {
       <div className="flex overflow-hidden" ref={imageContainerRef}>
         {product.images.map((image) => (
           <img
-            className="w-full flex-grow flex-shrink-0 object-contain"
+            className="w-full grow shrink-0 object-contain"
             onClick={() => setFullscreen(true)}
             key={`product-image-${image.id}`}
             src={image.imageUrl}

@@ -59,7 +59,7 @@ export default function AddToCartBtn({ product }) {
   return (
     <ButtonPrimary
       onClick={onAddClick}
-      className="font-bold flex-grow-0 w-full max-w-48 max-h-12 hover:bg-middle"
+      className="font-bold grow-0 w-full max-w-48 max-h-12 hover:bg-middle"
       disabled={product.stockQuantity === 0 || loading}>
       {loading ? (
         <LoadSpinner className={"mx-auto w-6 h-6"} />

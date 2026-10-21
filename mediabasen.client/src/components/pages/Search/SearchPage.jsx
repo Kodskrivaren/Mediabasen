@@ -39,7 +39,7 @@ export default function SearchPage() {
           result.map((prod, index) => (
             <li
               key={`prod-${index}`}
-              className="relative w-card-mobile flex-shrink-0 md:w-card-tablet xl:w-card-desktop"
+              className="relative w-card-mobile shrink-0 md:w-card-tablet xl:w-card-desktop"
             >
               <ProductCard key={`prod-${index}`} product={prod} />
             </li>

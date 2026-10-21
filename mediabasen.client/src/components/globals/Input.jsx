@@ -16,7 +16,7 @@ export default function Input({
   return (
     <input
       id={id}
-      className={`p-3 outline-none rounded${className ? ` ${className}` : ""}`}
+      className={`p-3 outline-hidden rounded${className ? ` ${className}` : ""}`}
       name={name}
       placeholder={placeholder}
       value={state}

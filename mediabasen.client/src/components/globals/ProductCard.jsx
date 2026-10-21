@@ -11,7 +11,7 @@ export default function ProductCard({ product }) {
     product.images.length > 0 ? product.images[0].imageUrl : undefined;
 
   return (
-    <article className="bg-light text-white p-2 w-full h-full rounded flex flex-col gap-1 flex-grow-1">
+    <article className="bg-light text-white p-2 w-full h-full rounded-sm flex flex-col gap-1 grow">
       <Link
         className="relative h-52"
         to={`/detail/${product ? product.id : ""}`}

@@ -25,7 +25,7 @@ export default function Notifications() {
       {notes.map((note, i) => (
         <p
           key={`note-${note}-${i}`}
-          className={`max-w-60 relative shadow-black shadow-note bg-middle p-3 pr-8 rounded mb-3`}>
+          className={`max-w-60 relative shadow-black shadow-note bg-middle p-3 pr-8 rounded-sm mb-3`}>
           {note}
           <button
             className="absolute top-1 right-1 rounded-full bg-dark w-8 h-8"

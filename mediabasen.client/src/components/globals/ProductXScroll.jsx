@@ -49,7 +49,7 @@ export default function ProductXScroll({ products }) {
         {products.map((product) => (
           <li
             key={`movie-${product.id}`}
-            className="inline-block snap-start relative w-card-mobile flex-shrink-0 md:w-card-tablet xl:w-card-desktop">
+            className="inline-block snap-start relative w-card-mobile shrink-0 md:w-card-tablet xl:w-card-desktop">
             <ProductCard product={product} />
           </li>
         ))}

@@ -6,7 +6,7 @@ export default function UserOrder({ order }) {
   const [extended, setExtended] = useState(false);
 
   return (
-    <li className="bg-dark rounded mb-3">
+    <li className="bg-dark rounded-sm mb-3">
       <UserOrderTop {...{ order, extended, setExtended }} />
       <UserOrderBottom {...{ order, extended }} />
     </li>

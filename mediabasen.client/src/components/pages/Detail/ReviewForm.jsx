@@ -35,7 +35,7 @@ export default function ReviewForm({ product, setProduct }) {
 
   return (
     <form
-      className="bg-dark w-fit p-3 flex flex-col gap-y-3 rounded max-w-xl"
+      className="bg-dark w-fit p-3 flex flex-col gap-y-3 rounded-sm max-w-xl"
       onSubmit={onSubmit}>
       <h4 className="font-bold text-lg">Skriv en recension</h4>
       <div className="relative flex max-w-xs">

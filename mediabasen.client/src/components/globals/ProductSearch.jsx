@@ -38,7 +38,7 @@ export default function ProductSearch({
         <Input
           {...{
             placeholder: "Sök på produkter...",
-            className: "w-full rounded pl-14",
+            className: "w-full rounded-sm pl-14",
             state: searchQuery,
             setState: setSearchQuery,
             onKeyDown: inputOnKeyDown,
